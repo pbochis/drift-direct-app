@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="primary">#03A9F4</color>
+    <color name="primaryDark">#0288D1</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="menu_general_color">#D902050c</color>
+    <color name="menu_next_event_color">#D9030f24</color>
+    <color name="menu_past_event_color">#D9000000</color>
+
+    <color name="colorChampionships">#FFDE266A</color>
+
+    <color name="gradientQualificationsEnd">#0066C2</color>
+    <color name="gradientQualificationsStart">#092e57</color>
+
+    <color name="top16Top32Winner">#009A37</color>
+
+    <color name="gray">#8E8E8E</color>
+
+
+</resources>

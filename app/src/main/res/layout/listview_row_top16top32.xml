@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_top16Top32Layout_driverInfoContainer"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/menu_general_color"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+
+            <ImageView
+                android:id="@+id/imageView_top16Top32Layout_firstDriverFlag"
+                android:layout_width="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="20dp"
+                android:src="@drawable/car"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
+                android:layout_toRightOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
+                android:text="FLORIN"
+                android:id="@+id/textView_top16Top32Layout_firstDriverName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FLORIN"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:id="@+id/textView_top16Top32Layout_secondDriverName"
+                android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverName"
+                android:layout_toLeftOf="@+id/imageView_top16Top32Layout_secondDriverFlag"
+                android:layout_toStartOf="@+id/imageView_top16Top32Layout_secondDriverFlag" />
+
+            <ImageView
+                android:id="@+id/imageView_top16Top32Layout_secondDriverFlag"
+                android:layout_width="30dp"
+                android:src="@drawable/car"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/black"
+            android:layout_below="@+id/relativeLayout_top16Top32Layout_driverInfoContainer">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/textView_top16Yop32Layout_firstBadgeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/badge_text_rounder_corner_color_green"
+                    android:gravity="center"
+                    android:text="WINNER"
+                    android:paddingRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="65dp"
+                    android:textColor="@color/white"
+                    android:layout_alignBottom="@+id/imageView_top16Yop32Layout_firstBadgePicture"
+                    android:layout_toRightOf="@+id/textView_top16Yop32Layout_firstBadgeOrderPlaceholder"
+                    android:layout_toEndOf="@+id/textView_top16Yop32Layout_firstBadgeOrderPlaceholder" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageView_top16Yop32Layout_firstBadgePicture"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/car"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="2dp" />
+
+                <TextView
+                    android:id="@+id/textView_top16Yop32Layout_firstBadgeOrder"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/imageView_top16Yop32Layout_firstBadgePicture"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/imageView_top16Yop32Layout_firstBadgePicture"
+                    android:background="@drawable/rounded_corner"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/colorChampionships" />
+
+                <TextView
+                    android:id="@+id/textView_top16Yop32Layout_firstBadgeOrderPlaceholder"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/rounded_corner"
+                    android:gravity="center"
+                    android:text="1"
+                    android:visibility="invisible"
+                    android:textColor="@color/colorChampionships"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignLeft="@+id/imageView_top16Yop32Layout_firstBadgePicture"
+                    android:layout_alignStart="@+id/imageView_top16Yop32Layout_firstBadgePicture" />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView_top16Yop32Layout_secondBadgeText"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:textStyle="bold"
+                android:background="@drawable/badge_text_rounder_corner_color_green"
+                android:gravity="center"
+                android:paddingRight="65dp"
+                android:paddingLeft="10dp"
+                android:layout_marginBottom="6dp"
+                android:text="WINNER"
+                android:textColor="@color/white"
+                android:layout_alignBottom="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_toLeftOf="@+id/textView_top16Yop32Layout_secondBadgeOrderPlaceHolder"
+                android:layout_toStartOf="@+id/textView_top16Yop32Layout_secondBadgeOrderPlaceHolder" />
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/car"
+                app:civ_border_color="#FFFFFF"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                app:civ_border_width="2dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+
+            <TextView
+                android:id="@+id/textView_top16Yop32Layout_secondBadgeOrder"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/rounded_corner"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/colorChampionships"
+                android:layout_alignTop="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_alignLeft="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_alignStart="@+id/imageView_top16Yop32Layout_secondBadgePicture" />
+
+            <TextView
+                android:id="@+id/textView_top16Yop32Layout_secondBadgeOrderPlaceHolder"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/rounded_corner"
+                android:gravity="center"
+                android:text="1"
+                android:visibility="invisible"
+                android:textColor="@color/colorChampionships"
+                android:layout_alignTop="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_alignRight="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_alignEnd="@+id/imageView_top16Yop32Layout_secondBadgePicture" />
+
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/vs_triangle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:text="VS"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/menu_general_color"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:id="@+id/textView_top16Top32Layout_firstDriverCarModel"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="NISSAN" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:id="@+id/textView_top16Top32Layout_firstDriverCarHP"
+            android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverCarModel"
+            android:layout_toEndOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
+            android:layout_toRightOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
+            android:text="780HP" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:id="@+id/textView_top16Top32Layout_secondDriverCarModel"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
+            android:layout_toStartOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
+            android:text="NISSAN" />
+
+        <TextView
+            android:id="@+id/textView_top16Top32Layout_secondDriverCarHP"
+            android:paddingRight="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="780HP" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

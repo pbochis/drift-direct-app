@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        app:civ_border_color="#FFFFFF"
+        android:id="@+id/imageView_judgesCustomTabLayout_judgePicture"
+        app:civ_border_width="2dp"
+        android:layout_height="100dp" />
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:id="@+id/progressBar_judgesCustomTabLayout_progressBar"
+        android:layout_height="40dp" />
+
+</RelativeLayout>

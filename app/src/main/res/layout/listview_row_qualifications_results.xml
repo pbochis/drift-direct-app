@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@color/menu_next_event_color"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout_qualificationResultsListViewItem_infoContainer">
+
+        <RelativeLayout
+            android:layout_width="135dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/relativeLayout_qualificationResultsViewItem_pictureContainer"
+            android:layout_marginBottom="6dp"
+            android:layout_toRightOf="@+id/textView_qualificationResultsListViewItem_badgeOrder"
+            android:background="@drawable/badge_text_rounded_corner_color_pink"
+            android:id="@+id/relativeLayout2">
+
+            <TextView
+                android:id="@+id/textView_qualificationResultsListViewItem_badgePoints"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:text="85 Points" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/relativeLayout_qualificationResultsViewItem_pictureContainer"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+                android:layout_width="80dp"
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="2dp"
+                android:layout_height="80dp"
+                android:src="@drawable/car"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <ProgressBar
+                android:layout_width="40dp"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                android:id="@+id/progressBar_qualificationResultsViewItem_progressBar"
+                android:layout_height="40dp" />
+
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center"
+            android:layout_alignLeft="@+id/relativeLayout_qualificationResultsViewItem_pictureContainer"
+            android:layout_alignStart="@+id/relativeLayout_qualificationResultsViewItem_pictureContainer"
+            android:text="1"
+            android:id="@+id/textView_qualificationResultsListViewItem_badgeOrder"
+            android:textColor="@color/colorChampionships"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/relativeLayout2"
+            android:layout_toRightOf="@+id/relativeLayout_qualificationResultsViewItem_pictureContainer"
+            android:layout_toEndOf="@+id/relativeLayout_qualificationResultsViewItem_pictureContainer">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:id="@+id/imageView_qualificationResultsListViewItem_flag"
+                    android:src="@drawable/car"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/textView_qualificationResultsListViewItem_driverName"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:paddingLeft="10dp"
+                    android:text="FLORIN COZMUTA"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:id="@+id/textView_qualificationResultsListViewItem_carModel"
+                    android:text="Nissan GT8 SKYLINE"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/textView_qualificationResultsListViewItem_carHP"
+                    android:textStyle="bold"
+                    android:text="780HP"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

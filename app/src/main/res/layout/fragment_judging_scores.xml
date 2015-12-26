@@ -1,0 +1,251 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/sliderLayout_judgingScoresLayout_carImagesSlider"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        custom:auto_cycle="true"
+        custom:indicator_visibility="visible"
+        custom:pager_animation_span="1100">
+
+        <ImageView
+            android:id="@+id/imageView_judgingScoresLayout_carImagesSliderLeftArrow"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_left" />
+
+        <ImageView
+            android:id="@+id/imageView_judgingScoresLayout_carImagesSliderRightArrow"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_right" />
+
+    </com.daimajia.slider.library.SliderLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_judgingScoresLayout_carDetailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/sliderLayout_judgingScoresLayout_carImagesSlider"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:alpha="0.6"
+        android:background="@color/black"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_judgingScoresLayout_driverDetailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/sliderLayout_judgingScoresLayout_carImagesSlider"
+        android:background="@color/menu_general_color"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/linearLayout_judgingScoresLayout_carDetailsContainer"
+        android:layout_toEndOf="@+id/relativeLayout_judgingScoresLayout_pictureContainer"
+        android:layout_toRightOf="@+id/relativeLayout_judgingScoresLayout_pictureContainer">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:src="@drawable/car"
+            android:id="@+id/imageView_judgingScoresLayout_driverFlag"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:id="@+id/textView_judgingScoresLayout_driverCarModel"
+            android:gravity="center_vertical"
+            android:text="nissan gt8 skyline" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0"
+            android:textStyle="bold"
+            android:textColor="@color/colorChampionships"
+            android:id="@+id/textView_judgingScoresLayout_driverCarModelHP"
+            android:gravity="center_vertical"
+            android:text="780 HP" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/linearLayout_judgingScoresLayout_driverDetailsContainer"
+        android:layout_toEndOf="@+id/relativeLayout_judgingScoresLayout_pictureContainer"
+        android:layout_toRightOf="@+id/relativeLayout_judgingScoresLayout_pictureContainer"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            style="bold"
+            android:id="@+id/textView_judgingScoresLayout_driverName"
+            android:text="nissan gt8 skyline" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorChampionships"
+                    android:gravity="center_vertical"
+                    android:text="Age" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:id="@+id/textView_judgingScoresLayout_driverAge"
+                    android:gravity="center_vertical"
+                    android:text="11" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorChampionships"
+                    android:gravity="center_vertical"
+                    android:text="Team" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:id="@+id/textView_judgingScoresLayout_driverTeam"
+                    android:gravity="center_vertical"
+                    android:text="Bullz" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorChampionships"
+                    android:gravity="center"
+                    android:text="Points" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:id="@+id/textView_judgingScoresLayout_driverSessionPoints"
+                    android:gravity="center"
+                    android:text="100" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/relativeLayout_judgingScoresLayout_pictureContainer"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="95dp"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView_judgingScoresLayout_driverPicture"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp" />
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            android:id="@+id/progressBar_judgingScoresLayout_progressBar"
+            android:layout_height="50dp" />
+
+    </RelativeLayout>
+
+
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout_judgingScoresLayout_slidingTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/linearLayout_judgingScoresLayout_driverDetailsContainer"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorChampionships"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorChampionships"
+        app:tabTextColor="@color/black" />
+
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/viewPager_judgingScoresLayout_runDetails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout_judgingScoresLayout_slidingTabs" />
+
+</RelativeLayout>

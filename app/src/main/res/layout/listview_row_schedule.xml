@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout">
+
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/imageView_scheduleListViewItem_stateBubble" />
+
+        <ImageView
+            android:layout_width="5dp"
+            android:background="@color/gray"
+            android:layout_height="100dp"
+            android:id="@+id/imageView_scheduleListViewItem_stateLine"
+            android:layout_below="@+id/imageView_scheduleListViewItem_stateBubble"
+            android:layout_centerHorizontal="true">
+
+        </ImageView>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="DRIVERS REGISTRATION"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textSize="20sp"
+        android:layout_marginTop="3dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/relativeLayout"
+        android:layout_toEndOf="@+id/relativeLayout"
+        android:layout_marginStart="20dp"
+        android:id="@+id/textView_scheduleListViewItem_name" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_scheduleListViewItem_name"
+        android:layout_alignLeft="@+id/textView_scheduleListViewItem_name"
+        android:layout_alignStart="@+id/textView_scheduleListViewItem_name">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/schedule_calendar"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="28 July 2015"
+                android:id="@+id/textView_scheduleListViewItem_date"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/schedule_time"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="17:00 - 20:00"
+                android:id="@+id/textView_scheduleListViewItem_time"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

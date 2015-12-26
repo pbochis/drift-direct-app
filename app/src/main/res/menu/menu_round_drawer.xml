@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" android:id="@+id/group_rounds">
+        <item android:id="@+id/track_layout"
+            android:title="@string/track_layout"/>
+        <item android:id="@+id/qualifications_list"
+            android:title="@string/qualifications_list"/>
+        <item android:id="@+id/top_16_32"
+            android:title="@string/top_16_32"/>
+        <item android:id="@+id/event_schedule"
+            android:title="@string/event_schedule"/>
+        <item android:id="@+id/live_stream"
+            android:title="@string/live_stream"/>
+        <item android:id="@+id/buy_tickets_online_rounds"
+            android:title="@string/buy_tickets_online_rounds"/>
+    </group>
+
+</menu>

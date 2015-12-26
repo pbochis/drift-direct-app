@@ -1,0 +1,254 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.iancuio.driftdirect.fragments.QualificationsListFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/colorChampionships"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/gradient"
+        android:paddingTop="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/view2"
+            android:layout_width="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
+            android:layout_height="100dp"
+            android:src="@drawable/car" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/view2"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:layout_above="@+id/hdsga"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/car" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:paddingLeft="10dp"
+                    android:textAllCaps="true"
+                    android:text="ejhg" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:text="age 28" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:background="@color/white"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="5dp"
+                    android:textAllCaps="true"
+                    android:layout_height="wrap_content"
+                    android:text="nissaan skyline"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="780hp"/>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:id="@+id/hdsga"
+            android:paddingTop="10dp"
+            android:layout_above="@+id/linearLayout3"
+            android:layout_toRightOf="@+id/view2"
+            android:layout_toEndOf="@+id/view2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:text="speed"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@color/colorChampionships"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:layout_weight="1"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:text="LAP 1"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@color/colorChampionships"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:text="LAP 2"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:background="@color/colorChampionships"
+                android:layout_weight="1"
+                android:layout_height="25dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal"
+            android:background="@color/colorChampionships"
+            android:layout_below="@+id/view2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayout3">
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_toEndOf="@+id/view2"
+            android:layout_toRightOf="@+id/view2"
+            android:layout_below="@id/hdsga"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:text="168 km/h"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:text="88p"
+                android:textAllCaps="true"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:textStyle="bold"
+                android:text="55p"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout_qualificationListLayout_slidingTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorChampionships"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        android:layout_marginBottom="5dp"
+        app:tabSelectedTextColor="@color/colorChampionships"
+        app:tabTextColor="@color/black" />
+
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/viewPager_qualificationListLayout_drivers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

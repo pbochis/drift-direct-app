@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="135dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/colorChampionships"
+        android:layout_alignBottom="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+        android:layout_toLeftOf="@+id/textView_qualificationResultsListViewItem_badgeOrder2"
+        android:layout_toStartOf="@+id/textView_qualificationResultsListViewItem_badgeOrder2">
+
+        <TextView
+            android:id="@+id/textView_qualificationResultsListViewItem_badgePoints"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:text="85 Points" />
+
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+        android:layout_width="80dp"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/car" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center"
+            android:layout_alignLeft="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+            android:layout_alignStart="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+            android:text="1"
+            android:id="@+id/textView_qualificationResultsListViewItem_badgeOrder"
+            android:textColor="@color/colorChampionships"/>
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/rounded_corner"
+        android:gravity="center"
+        android:text="1"
+        android:visibility="invisible"
+        android:id="@+id/textView_qualificationResultsListViewItem_badgeOrder2"
+        android:textColor="@color/colorChampionships"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+        android:layout_alignEnd="@+id/imageView_qualificationResultsListViewItem_badgePicture" />
+
+
+</RelativeLayout>
