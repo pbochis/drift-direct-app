@@ -2,10 +2,12 @@ package com.iancuio.driftdirect.customObjects.round.qualifier;
 
 import com.iancuio.driftdirect.customObjects.person.PersonShort;
 
+import java.io.Serializable;
+
 /**
  * Created by Soulstorm on 12/22/2015.
  */
-public class QualifierShort {
+public class QualifierShort implements Serializable {
     private long id;
     private PersonShort driver;
     private Integer points;

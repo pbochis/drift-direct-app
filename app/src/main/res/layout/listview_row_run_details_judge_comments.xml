@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="20dp"
+            android:id="@+id/imageView_commentListViewItem_positive"
+            android:src="@color/top16Top32Winner"
+            android:layout_height="20dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="20dp"
+            android:src="@color/red"
+            android:id="@+id/imageView_commentListViewItem_negative"
+            android:layout_height="20dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/imageView_commentListViewItem_comment"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
+</LinearLayout>

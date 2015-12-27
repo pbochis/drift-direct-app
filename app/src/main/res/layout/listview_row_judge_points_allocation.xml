@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05"
+            android:layout_weight="0.1"
             android:gravity="center"
             android:text="0"
             android:id="@+id/textView_judgePointsAllocationListViewRow_minPoints"
@@ -38,7 +38,7 @@
             android:id="@+id/seekBar_judgePointsAllocationListViewRow_score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.9"
+            android:layout_weight="0.80"
             android:max="40"
             android:maxHeight="3dp"
             android:minHeight="3dp"
@@ -48,9 +48,10 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05"
+            android:layout_weight="0.1"
             android:gravity="center"
             android:text="40"
+            android:maxLines="1"
             android:id="@+id/textView_judgePointsAllocationListViewRow_maxPoints"
             android:textColor="@color/white"
             android:textStyle="bold" />

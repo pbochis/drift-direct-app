@@ -5,7 +5,7 @@ public class RestUrls {
     //Cloud server
     //public static final String BASE_URL = "https://driftdirect.herokuapp.com";
     //Pilu server
-    public static final String BASE_URL = "http://192.168.1.106:8080";
+    public static final String BASE_URL = "http://192.168.1.100:8080";
     //Local developement
     //public static final String BASE_URL = "http://192.168.1.100:8080";
 
@@ -22,6 +22,8 @@ public class RestUrls {
     public static final String ROUND = "/round";
     public static final String ROUND_ID = "/round/{id}";
     public static final String ROUND_ID_SHCEDULE = "/round/{id}/schedule";
+
+    public static final String QUALIFIER_ID = "/qualifier/{id}";
 
     public static final String USER = "/user";
 

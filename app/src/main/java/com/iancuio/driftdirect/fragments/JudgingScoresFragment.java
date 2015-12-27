@@ -26,7 +26,9 @@ import com.iancuio.driftdirect.adapters.viewPagerAdapters.ScreenSlidePagerAdapte
 import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.championship.driver.ChampionshipDriverParticipation;
 import com.iancuio.driftdirect.customObjects.round.Round;
+import com.iancuio.driftdirect.customObjects.round.qualifier.Qualifier;
 import com.iancuio.driftdirect.service.ChampionshipService;
+import com.iancuio.driftdirect.service.QualifierService;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -48,7 +50,7 @@ import retrofit.Retrofit;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class JudgingScoresFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class JudgingScoresFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     @Bind(R.id.sliderLayout_judgingScoresLayout_carImagesSlider)
     SliderLayout mDemoSlider;
@@ -72,6 +74,8 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
     TextView driverSessionPointsTextView;
     @Bind(R.id.progressBar_judgingScoresLayout_progressBar)
     ProgressBar driverImageProgressBar;
+    @Bind(R.id.imageView_judgingScoresLayout_driverFlag)
+    ImageView driverFlagImageView;
 
 
     private ScreenSlidePagerAdapter driverRunDetailsPagerAdapter;
@@ -98,19 +102,19 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
+        roundFull = ((RoundNavigationViewActivity) getActivity()).getRoundFull();
         configureSlider();
         getDriver();
     }
 
     private void configureSlider() {
 
-        HashMap<String,String> url_maps = new HashMap<String, String>();
+        HashMap<String, String> url_maps = new HashMap<String, String>();
         url_maps.put("Drift", "http://www.speedhunters.com/wp-content/uploads/2011/12/1_IuB6_339.jpg");
         url_maps.put("Drift2", "http://www.sneakerfreaker.com/content/uploads/2013/11/insane-drifters-2014-drift-cars-1.jpg");
 
 
-        for(String name : url_maps.keySet()){
+        for (String name : url_maps.keySet()) {
             DefaultSliderView sliderView = new DefaultSliderView(getActivity());
             // initialize a SliderLayout
             sliderView
@@ -128,13 +132,12 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
     }
 
 
-
     private void initializeDriverDetailsViewPager() {
         List<Fragment> fragments = getFragmentsForViewPager();
-        String tabTitles[] = new String[] { "RUN 1", "RUN 2"};
+        String tabTitles[] = new String[]{"RUN 1", "RUN 2"};
 
         // Instantiate a ViewPager and a PagerAdapter.
-        driverRunDetailsPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager(), fragments, tabTitles);
+        driverRunDetailsPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(), fragments, tabTitles);
         driverRunDetailsViewPager.setAdapter(driverRunDetailsPagerAdapter);
         driverRunDetailsViewPager.setCurrentItem(0);
 
@@ -143,46 +146,85 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
     }
 
     private List<Fragment> getFragmentsForViewPager() {
+
         List<Fragment> fList = new ArrayList<Fragment>();
-        Bundle bundle = new Bundle();
 
-        JudgingScoresJudgeScores judgingScoresJudgeScoresFragmentRun1 = new JudgingScoresJudgeScores();
-        JudgingScoresJudgeScores judgingScoresJudgeScoresFragmentRun2 = new JudgingScoresJudgeScores();
+        if (getArguments().getString("driversList") != null) {
+            JudgingScoresPublicScores judgingScoresPublicScoresRun1 = new JudgingScoresPublicScores();
+            Bundle run1 = new Bundle();
+            run1.putString("run1", "run1");
+            run1.putLong("qualifierId", getArguments().getLong("qualifierId"));
+            judgingScoresPublicScoresRun1.setArguments(run1);
 
+            JudgingScoresPublicScores judgingScoresPublicScoresRun2 = new JudgingScoresPublicScores();
+            Bundle run2 = new Bundle();
+            run2.putString("run2", "run2");
+            run2.putLong("qualifierId", getArguments().getLong("qualifierId"));
+            judgingScoresPublicScoresRun2.setArguments(run2);
 
-        fList.add(judgingScoresJudgeScoresFragmentRun1);
-        fList.add(judgingScoresJudgeScoresFragmentRun2);
-        return fList;
+            fList.add(judgingScoresPublicScoresRun1);
+            fList.add(judgingScoresPublicScoresRun2);
+            return fList;
+        } else {
+            JudgingScoresJudgeScores judgingScoresJudgeScoresFragmentRun1 = new JudgingScoresJudgeScores();
+            Bundle run1 = new Bundle();
+            run1.putString("run1", "run1");
+            run1.putLong("qualifierId", getArguments().getLong("qualifierId"));
+            judgingScoresJudgeScoresFragmentRun1.setArguments(run1);
+
+            JudgingScoresJudgeScores judgingScoresJudgeScoresFragmentRun2 = new JudgingScoresJudgeScores();
+            Bundle run2 = new Bundle();
+            run2.putString("run2", "run2");
+            run2.putLong("qualifierId", getArguments().getLong("qualifierId"));
+            judgingScoresJudgeScoresFragmentRun2.setArguments(run2);
+
+            fList.add(judgingScoresJudgeScoresFragmentRun1);
+            fList.add(judgingScoresJudgeScoresFragmentRun2);
+            return fList;
+        }
     }
 
     private void getDriver() {
 
         bundle = getArguments();
-        Long personId = bundle.getLong("personId");
+        Long qualifierId = bundle.getLong("qualifierId");
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
 
-        ChampionshipService championshipService;
-        championshipService = retrofit.create(ChampionshipService.class);
+        QualifierService qualifierService;
+        qualifierService = retrofit.create(QualifierService.class);
 
-        Call<ChampionshipDriverParticipation> championshipDriverParticipationCall = championshipService.getDriver(((RoundNavigationViewActivity) getActivity()).getChampionshipFull().getId(), personId);
+        Call<Qualifier> qualifierCall = qualifierService.getQualifier(qualifierId);
 
-        championshipDriverParticipationCall.enqueue(new retrofit.Callback<ChampionshipDriverParticipation>() {
+        qualifierCall.enqueue(new retrofit.Callback<Qualifier>() {
             @Override
-            public void onResponse(Response<ChampionshipDriverParticipation> response, Retrofit retrofit) {
-                ChampionshipDriverParticipation championshipDriverParticipation = response.body();
-                driverCarModelTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getCarName());
-                driverCarModelHPTextView.setText(String.valueOf(championshipDriverParticipation.getDriver().getDriverDetails().getHorsePower()) + " HP");
-                driverNameTextView.setText(championshipDriverParticipation.getDriver().getFirstName() + " " + championshipDriverParticipation.getDriver().getLastName());
+            public void onResponse(Response<Qualifier> response, Retrofit retrofit) {
+                Qualifier qualifier = response.body();
+                driverCarModelTextView.setText(qualifier.getDriver().getDriverDetails().getModel());
+                driverCarModelHPTextView.setText(String.valueOf(qualifier.getDriver().getDriverDetails().getHorsePower()) + " HP");
+                driverNameTextView.setText(qualifier.getDriver().getFirstName() + " " + qualifier.getDriver().getLastName());
                 //driverTeamTextView.setText(String.valueOf(championshipDriverParticipation.()));
-                driverAgeTextView.setText(String.valueOf(Years.yearsBetween(championshipDriverParticipation.getDriver().getBirthDate(), DateTime.now()).getYears()));
+                driverAgeTextView.setText(String.valueOf(Years.yearsBetween(qualifier.getDriver().getBirthDate(), DateTime.now()).getYears()));
                 //driverSessionPointsTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getTotalPoints()));
 
-                Picasso.with(getActivity()).load(RestUrls.FILE + championshipDriverParticipation.getDriver().getProfilePicture()).noPlaceholder().into(driverPictureImageView, new Callback() {
+                Picasso.with(getActivity()).load(RestUrls.FILE + qualifier.getDriver().getProfilePicture()).noPlaceholder().into(driverPictureImageView, new Callback() {
                     @Override
                     public void onSuccess() {
                         Log.e("driverProfilePicture", "e.x.c.e.l.e.n.t");
                         driverImageProgressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e("driverProfilePicture", "PROSTULE");
+                    }
+                });
+
+                Picasso.with(getActivity()).load(RestUrls.FILE + qualifier.getDriver().getProfilePicture()).noPlaceholder().into(driverFlagImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.e("driverProfilePicture", "e.x.c.e.l.e.n.t");
+                        //driverImageProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -220,4 +262,5 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
     public void onSliderClick(BaseSliderView slider) {
 
     }
+
 }

@@ -64,13 +64,14 @@ public class QualificationsDriversListFragment extends Fragment {
         qualificationsDriversListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JudgingScoresFragment judgingScoresJudgeScores = new JudgingScoresFragment();
+                JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
                 Bundle bundle = new Bundle();
-                bundle.putLong("personId", roundFull.getQualifiers().get(0).getDriver().getId());
-                judgingScoresJudgeScores.setArguments(bundle);
-                FragmentManager fragmentManager = getFragmentManager();
+                bundle.putString("driversList", "driversList");
+                bundle.putLong("qualifierId", roundFull.getQualifiers().get(position).getId());
+                judgingScoresFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresJudgeScores)
+                        .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
                         .addToBackStack(null)
                         .commit();
             }

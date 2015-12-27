@@ -4,9 +4,11 @@ package com.iancuio.driftdirect.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.iancuio.driftdirect.R;
@@ -68,6 +70,22 @@ public class QualificationsResultsListFragment extends Fragment {
         }
         qualificationsResultListListView.setAdapter(new QualificationsResultsAdapter(getActivity(), judgedQualifiersList));
         //qualificationsResultListListView.setEmptyView();
+
+        qualificationsResultListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("publicList", "publicList");
+                bundle.putLong("qualifierId", roundFull.getQualifiers().get(position).getId());
+                judgingScoresFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
 
     }

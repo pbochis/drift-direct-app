@@ -64,7 +64,6 @@
 
         <ImageView
             android:layout_width="30dp"
-            android:src="@drawable/car"
             android:id="@+id/imageView_judgingScoresLayout_driverFlag"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"

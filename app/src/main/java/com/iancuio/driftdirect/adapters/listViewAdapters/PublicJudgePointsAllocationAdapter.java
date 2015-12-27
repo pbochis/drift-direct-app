@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.judge.JudgePointsAllocation;
+import com.iancuio.driftdirect.customObjects.round.qualifier.run.AwardedPoints;
 import com.iancuio.driftdirect.customObjects.temporary.NormalDriver;
 
 import java.util.ArrayList;
@@ -28,42 +30,34 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by Soulstorm on 11/14/2015.
  */
-public class JudgePointsAllocationAdapter extends BaseAdapter {
+public class PublicJudgePointsAllocationAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private Context context;
-    private List<JudgePointsAllocation> judgePointsAllocationList;
-    private List<Integer> pointsList;
+    private List<AwardedPoints> awardedPointsList;
     private int points;
 
 
-    public JudgePointsAllocationAdapter(Context context, List<JudgePointsAllocation> judgePointsAllocationList) {
+    public PublicJudgePointsAllocationAdapter(Context context, List<AwardedPoints> awardedPointsList) {
         this.context = context;
-        this.judgePointsAllocationList = judgePointsAllocationList;
+        this.awardedPointsList = awardedPointsList;
         inflater = LayoutInflater.from(context);
-        pointsList = new ArrayList<>();
-
-        for (int i=0; i<judgePointsAllocationList.size(); i++) {
-            pointsList.add(i, 0);
-        }
     }
 
     @Override
     public int getCount() {
-        return judgePointsAllocationList.size();
+        return awardedPointsList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return judgePointsAllocationList.get(i);
+        return awardedPointsList.get(i);
     }
 
     @Override
     public long getItemId(int i) {
         return 0;
     }
-
-    public int getPoints(int i) {return pointsList.get(i);}
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
@@ -85,28 +79,17 @@ public class JudgePointsAllocationAdapter extends BaseAdapter {
             viewHolder = (PointsAllocationViewHolder) view.getTag();
         }
 
-        viewHolder.pointsTypeTextView.setText(judgePointsAllocationList.get(i).getName());
-        viewHolder.maxPointsTextView.setText(String.valueOf(judgePointsAllocationList.get(i).getMaxPoints()));
-        viewHolder.pointsSeekBar.setMax(judgePointsAllocationList.get(i).getMaxPoints());
+        viewHolder.pointsTypeTextView.setText(awardedPointsList.get(i).getPointsAllocation().getName());
+        viewHolder.maxPointsTextView.setText(String.valueOf(awardedPointsList.get(i).getPointsAllocation().getMaxPoints()));
+        viewHolder.pointsSeekBar.setMax(awardedPointsList.get(i).getPointsAllocation().getMaxPoints());
 
-        viewHolder.pointsSeekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(0)));
+        viewHolder.pointsSeekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(awardedPointsList.get(i).getAwardedPoints())));
+        viewHolder.pointsSeekBar.setProgress(awardedPointsList.get(i).getAwardedPoints());
 
-        viewHolder.pointsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        viewHolder.pointsSeekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                seekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(progress)));
-                pointsList.add(i, seekBar.getProgress());
-                //Log.e("pointsadapter", String.valueOf(pointsList.get(i)));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
             }
         });
 
@@ -133,11 +116,4 @@ public class JudgePointsAllocationAdapter extends BaseAdapter {
     }
 
 
-}
-
-class PointsAllocationViewHolder {
-    TextView pointsTypeTextView;
-    TextView minPointsTextView;
-    TextView maxPointsTextView;
-    SeekBar pointsSeekBar;
 }

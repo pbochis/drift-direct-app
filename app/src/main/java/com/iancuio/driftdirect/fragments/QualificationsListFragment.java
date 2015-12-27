@@ -79,7 +79,7 @@ public class QualificationsListFragment extends Fragment {
         String tabTitles[] = new String[] {"Results", "Qualification List"};
 
         // Instantiate a ViewPager and a PagerAdapter.
-        qualificationPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager(), fragments, tabTitles);
+        qualificationPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(), fragments, tabTitles);
         qualificationViewPager.setAdapter(qualificationPagerAdapter);
         qualificationViewPager.setCurrentItem(0);
 
@@ -87,5 +87,9 @@ public class QualificationsListFragment extends Fragment {
         qualificationsTabLayout.setupWithViewPager(qualificationViewPager);
     }
 
-
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        initializeDriverDetailsViewPager();
+//    }
 }
