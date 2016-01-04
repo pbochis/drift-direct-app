@@ -42,7 +42,7 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+                android:id="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
                 android:layout_width="80dp"
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="2dp"
@@ -55,7 +55,7 @@
                 android:layout_width="40dp"
                 android:layout_centerInParent="true"
                 android:visibility="invisible"
-                android:id="@+id/progressBar_qualificationResultsViewItem_progressBar"
+                android:id="@+id/progressBar_battleJudgeLayout_firstDriverBadgePictureProgressBar"
                 android:layout_height="40dp" />
 
 

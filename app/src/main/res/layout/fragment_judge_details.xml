@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="match_parent"
         android:background="@color/colorChampionships"
-        android:layout_height="5dp"/>
+        android:layout_height="2dp"/>
 
     <TextView
         android:layout_width="match_parent"

@@ -142,6 +142,9 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
                     case R.id.notifications:
                         setFragment(new JudgingScoresJudgeScores(), R.string.notifications);
                         return true;
+                    case R.id.authority_login:
+                        Intent intent = new Intent(ChampionshipNavigationViewActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     default:
                         Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
                         return true;

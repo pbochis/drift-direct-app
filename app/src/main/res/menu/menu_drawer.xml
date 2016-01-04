@@ -29,22 +29,8 @@
         <item android:id="@+id/notifications"
             android:icon="@drawable/notifications_icon"
             android:title="@string/notifications"/>
-    </group>
+        <item android:id="@+id/authority_login"
+            android:title="@string/authority_login"/>
 
-    <group android:checkableBehavior="single" android:id="@+id/group_rounds">
-        <item android:id="@+id/track_layout"
-            android:title="@string/track_layout"/>
-        <item android:id="@+id/judging_team"
-            android:title="@string/judging_team"/>
-        <item android:id="@+id/qualifications_list"
-            android:title="@string/qualifications_list"/>
-        <item android:id="@+id/top_16_32"
-            android:title="@string/top_16_32"/>
-        <item android:id="@+id/event_schedule"
-            android:title="@string/event_schedule"/>
-        <item android:id="@+id/live_stream"
-            android:title="@string/live_stream"/>
-        <item android:id="@+id/buy_tickets_online_rounds"
-            android:title="@string/buy_tickets_online_rounds"/>
     </group>
 </menu>

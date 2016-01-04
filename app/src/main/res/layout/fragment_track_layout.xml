@@ -35,7 +35,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout_trackLayoutLayout_slidingTabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             app:tabGravity="fill"
             android:background="@color/white"
             app:tabIndicatorColor="@color/colorChampionships"

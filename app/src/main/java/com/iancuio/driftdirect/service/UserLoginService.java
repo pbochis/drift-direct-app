@@ -1,6 +1,7 @@
 package com.iancuio.driftdirect.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.iancuio.driftdirect.customObjects.User;
 import com.iancuio.driftdirect.utils.RestUrls;
 
 import retrofit.Call;
@@ -14,5 +15,5 @@ import retrofit.http.Path;
 public interface UserLoginService {
 
     @GET(RestUrls.USER)
-    Call<JsonNode> getUserDetails(@Header("Authorization") String token);
+    Call<User> getUserDetails(@Header("Authorization") String token);
 }

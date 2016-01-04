@@ -30,7 +30,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="178"
                 android:id="@+id/textView_publicScoresJudgeScoresLayout_entrySpeed"
                 android:textColor="@color/white"
                 android:layout_height="match_parent" />
@@ -64,7 +63,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="87"
                 android:id="@+id/textView_publicScoresJudgeScoresLayout_totalPoints"
                 android:textColor="@color/white"
                 android:layout_height="match_parent" />

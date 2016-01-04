@@ -11,6 +11,8 @@ public class QualifierShort implements Serializable {
     private long id;
     private PersonShort driver;
     private Integer points;
+    private Integer firstRunScore;
+    private Integer secondRunScore;
 
     public long getId() {
         return id;
@@ -34,5 +36,21 @@ public class QualifierShort implements Serializable {
 
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    public Integer getFirstRunScore() {
+        return firstRunScore;
+    }
+
+    public void setFirstRunScore(Integer firstRunScore) {
+        this.firstRunScore = firstRunScore;
+    }
+
+    public Integer getSecondRunScore() {
+        return secondRunScore;
+    }
+
+    public void setSecondRunScore(Integer secondRunScore) {
+        this.secondRunScore = secondRunScore;
     }
 }

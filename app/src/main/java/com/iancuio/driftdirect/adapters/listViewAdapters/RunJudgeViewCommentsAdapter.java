@@ -1,20 +1,34 @@
 package com.iancuio.driftdirect.adapters.listViewAdapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iancuio.driftdirect.R;
+import com.iancuio.driftdirect.customObjects.person.Judge;
 import com.iancuio.driftdirect.customObjects.person.PersonShort;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.Comment;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,17 +37,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by Soulstorm on 11/14/2015.
  */
-public class RunJudgeCommentsAdapter extends BaseAdapter {
+public class RunJudgeViewCommentsAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private Context context;
     private List<Comment> commentList;
+    private Judge judge;
+    private boolean positive;
 
 
-    public RunJudgeCommentsAdapter (Context context, List<Comment> commentList) {
+
+    public RunJudgeViewCommentsAdapter(Context context, List<Comment> commentList, Judge judge, boolean positive) {
         this.context = context;
         this.commentList = commentList;
         inflater = LayoutInflater.from(context);
+        this.judge = judge;
+        this.positive = positive;
     }
 
     @Override
@@ -52,7 +71,7 @@ public class RunJudgeCommentsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, final ViewGroup viewGroup) {
 
         View listItem = view;
         final CommentsViewHolder viewHolder;
@@ -75,8 +94,12 @@ public class RunJudgeCommentsAdapter extends BaseAdapter {
                 viewHolder.positiveCommentImageView.setVisibility(View.GONE);
                 viewHolder.commentTextView.setText(commentList.get(i).getComment());
             }
+
+
         return listItem;
     }
+
+
 }
 
 class CommentsViewHolder {

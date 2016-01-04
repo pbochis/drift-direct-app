@@ -37,11 +37,17 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.RoundNavigationViewActivity"
             android:label="@string/title_activity_round_navigation_view"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.JudgeBattleActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_judge_battle"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

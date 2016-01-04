@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:id="@+id/popup_container"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="@color/black"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/textView_popupJudgeCommentsLayout_header"
+        android:text="Select positive comments:"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/menu_next_event_color"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/editText_popupJudgeCommentsLayout_newComment"
+            android:hint="Enter new comment"
+            android:layout_height="40dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:text="Add"
+            android:id="@+id/button_popupJudgeCommentsLayout_addNewComment"
+            android:background="@color/colorChampionships"
+            android:textColor="@color/white"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:dividerHeight="1dp"
+        android:divider="@color/white"
+        android:id="@+id/listView_popupJudgeCommentsLayout_commentList"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@color/black"
+        android:id="@+id/button_popupJudgeCommentsLayout_completeButton"
+        android:text="Dismiss"
+        android:layout_height="50dp" />
+
+
+
+</LinearLayout>

@@ -71,7 +71,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout6"
+            android:id="@+id/relativeLayout_top16Top32Layout_battleLauncher"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginRight="5dp"
@@ -272,7 +272,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout_top16Top32Layout_slidingTabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="@color/white"
         android:layout_marginBottom="5dp"
         app:tabGravity="fill"

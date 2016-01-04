@@ -1,13 +1,16 @@
 package com.iancuio.driftdirect.fragments;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ import com.iancuio.driftdirect.customObjects.round.qualifier.Qualifier;
 import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.service.QualifierService;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -48,6 +52,7 @@ public class JudgingScoresPublicScores extends Fragment {
     Bundle bundle;
 
     Round roundFull;
+    ProgressDialog dialog;
 
 
     public JudgingScoresPublicScores() {
@@ -74,6 +79,9 @@ public class JudgingScoresPublicScores extends Fragment {
     }
 
     private void getPublicRunDetails() {
+
+        dialog = ProgressDialog.show(getActivity(), "Loading", "Getting info...");
+
         bundle = getArguments();
         Long personId = bundle.getLong("qualifierId");
 
@@ -91,13 +99,14 @@ public class JudgingScoresPublicScores extends Fragment {
                 totalPointsTextView.setText(String.valueOf(qualifier.getFinalScore()));
 
                 if (getArguments().getString("run1") != null) {
-                    runDetailsListView.setAdapter(new PublicRunDetailsAdapter(getActivity(), qualifier.getFirstRun()));
+                    runDetailsListView.setAdapter(new PublicRunDetailsAdapter(getActivity(), qualifier.getFirstRun(), getView()));
                     entrySpeedTextView.setText(String.valueOf(qualifier.getFirstRun().getEntrySpeed()));
                 } else {
-                    runDetailsListView.setAdapter(new PublicRunDetailsAdapter(getActivity(), qualifier.getSecondRun()));
+                    runDetailsListView.setAdapter(new PublicRunDetailsAdapter(getActivity(), qualifier.getSecondRun(), getView()));
                     entrySpeedTextView.setText(String.valueOf(qualifier.getSecondRun().getEntrySpeed()));
                 }
 
+                dialog.dismiss();
             }
 
             @Override

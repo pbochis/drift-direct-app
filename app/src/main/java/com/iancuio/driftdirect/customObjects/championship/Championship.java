@@ -1,10 +1,8 @@
 package com.iancuio.driftdirect.customObjects.championship;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iancuio.driftdirect.customObjects.championship.judge.ChampionshipJudgeParticipation;
 import com.iancuio.driftdirect.customObjects.news.News;
 import com.iancuio.driftdirect.customObjects.person.PersonShort;
-import com.iancuio.driftdirect.customObjects.round.RoundScheduleEntry;
 import com.iancuio.driftdirect.customObjects.round.RoundShort;
 import com.iancuio.driftdirect.customObjects.sponsor.Sponsor;
 
@@ -28,6 +26,8 @@ public class Championship implements Serializable {
     private List<ChampionshipJudgeParticipation> judges;
     private List<Sponsor> sponsors;
     private List<News> news;
+    private PersonShort organizer;
+    private boolean published;
 
     public long getId() {
         return id;
@@ -123,5 +123,21 @@ public class Championship implements Serializable {
 
     public void setNews(List<News> news) {
         this.news = news;
+    }
+
+    public PersonShort getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(PersonShort organizer) {
+        this.organizer = organizer;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 }

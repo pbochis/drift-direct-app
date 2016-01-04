@@ -10,17 +10,10 @@ import java.util.List;
  */
 public class ChampionshipJudgeParticipation implements Serializable {
     private Long id;
-    private PersonShort judge;
-    private String judgeType;
+    private JudgeType judgeType;
+    private String title;
     private List<JudgePointsAllocation> pointsAllocations;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private PersonShort judge;
 
     public PersonShort getJudge() {
         return judge;
@@ -30,12 +23,28 @@ public class ChampionshipJudgeParticipation implements Serializable {
         this.judge = judge;
     }
 
-    public String getJudgeType() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public JudgeType getJudgeType() {
         return judgeType;
     }
 
-    public void setJudgeType(String judgeType) {
+    public void setJudgeType(JudgeType judgeType) {
         this.judgeType = judgeType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<JudgePointsAllocation> getPointsAllocations() {

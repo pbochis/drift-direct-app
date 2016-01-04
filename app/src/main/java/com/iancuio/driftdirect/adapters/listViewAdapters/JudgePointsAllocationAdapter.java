@@ -60,7 +60,7 @@ public class JudgePointsAllocationAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return judgePointsAllocationList.get(i).getId();
     }
 
     public int getPoints(int i) {return pointsList.get(i);}

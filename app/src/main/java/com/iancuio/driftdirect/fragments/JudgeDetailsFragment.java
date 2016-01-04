@@ -54,7 +54,7 @@ public class JudgeDetailsFragment extends Fragment {
         int judgeNumber = bundle.getInt("judgeNumber");
 
         judgeName.setText(championshipFull.getJudges().get(judgeNumber).getJudge().getFirstName() + " " + championshipFull.getJudges().get(judgeNumber).getJudge().getLastName());
-        judgeType.setText(championshipFull.getJudges().get(judgeNumber).getJudgeType());
+        judgeType.setText(championshipFull.getJudges().get(judgeNumber).getTitle());
         judgeDescription.setText(championshipFull.getJudges().get(judgeNumber).getJudge().getDescription());
 
 

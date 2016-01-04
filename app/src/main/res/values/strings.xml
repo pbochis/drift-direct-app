@@ -28,5 +28,7 @@
     <string name="live_stream">LIVE STREAM</string>
     <string name="buy_tickets_online_rounds">BUY TICKETS ONLINE</string>
     <string name="title_activity_round_navigation_view">RoundNavigationViewActivity</string>
+    <string name="authority_login">AUTHORITY LOGIN</string>
+    <string name="title_activity_judge_battle">JudgeBattleActivity</string>
 
 </resources>

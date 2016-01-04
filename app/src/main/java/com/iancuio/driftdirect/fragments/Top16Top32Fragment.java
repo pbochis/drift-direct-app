@@ -1,6 +1,7 @@
 package com.iancuio.driftdirect.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,9 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
+import com.iancuio.driftdirect.activities.JudgeBattleActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
 import com.iancuio.driftdirect.adapters.viewPagerAdapters.ScreenSlidePagerAdapter;
 import com.iancuio.driftdirect.customObjects.championship.Championship;
@@ -22,6 +25,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +36,8 @@ public class Top16Top32Fragment extends Fragment {
     TabLayout top16Top32TabLayout;
     @Bind(R.id.viewPager_top16Top32Layout_drivers)
     ViewPager top16Top32ViewPager;
+    @Bind(R.id.relativeLayout_top16Top32Layout_battleLauncher)
+    RelativeLayout battleLauncher;
 
     private ScreenSlidePagerAdapter top16Top32PagerAdapter;
 
@@ -59,6 +65,8 @@ public class Top16Top32Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
+
+        //initializeDriverDetailsViewPager();
 
 
     }
@@ -102,5 +110,11 @@ public class Top16Top32Fragment extends Fragment {
 
         //driverDetailsTabLayout.setSelectedTabIndicatorColor(Color.parseColor('#' + Integer.toHexString(getResources().getColor(R.color.colorChampionships))));
         top16Top32TabLayout.setupWithViewPager(top16Top32ViewPager);
+    }
+
+    @OnClick(R.id.relativeLayout_top16Top32Layout_battleLauncher)
+    public void battleLauncherClick() {
+        Intent intent = new Intent(getActivity(), JudgeBattleActivity.class);
+        startActivity(intent);
     }
 }

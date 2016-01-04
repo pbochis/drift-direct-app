@@ -1,5 +1,8 @@
 package com.iancuio.driftdirect.activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,9 +10,11 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.iancuio.driftdirect.R;
+import com.iancuio.driftdirect.customObjects.User;
 import com.iancuio.driftdirect.service.UserLoginService;
 import com.iancuio.driftdirect.utils.RestUrls;
 
@@ -32,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.editText_LoginActivityLayout_password)
     EditText passwordEditText;
 
+    ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +52,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_LoginActivityLayout_login)
     public void loginButtonClick(){
+
+        dialog = ProgressDialog.show(this, "Logging In!", "Please Wait!");
+
         Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
-        UserLoginService forecastIoService;
-        forecastIoService = retrofit.create(UserLoginService.class);
+        UserLoginService userLoginService;
+        userLoginService = retrofit.create(UserLoginService.class);
 
         byte[] loginData = new byte[0];
         try {
@@ -55,15 +65,26 @@ public class LoginActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String base64LoginData = Base64.encodeToString(loginData, Base64.DEFAULT);
+        final String base64LoginData = Base64.encodeToString(loginData, Base64.DEFAULT);
 
-        Call<JsonNode> forecastIoCall = forecastIoService.getUserDetails(("Basic " + base64LoginData).trim());
+        Call<User> userCall = userLoginService.getUserDetails(("Basic " + base64LoginData).trim());
 
-        forecastIoCall.enqueue(new retrofit.Callback<JsonNode>() {
+        userCall.enqueue(new retrofit.Callback<User>() {
             @Override
-            public void onResponse(Response<JsonNode> response, Retrofit retrofit) {
-                JsonNode data = response.body();
-                Log.e("response", response.body().get("username").asText());
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+
+                User user = response.body();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                editor.putString("token", ("Basic " + base64LoginData).trim());
+                editor.putStringSet("roles", user.getRoles());
+                editor.commit();
+
+                dialog.dismiss();
+                Toast.makeText(LoginActivity.this, "Successfully logged in! Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override

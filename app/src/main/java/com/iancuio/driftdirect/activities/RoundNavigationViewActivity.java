@@ -21,23 +21,12 @@ import android.widget.Toast;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.Championship;
-import com.iancuio.driftdirect.customObjects.championship.ChampionshipShort;
 import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.fragments.BuyTicketsOnlineFragment;
-import com.iancuio.driftdirect.fragments.CalendarFragment;
-import com.iancuio.driftdirect.fragments.DriversFragment;
 import com.iancuio.driftdirect.fragments.EventScheduleFragment;
-import com.iancuio.driftdirect.fragments.LiveStreamFragment;
-import com.iancuio.driftdirect.fragments.NewsFragment;
-import com.iancuio.driftdirect.fragments.NotificationsFragment;
-import com.iancuio.driftdirect.fragments.OfficialSponsorsFragment;
 import com.iancuio.driftdirect.fragments.QualificationsListFragment;
-import com.iancuio.driftdirect.fragments.RankingsFragment;
-import com.iancuio.driftdirect.fragments.SetOfRulesFragment;
-import com.iancuio.driftdirect.fragments.TeamOfJudgesFragment;
 import com.iancuio.driftdirect.fragments.Top16Top32Fragment;
 import com.iancuio.driftdirect.fragments.TrackLayoutFragment;
-import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.service.RoundService;
 import com.iancuio.driftdirect.utils.RestUrls;
 

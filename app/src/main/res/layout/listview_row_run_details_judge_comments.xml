@@ -5,26 +5,32 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="20dp"
+            android:layout_width="15dp"
             android:id="@+id/imageView_commentListViewItem_positive"
             android:src="@color/top16Top32Winner"
-            android:layout_height="20dp" />
+            android:layout_height="15dp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="20dp"
+            android:layout_width="15dp"
             android:src="@color/red"
             android:id="@+id/imageView_commentListViewItem_negative"
-            android:layout_height="20dp" />
+            android:layout_height="15dp" />
     </RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:id="@+id/imageView_commentListViewItem_comment"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/black"
+        android:maxLines="2"
+        android:text="wjhgjhgq"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
+        android:ellipsize="end"
+        android:textColor="@color/white"
         android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp" />
 </LinearLayout>

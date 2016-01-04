@@ -10,7 +10,7 @@
         android:layout_height="20dp"
         android:layout_marginBottom="6dp"
         android:background="@color/colorChampionships"
-        android:layout_alignBottom="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+        android:layout_alignBottom="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
         android:layout_toLeftOf="@+id/textView_qualificationResultsListViewItem_badgeOrder2"
         android:layout_toStartOf="@+id/textView_qualificationResultsListViewItem_badgeOrder2">
 
@@ -28,7 +28,7 @@
     </RelativeLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+        android:id="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
         android:layout_width="80dp"
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="2dp"
@@ -41,8 +41,8 @@
             android:layout_height="20dp"
             android:background="@drawable/rounded_corner"
             android:gravity="center"
-            android:layout_alignLeft="@+id/imageView_qualificationResultsListViewItem_badgePicture"
-            android:layout_alignStart="@+id/imageView_qualificationResultsListViewItem_badgePicture"
+            android:layout_alignLeft="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
+            android:layout_alignStart="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
             android:text="1"
             android:id="@+id/textView_qualificationResultsListViewItem_badgeOrder"
             android:textColor="@color/colorChampionships"/>
@@ -57,8 +57,8 @@
         android:id="@+id/textView_qualificationResultsListViewItem_badgeOrder2"
         android:textColor="@color/colorChampionships"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/imageView_qualificationResultsListViewItem_badgePicture"
-        android:layout_alignEnd="@+id/imageView_qualificationResultsListViewItem_badgePicture" />
+        android:layout_alignRight="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
+        android:layout_alignEnd="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture" />
 
 
 </RelativeLayout>

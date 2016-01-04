@@ -1,6 +1,8 @@
 package com.iancuio.driftdirect.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +20,10 @@ import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.customObjects.temporary.NormalDriver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,24 +65,29 @@ public class QualificationsDriversListFragment extends Fragment {
 
     public void getDriversList() {
         qualificationsDriversListListView.setAdapter(new QualificationsDriversAdapter(getActivity(), roundFull.getQualifiers()));
-        
-        qualificationsDriversListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("driversList", "driversList");
-                bundle.putLong("qualifierId", roundFull.getQualifiers().get(position).getId());
-                judgingScoresFragment.setArguments(bundle);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
-                        .addToBackStack(null)
-                        .commit();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+        if (sharedPreferences != null) {
+            Set<String> roles = sharedPreferences.getStringSet("roles", new HashSet<String>());
+
+            if (roles.contains("ROLE_JUDGE")) {
+                qualificationsDriversListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("driversList", "driversList");
+                        bundle.putLong("qualifierId", roundFull.getQualifiers().get(position).getId());
+                        judgingScoresFragment.setArguments(bundle);
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
+                                .addToBackStack("judgingScoresFragment")
+                                .commit();
+                    }
+                });
             }
-        });
-
-
+        }
     }
 
 

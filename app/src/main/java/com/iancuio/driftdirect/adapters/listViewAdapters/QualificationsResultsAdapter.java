@@ -11,14 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.customObjects.person.PersonShort;
 import com.iancuio.driftdirect.customObjects.round.qualifier.QualifierShort;
-import com.iancuio.driftdirect.customObjects.temporary.ResultsDriver;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -65,9 +61,9 @@ public class QualificationsResultsAdapter extends BaseAdapter {
             viewHolder = new QualificationResultsViewHolder();
 
             listItem = inflater.inflate(R.layout.listview_row_qualifications_results, viewGroup, false);
-            viewHolder.driversPictureImageView = (CircleImageView) listItem.findViewById(R.id.imageView_qualificationResultsListViewItem_badgePicture);
+            viewHolder.driversPictureImageView = (CircleImageView) listItem.findViewById(R.id.imageView_battleJudgeLayout_firstDriverBadgePicture);
             viewHolder.driversNameTextView = (TextView) listItem.findViewById(R.id.textView_qualificationResultsListViewItem_driverName);
-            viewHolder.driversProgressBar = (ProgressBar) listItem.findViewById(R.id.progressBar_qualificationResultsViewItem_progressBar);
+            viewHolder.driversProgressBar = (ProgressBar) listItem.findViewById(R.id.progressBar_battleJudgeLayout_firstDriverBadgePictureProgressBar);
             viewHolder.driversCarHP = (TextView) listItem.findViewById(R.id.textView_qualificationResultsListViewItem_carHP);
             viewHolder.driversCarModel = (TextView) listItem.findViewById(R.id.textView_qualificationResultsListViewItem_carModel);
             viewHolder.driversPointsTextView = (TextView) listItem.findViewById(R.id.textView_qualificationResultsListViewItem_badgePoints);

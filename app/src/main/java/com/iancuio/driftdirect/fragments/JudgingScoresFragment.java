@@ -52,8 +52,6 @@ import retrofit.Retrofit;
  */
 public class JudgingScoresFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
-    @Bind(R.id.sliderLayout_judgingScoresLayout_carImagesSlider)
-    SliderLayout mDemoSlider;
     @Bind(R.id.viewPager_judgingScoresLayout_runDetails)
     ViewPager driverRunDetailsViewPager;
     @Bind(R.id.tabLayout_judgingScoresLayout_slidingTabs)
@@ -103,38 +101,19 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
         super.onViewCreated(view, savedInstanceState);
 
         roundFull = ((RoundNavigationViewActivity) getActivity()).getRoundFull();
-        configureSlider();
         getDriver();
-    }
-
-    private void configureSlider() {
-
-        HashMap<String, String> url_maps = new HashMap<String, String>();
-        url_maps.put("Drift", "http://www.speedhunters.com/wp-content/uploads/2011/12/1_IuB6_339.jpg");
-        url_maps.put("Drift2", "http://www.sneakerfreaker.com/content/uploads/2013/11/insane-drifters-2014-drift-cars-1.jpg");
-
-
-        for (String name : url_maps.keySet()) {
-            DefaultSliderView sliderView = new DefaultSliderView(getActivity());
-            // initialize a SliderLayout
-            sliderView
-                    //.description(name)
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            mDemoSlider.addSlider(sliderView);
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Fade);
-        mDemoSlider.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
-        mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
     }
 
 
     private void initializeDriverDetailsViewPager() {
         List<Fragment> fragments = getFragmentsForViewPager();
-        String tabTitles[] = new String[]{"RUN 1", "RUN 2"};
+        String tabTitles[];
+
+        if (getArguments().getString("driversList") == null) {
+            tabTitles = new String[]{"RUN 1", "RUN 2"};
+        } else {
+            tabTitles = new String[]{"RUN 1"};
+        }
 
         // Instantiate a ViewPager and a PagerAdapter.
         driverRunDetailsPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(), fragments, tabTitles);
@@ -149,7 +128,7 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
 
         List<Fragment> fList = new ArrayList<Fragment>();
 
-        if (getArguments().getString("driversList") != null) {
+        if (getArguments().getString("driversList") == null) {
             JudgingScoresPublicScores judgingScoresPublicScoresRun1 = new JudgingScoresPublicScores();
             Bundle run1 = new Bundle();
             run1.putString("run1", "run1");
@@ -167,19 +146,11 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
             return fList;
         } else {
             JudgingScoresJudgeScores judgingScoresJudgeScoresFragmentRun1 = new JudgingScoresJudgeScores();
-            Bundle run1 = new Bundle();
-            run1.putString("run1", "run1");
-            run1.putLong("qualifierId", getArguments().getLong("qualifierId"));
-            judgingScoresJudgeScoresFragmentRun1.setArguments(run1);
-
-            JudgingScoresJudgeScores judgingScoresJudgeScoresFragmentRun2 = new JudgingScoresJudgeScores();
-            Bundle run2 = new Bundle();
-            run2.putString("run2", "run2");
-            run2.putLong("qualifierId", getArguments().getLong("qualifierId"));
-            judgingScoresJudgeScoresFragmentRun2.setArguments(run2);
+            Bundle run = new Bundle();
+            run.putLong("qualifierId", getArguments().getLong("qualifierId"));
+            judgingScoresJudgeScoresFragmentRun1.setArguments(run);
 
             fList.add(judgingScoresJudgeScoresFragmentRun1);
-            fList.add(judgingScoresJudgeScoresFragmentRun2);
             return fList;
         }
     }
