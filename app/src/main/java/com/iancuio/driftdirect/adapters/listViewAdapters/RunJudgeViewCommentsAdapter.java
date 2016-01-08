@@ -1,34 +1,15 @@
 package com.iancuio.driftdirect.adapters.listViewAdapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.person.Judge;
-import com.iancuio.driftdirect.customObjects.person.PersonShort;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.Comment;
-import com.iancuio.driftdirect.utils.RestUrls;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -79,7 +60,7 @@ public class RunJudgeViewCommentsAdapter extends BaseAdapter {
         if (listItem == null) {
             viewHolder = new CommentsViewHolder();
 
-            listItem = inflater.inflate(R.layout.listview_row_run_details_judge_comments, viewGroup, false);
+            listItem = inflater.inflate(R.layout.listview_row_judge_comments, viewGroup, false);
             viewHolder.positiveCommentImageView = (CircleImageView) listItem.findViewById(R.id.imageView_commentListViewItem_positive);
             viewHolder.negativeCommentImageView = (CircleImageView) listItem.findViewById(R.id.imageView_commentListViewItem_negative);
             viewHolder.commentTextView = (TextView) listItem.findViewById(R.id.imageView_commentListViewItem_comment);

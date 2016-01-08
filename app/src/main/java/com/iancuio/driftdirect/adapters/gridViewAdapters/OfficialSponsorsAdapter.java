@@ -2,6 +2,7 @@ package com.iancuio.driftdirect.adapters.gridViewAdapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.news.News;
 import com.iancuio.driftdirect.customObjects.sponsor.Sponsor;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -68,16 +70,16 @@ public class OfficialSponsorsAdapter extends BaseAdapter {
             newsViewHolder = (NewsViewHolder) convertView.getTag();
         }
 
-        Picasso.with(context).load(RestUrls.FILE + sponsorList.get(position).getLogo()).noPlaceholder().into(newsViewHolder.newsImage, new Callback() {
+        Utils.loadImage(400, 400, context, RestUrls.FILE + sponsorList.get(position).getLogo(), newsViewHolder.newsImage, new Callback() {
             @Override
             public void onSuccess() {
+                Log.e("succes", "image succes");
                 newsViewHolder.newsProgressBar.setVisibility(View.GONE);
-
             }
 
             @Override
             public void onError() {
-
+                Log.e("error", "imageError");
             }
         });
 

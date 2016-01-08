@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.round.RoundShort;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -85,18 +86,20 @@ public class RoundsAdapter extends BaseAdapter {
         viewHolder.roundsNameTextView.setText(roundsList.get(i).getName());
         viewHolder.roundsDateTextView.setText(roundsList.get(i).getRoundTimeTable());
 
-        Picasso.with(context).load(RestUrls.FILE + roundsList.get(i).getLogo()).noPlaceholder().into(viewHolder.roundsImageImageView, new Callback() {
+        Utils.loadImage(600, 600, context, RestUrls.FILE + roundsList.get(i).getLogo(), viewHolder.roundsImageImageView, new Callback() {
             @Override
             public void onSuccess() {
-                Log.e("jawg", "ESTI TARE");
+                Log.e("succes", "image succes");
                 viewHolder.roundsPictureProgressBar.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onError() {
-                Log.e("jawg", "failed");
+                Log.e("error", "imageError");
             }
         });
+
         return listItem;
     }
 }

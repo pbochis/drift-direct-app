@@ -15,8 +15,13 @@
     <color name="menu_past_event_color">#D9000000</color>
 
 
-
+    <color name="advantage_green">#28D73B</color>
     <color name="colorChampionships">#FFDE266A</color>
+
+    <color name="battle_screen_gray_text">#D5D5D5</color>
+    
+    <color name="battle_run_ended_red">#FD0102</color>
+    <color name="battle_run_next_red">#970202</color>
 
     <color name="gradientQualificationsEnd">#0066C2</color>
     <color name="gradientQualificationsStart">#092e57</color>
@@ -26,6 +31,12 @@
     <color name="gray">#8E8E8E</color>
 
     <color name="red">#FF0203</color>
+
+    <color name="negative_comments_bright_red">#A60606</color>
+    <color name="negative_comments_dark_red">#520416</color>
+
+    <color name="positve_comments_bright_green">#187C0F</color>
+    <color name="positive_comments_dark_green">#0A3F06</color>
 
 
 </resources>

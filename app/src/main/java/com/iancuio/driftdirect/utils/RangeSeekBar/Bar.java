@@ -15,8 +15,13 @@ package com.iancuio.driftdirect.utils.RangeSeekBar;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Shader;
 import android.util.TypedValue;
+
+import com.iancuio.driftdirect.R;
 
 /**
  * This class represents the underlying gray bar in the RangeBar (without the
@@ -26,18 +31,24 @@ class Bar {
 
     // Member Variables ////////////////////////////////////////////////////////
 
-    private final Paint mPaint;
+    private Paint mPaint;
 
     // Left-coordinate of the horizontal bar.
     private final float mLeftX;
     private final float mRightX;
     private final float mY;
 
+    private int firstColor;
+    private int secondColor;
+    private int primaryColor;
+
+
     private int mNumSegments;
     private float mTickDistance;
     private final float mTickHeight;
     private final float mTickStartY;
     private final float mTickEndY;
+    private float barWeight;
 
     // Constructor /////////////////////////////////////////////////////////////
 
@@ -50,9 +61,14 @@ class Bar {
         float BarWeight,
         int BarColor) {
 
+        barWeight = BarWeight;
         mLeftX = x;
         mRightX = x + length;
         mY = y;
+
+        firstColor = ctx.getResources().getColor(R.color.negative_comments_bright_red);
+        secondColor = ctx.getResources().getColor(R.color.negative_comments_dark_red);
+        primaryColor = ctx.getResources().getColor(R.color.gray);
 
         mNumSegments = tickCount - 1;
         mTickDistance = length / mNumSegments;
@@ -64,9 +80,10 @@ class Bar {
 
         // Initialize the paint.
         mPaint = new Paint();
-        mPaint.setColor(BarColor);
-        mPaint.setStrokeWidth(BarWeight);
+        mPaint.setColor(primaryColor);
+        mPaint.setStrokeWidth(barWeight);
         mPaint.setAntiAlias(true);
+
     }
 
     // Package-Private Methods /////////////////////////////////////////////////
@@ -155,8 +172,22 @@ class Bar {
 
         // Loop through and draw each tick (except final tick).
         for (int i = 0; i < mNumSegments; i++) {
-            final float x = i * mTickDistance + mLeftX;
-            canvas.drawLine(x, mTickStartY, x, mTickEndY, mPaint);
+            if (i == mNumSegments/2) {
+//                final float x = i * mTickDistance + mLeftX;
+//                mPaint = new Paint();
+//                mPaint.setShader(new LinearGradient(x/2, mTickStartY, x/2, mTickEndY/2, firstColor, secondColor, Shader.TileMode.MIRROR));
+//                mPaint.setDither(true);
+//                mPaint.setStrokeWidth(barWeight*5);
+//                mPaint.setAntiAlias(true);
+//                canvas.drawLine(x, mTickStartY, x, mTickEndY, mPaint);
+            } else {
+//                mPaint = new Paint();
+//                mPaint.setColor(primaryColor);
+//                mPaint.setStrokeWidth(barWeight);
+//                mPaint.setAntiAlias(true);
+                final float x = i * mTickDistance + mLeftX;
+                canvas.drawLine(x, mTickStartY, x, mTickEndY, mPaint);
+            }
         }
         // Draw final tick. We draw the final tick outside the loop to avoid any
         // rounding discrepancies.

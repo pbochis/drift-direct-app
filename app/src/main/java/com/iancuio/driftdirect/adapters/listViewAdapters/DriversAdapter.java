@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.person.PersonShort;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -68,7 +69,8 @@ public class DriversAdapter extends BaseAdapter {
             viewHolder = (DriversViewHolder) view.getTag();
         }
 
-        Picasso.with(context).load(RestUrls.FILE + driversList.get(i).getProfilePicture()).noPlaceholder().into(viewHolder.driversPictureImageView, new Callback() {
+
+        Utils.loadImage(200, 200, context, RestUrls.FILE + driversList.get(i).getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -80,7 +82,6 @@ public class DriversAdapter extends BaseAdapter {
                 Log.e("error", "imageError");
             }
         });
-        
         viewHolder.driversNameTextView.setText(driversList.get(i).getFirstName() + " " + driversList.get(i).getLastName());
 
         return listItem;

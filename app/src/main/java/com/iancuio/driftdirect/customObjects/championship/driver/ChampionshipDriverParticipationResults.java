@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class ChampionshipDriverParticipationResults implements Serializable {
     private Long id;
-    private int rank;
-    private int totalPoints;
+    private Integer rank;
+    private Integer totalPoints;
 
     public Long getId() {
         return id;
@@ -18,19 +18,19 @@ public class ChampionshipDriverParticipationResults implements Serializable {
         this.id = id;
     }
 
-    public int getRank() {
+    public Integer getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(Integer rank) {
         this.rank = rank;
     }
 
-    public int getTotalPoints() {
+    public Integer getTotalPoints() {
         return totalPoints;
     }
 
-    public void setTotalPoints(int totalPoints) {
+    public void setTotalPoints(Integer totalPoints) {
         this.totalPoints = totalPoints;
     }
 }

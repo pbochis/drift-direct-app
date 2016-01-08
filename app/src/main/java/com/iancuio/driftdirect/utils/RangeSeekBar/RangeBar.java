@@ -515,6 +515,8 @@ public class RangeBar extends View {
         return mLeftIndex;
     }
 
+
+
     /**
      * Gets the index of the right-most thumb.
      * 
@@ -650,6 +652,7 @@ public class RangeBar extends View {
         //mRightThumb.setX(marginLeft + (mRightIndex / (float) (mTickCount - 1)) * barLength);
 
         invalidate();
+        requestLayout();
     }
 
     /**

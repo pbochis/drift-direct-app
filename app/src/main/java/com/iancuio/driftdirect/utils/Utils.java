@@ -1,12 +1,17 @@
 package com.iancuio.driftdirect.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Soulstorm on 11/21/2015.
@@ -136,5 +141,21 @@ public class Utils {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    public static void loadImage(Context context, String path, ImageView targetImage, Callback callback) {
+        loadImage(null, null, context, path, targetImage, callback);
+    }
+
+    public static void loadImage(Integer height, Integer width, Context context, String path, ImageView targetImage, Callback callback) {
+        if (height != null && width != null) {
+            path = path + "?height=" + height + "&width=" + width;
+        }
+        Picasso.with(context).load(path).noPlaceholder().into(targetImage, callback);
+    }
+
+    public static int pxToDp(int px)
+    {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 }

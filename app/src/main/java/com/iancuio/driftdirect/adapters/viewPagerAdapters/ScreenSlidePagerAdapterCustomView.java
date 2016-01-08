@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.judge.ChampionshipJudgeParticipation;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -49,16 +51,16 @@ public class ScreenSlidePagerAdapterCustomView extends FragmentStatePagerAdapter
             judgePictureImageView.setBorderColor(context.getResources().getColor(R.color.colorChampionships));
         }
 
-        Picasso.with(context).load(RestUrls.FILE + championshipJudgeParticipationList.get(position).getJudge().getProfilePicture()).noPlaceholder().into(judgePictureImageView, new Callback() {
+        Utils.loadImage(300, 300, context, RestUrls.FILE + championshipJudgeParticipationList.get(position).getJudge().getProfilePicture(), judgePictureImageView, new Callback() {
             @Override
             public void onSuccess() {
+                Log.e("succes", "image succes");
                 imageProgressBar.setVisibility(View.GONE);
-
             }
 
             @Override
             public void onError() {
-
+                Log.e("error", "imageError");
             }
         });
         return v;

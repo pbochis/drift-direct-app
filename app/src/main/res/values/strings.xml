@@ -30,5 +30,6 @@
     <string name="title_activity_round_navigation_view">RoundNavigationViewActivity</string>
     <string name="authority_login">AUTHORITY LOGIN</string>
     <string name="title_activity_judge_battle">JudgeBattleActivity</string>
+    <string name="title_activity_public_battle_activty">PublicBattleActivty</string>
 
 </resources>

@@ -21,6 +21,7 @@ public class Round implements Serializable {
     private Track track;
     private List<RoundScheduleEntry> schedule;
     private List<QualifierShort> qualifiers;
+    private QualifierShort currentDriver;
 
     public List<RoundScheduleEntry> getSchedule() {
         return schedule;
@@ -92,5 +93,13 @@ public class Round implements Serializable {
 
     public void setQualifiers(List<QualifierShort> qualifiers) {
         this.qualifiers = qualifiers;
+    }
+
+    public QualifierShort getCurrentDriver() {
+        return currentDriver;
+    }
+
+    public void setCurrentDriver(QualifierShort currentDriver) {
+        this.currentDriver = currentDriver;
     }
 }

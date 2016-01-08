@@ -82,34 +82,29 @@ public class ChampionshipsAdapter extends BaseAdapter {
 
 
 
-        Picasso.with(context).load(RestUrls.FILE + championshipsList.get(i).getBackgroundImage()).noPlaceholder().into(viewHolder.championshipBackgroundImageView, new Callback() {
+        Utils.loadImage(600, 600, context, RestUrls.FILE + championshipsList.get(i).getBackgroundImage(), viewHolder.championshipBackgroundImageView, new Callback() {
             @Override
             public void onSuccess() {
+                Log.e("succes", "image succes");
+                //viewHolder.championshipImageProgressBar.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onError() {
+                Log.e("error", "imageError");
+            }
+        });
+
+        Utils.loadImage(600, 600, context, RestUrls.FILE + championshipsList.get(i).getLogo(), viewHolder.championshipLogoImageView, new Callback() {
+            @Override
+            public void onSuccess() {
                 Log.e("succes", "image succes");
                 viewHolder.championshipImageProgressBar.setVisibility(View.GONE);
             }
 
-
             @Override
             public void onError() {
                 Log.e("error", "imageError");
-
-            }
-        });
-
-        Picasso.with(context).load(RestUrls.FILE + championshipsList.get(i).getLogo()).noPlaceholder().into(viewHolder.championshipLogoImageView, new Callback() {
-            @Override
-            public void onSuccess() {
-
-                Log.e("succes", "image succes");
-            }
-
-
-            @Override
-            public void onError() {
-                Log.e("error", "imageError");
-
             }
         });
 

@@ -15,7 +15,6 @@
         android:layout_toStartOf="@+id/textView_qualificationResultsListViewItem_badgeOrder2">
 
         <TextView
-            android:id="@+id/textView_qualificationResultsListViewItem_badgePoints"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:textColor="@color/white"
@@ -44,7 +43,6 @@
             android:layout_alignLeft="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
             android:layout_alignStart="@+id/imageView_battleJudgeLayout_firstDriverBadgePicture"
             android:text="1"
-            android:id="@+id/textView_qualificationResultsListViewItem_badgeOrder"
             android:textColor="@color/colorChampionships"/>
 
     <TextView

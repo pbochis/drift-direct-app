@@ -2,6 +2,7 @@ package com.iancuio.driftdirect.adapters.gridViewAdapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.news.News;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -67,17 +69,18 @@ public class NewsAdapter extends BaseAdapter {
             newsViewHolder = (NewsViewHolder) convertView.getTag();
         }
 
-            Picasso.with(context).load(RestUrls.FILE + newsList.get(position).getLogo()).noPlaceholder().into(newsViewHolder.newsImage, new Callback() {
-                @Override
-                public void onSuccess() {
-                    newsViewHolder.newsProgressBar.setVisibility(View.GONE);
-                }
+        Utils.loadImage(400, 400, context, RestUrls.FILE + newsList.get(position).getLogo(), newsViewHolder.newsImage, new Callback() {
+            @Override
+            public void onSuccess() {
+                Log.e("succes", "image succes");
+                newsViewHolder.newsProgressBar.setVisibility(View.GONE);
+            }
 
-                @Override
-                public void onError() {
-
-                }
-            });
+            @Override
+            public void onError() {
+                Log.e("error", "imageError");
+            }
+        });
 
         newsViewHolder.newsTitle.setText(newsList.get(position).getName());
         newsViewHolder.newsDescription.setText(newsList.get(position).getDescription());

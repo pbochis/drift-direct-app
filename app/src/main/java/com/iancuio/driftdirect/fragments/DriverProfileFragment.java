@@ -27,6 +27,7 @@ import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.championship.driver.ChampionshipDriverParticipation;
 import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -225,20 +226,37 @@ public class DriverProfileFragment extends Fragment implements BaseSliderView.On
                 driverCarModelTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getCarName());
                 driverCarModelHPTextView.setText(String.valueOf(championshipDriverParticipation.getDriver().getDriverDetails().getHorsePower()) + " HP");
                 driverNameTextView.setText(championshipDriverParticipation.getDriver().getFirstName() + " " + championshipDriverParticipation.getDriver().getLastName());
-                driverRankTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getRank()));
+                if (championshipDriverParticipation.getResults() != null) {
+                        if (championshipDriverParticipation.getResults().getRank() != null || championshipDriverParticipation.getResults().getRank() != 0) {
+                            driverRankTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getRank()));
+                        } else {
+                            driverRankTextView.setText("-");
+                        }
+                } else {
+                    driverRankTextView.setText("-");
+                }
                 driverAgeTextView.setText(String.valueOf(Years.yearsBetween(championshipDriverParticipation.getDriver().getBirthDate(), DateTime.now()).getYears()));
-                driverSessionPointsTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getTotalPoints()));
 
-                Picasso.with(getActivity()).load(RestUrls.FILE + championshipDriverParticipation.getDriver().getProfilePicture()).noPlaceholder().into(driverPictureImageView, new Callback() {
+                if (championshipDriverParticipation.getResults() != null) {
+                    if (championshipDriverParticipation.getResults().getTotalPoints() != null || championshipDriverParticipation.getResults().getTotalPoints() != 0) {
+                        driverSessionPointsTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getTotalPoints()));
+                    } else {
+                            driverSessionPointsTextView.setText("-");
+                        }
+                    } else {
+                    driverSessionPointsTextView.setText("-");
+                    }
+
+                Utils.loadImage(200, 200, getActivity(), RestUrls.FILE + championshipDriverParticipation.getDriver().getProfilePicture(), driverPictureImageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.e("driverProfilePicture", "e.x.c.e.l.e.n.t");
+                        Log.e("succes", "image succes");
                         driverImageProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError() {
-                        Log.e("driverProfilePicture", "PROSTULE");
+                        Log.e("error", "imageError");
                     }
                 });
 

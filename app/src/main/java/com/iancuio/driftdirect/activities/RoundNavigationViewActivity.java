@@ -55,7 +55,10 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
 
     public static Round roundFull;
     public static Long roundImageId;
-    private Long roundId;
+
+
+
+    private static Long roundId;
 
 
 
@@ -196,6 +199,7 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
     }
 
     public void setRoundFull(Round roundFull) {
+        RoundNavigationViewActivity.roundFull = null;
         RoundNavigationViewActivity.roundFull = roundFull;
     }
 
@@ -221,6 +225,14 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
 
     public void setChampionshipFull(Championship championshipFull) {
         RoundNavigationViewActivity.championshipFull = championshipFull;
+    }
+
+    public Long getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(Long roundId) {
+        RoundNavigationViewActivity.roundId = roundId;
     }
 
     public void setLiveStreamVisibility() {

@@ -1,17 +1,35 @@
 package com.iancuio.driftdirect.fragments;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.iancuio.driftdirect.R;
+import com.iancuio.driftdirect.activities.JudgeBattleActivity;
+import com.iancuio.driftdirect.activities.PublicBattleActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
+import com.iancuio.driftdirect.adapters.listViewAdapters.Top16Top32Adapter;
 import com.iancuio.driftdirect.customObjects.round.Round;
+import com.iancuio.driftdirect.customObjects.round.playoffs.BattleGraphicDisplay;
+import com.iancuio.driftdirect.customObjects.round.playoffs.PlayoffStageGraphicDisplay;
+import com.iancuio.driftdirect.customObjects.round.playoffs.PlayoffTreeGraphicDisplay;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -19,7 +37,13 @@ import butterknife.ButterKnife;
  */
 public class SubTop16Top32Fragment extends Fragment {
 
+    @Bind(R.id.listView_subTop16Top32Layout_driversList)
+    ListView playoffsListListView;
+
     Round roundFull;
+
+    PlayoffStageGraphicDisplay playoffStageGraphicDisplay;
+    long topNumber;
 
 
     public SubTop16Top32Fragment() {
@@ -46,6 +70,43 @@ public class SubTop16Top32Fragment extends Fragment {
     }
 
     private void getDrivers() {
+        if (getArguments() != null) {
 
+            playoffStageGraphicDisplay = (PlayoffStageGraphicDisplay) getArguments().getSerializable("playoffStage");
+            topNumber = getArguments().getLong("topNumber");
+
+            List<BattleGraphicDisplay> battles = new ArrayList<>();
+            for (BattleGraphicDisplay battle: playoffStageGraphicDisplay.getBattles()){
+                if (battle.getDriver1() != null && battle.getDriver2() != null){
+                    battles.add(battle);
+                }
+            }
+            playoffsListListView.setAdapter(new Top16Top32Adapter(getActivity(), battles));
+            playoffsListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (playoffStageGraphicDisplay.getBattles().get(position).getWinner() != null) {
+                        Intent intent = new Intent(getActivity(), PublicBattleActivity.class);
+                        intent.putExtra("battleId", playoffStageGraphicDisplay.getBattles().get(position).getId());
+                        intent.putExtra("topNumber", topNumber);
+                        startActivity(intent);
+                    } else {
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+                        if (sharedPreferences != null) {
+                            Set<String> roles = sharedPreferences.getStringSet("roles", new HashSet<String>());
+                            if (roles.contains("ROLE_JUDGE")) {
+                                Intent intent = new Intent(getActivity(), JudgeBattleActivity.class);
+                                intent.putExtra("battleId", playoffStageGraphicDisplay.getBattles().get(position).getId());
+                                intent.putExtra("token", sharedPreferences.getString("token", "token"));
+                                intent.putExtra("topNumber", topNumber);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "No playoffs yet!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

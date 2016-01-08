@@ -44,10 +44,16 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.JudgeBattleActivity"
-            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_judge_battle"
-            android:theme="@style/AppTheme"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.PublicBattleActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_public_battle_activty"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

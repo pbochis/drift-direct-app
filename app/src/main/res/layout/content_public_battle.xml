@@ -1,0 +1,511 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/textView_battlePublicLayout_topNumber"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gradient_negative_button_comments"
+            android:gravity="center"
+            android:text="TOP 16"
+            android:textColor="@color/battle_screen_gray_text"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/gradient_top_single_line">
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_battlePublicLayout_runNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+        </android.support.v7.widget.RecyclerView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:id="@+id/textView_battlePublicLayout_firstDriverStatus"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textColor="@color/battle_screen_gray_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView_battlePublicLayout_secondDriverStatus"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textColor="@color/battle_screen_gray_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout4">
+
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="230dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="#D5D5D5"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <ImageView
+                        android:id="@+id/imageView_battlePublicLayout_firstDriverCarImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar_battlePublicLayout_firstDriverCarImageProgressBar"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/imageView_battlePublicLayout_firstDriverCarImage"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignRight="@+id/imageView_battlePublicLayout_firstDriverCarImage"
+                        android:layout_marginLeft="10dp"
+                        android:background="#BF000000"
+                        android:orientation="horizontal">
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/textView_battlePublicLayout_firstDriverCarModel"
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:paddingLeft="80dp"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView_battlePublicLayout_firstDriverCarHp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="8dp"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorChampionships"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="230dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="#D5D5D5"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+
+                    <ImageView
+                        android:id="@+id/imageView_battlePublicLayout_secondDriverCarImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:background="#D5D5D5"
+                        android:scaleType="centerCrop" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar_battlePublicLayout_secondDriverCarImageProgressBar"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/imageView_battlePublicLayout_secondDriverCarImage"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/imageView_battlePublicLayout_secondDriverCarImage"
+                        android:layout_marginRight="10dp"
+                        android:background="#BF000000"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView_battlePublicLayout_secondDriverCarHp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="3dp"
+                            android:gravity="center"
+                            android:paddingRight="3dp"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorChampionships"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/textView_battlePublicLayout_secondDriverCarModel"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="80dp"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical|end"
+                            android:maxLines="1"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/relativeLayout2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/battle_judge_gray_gradient"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:id="@+id/textView_battlePublicLayout_firstDriverQualificationNumber"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginStart="90dp"
+                        android:background="@drawable/battle_judge_uber_gray_gradient"
+                        android:gravity="end|center_vertical"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/textView_battlePublicLayout_firstDriverName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/textView_battlePublicLayout_firstDriverNick"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="3dp"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="end">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/textView_battlePublicLayout_secondDriverName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="3dp"
+                        android:textColor="@color/black" />
+
+
+
+                    <TextView
+                        android:id="@+id/textView_battlePublicLayout_secondDriverQualificationNumber"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="90dp"
+                        android:layout_marginRight="90dp"
+                        android:background="@drawable/battle_judge_uber_gray_gradient"
+                        android:gravity="start|center_vertical"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/textView"
+                android:layout_toRightOf="@+id/textView"
+                android:background="@drawable/battle_judge_uber_gray_gradient">
+
+                <ImageView
+                    android:id="@+id/imageView_battlePublicLayout_firstDriverFlag"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:adjustViewBounds="true" />
+
+            </RelativeLayout>
+
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageView_battlePublicLayout_firstDriverBadgePicture"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="2dp" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar_battlePublicLayout_firstDriverBadgePictureProgressBar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@id/id"
+                android:visibility="invisible" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/textView_battlePublicLayout_firstDriverAdvantage"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_alignTop="@+id/relativeLayout2"
+                android:layout_toEndOf="@+id/relativeLayout2"
+                android:layout_toRightOf="@+id/relativeLayout2"
+                android:background="@color/advantage_green"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="ADVANTAGE"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout7"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_alignTop="@+id/textView_battlePublicLayout_firstDriverAdvantage"
+                android:layout_toLeftOf="@+id/textView3"
+                android:layout_toStartOf="@+id/textView3"
+                android:background="@drawable/battle_judge_uber_gray_gradient">
+
+                <ImageView
+                    android:id="@+id/imageView_battlePublicLayout_secondDriverFlag"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:adjustViewBounds="true" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageView_battlePublicLayout_secondDriverBadgePicture"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="2dp" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar_battlePublicLayout_secondDriverBadgePictureProgressBar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible" />
+
+
+            </RelativeLayout>
+
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/textView_battlePublicLayout_secondDriverAdvantage"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_alignTop="@+id/relativeLayout7"
+                android:layout_toLeftOf="@+id/relativeLayout7"
+                android:layout_toStartOf="@+id/relativeLayout7"
+                android:background="@color/advantage_green"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="ADVANTAGE"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/relativeLayout4"
+                android:layout_alignRight="@+id/relativeLayout4"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView_battlePublicLayout_firstDriverAdvantage"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:background="@color/transparent"
+                android:src="@drawable/battle_vs_triangle" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp"
+            android:padding="5dp"
+            android:id="@+id/listView_battlePublicLayout_driversAwardedPoints"
+            android:divider="#00000000"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay">
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ListView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:dividerHeight="5dp"
+                android:id="@+id/listView_battlePublicLayout_firstDriverComments"
+                android:divider="#00000000"
+                android:clipToPadding="false"
+                android:scrollbarStyle="outsideOverlay"/>
+
+            <ListView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:dividerHeight="5dp"
+                android:id="@+id/listView_battlePublicLayout_secondDriverComments"
+                android:divider="#00000000"
+                android:clipToPadding="false"
+                android:scrollbarStyle="outsideOverlay"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

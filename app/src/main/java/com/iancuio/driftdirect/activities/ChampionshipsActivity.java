@@ -2,7 +2,10 @@ package com.iancuio.driftdirect.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -41,6 +44,11 @@ public class ChampionshipsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_championshipsActivityLayout_toolbar);
         setSupportActionBar(toolbar);
 
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 
         getChampionships();
     }
@@ -60,6 +68,7 @@ public class ChampionshipsActivity extends AppCompatActivity {
             @Override
             public void onResponse(final Response<List<ChampionshipShort>> response, Retrofit retrofit) {
                 championshipsListView.setAdapter(new ChampionshipsAdapter(ChampionshipsActivity.this, response.body()));
+                championshipsListView.getAdapter().getView(1, null, championshipsListView);
                 dialog.dismiss();
 
                 championshipsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

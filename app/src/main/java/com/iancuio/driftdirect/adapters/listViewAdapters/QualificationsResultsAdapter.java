@@ -13,10 +13,12 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.round.qualifier.QualifierShort;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -68,12 +70,13 @@ public class QualificationsResultsAdapter extends BaseAdapter {
             viewHolder.driversCarModel = (TextView) listItem.findViewById(R.id.textView_qualificationResultsListViewItem_carModel);
             viewHolder.driversPointsTextView = (TextView) listItem.findViewById(R.id.textView_qualificationResultsListViewItem_badgePoints);
             viewHolder.driverCountryFlag = (ImageView) listItem.findViewById(R.id.imageView_qualificationResultsListViewItem_flag);
+            viewHolder.driverOrderTextView = (TextView) listItem.findViewById(R.id.textView_qualificationResultsListViewItem_badgeOrder);
             listItem.setTag(viewHolder);
         } else {
             viewHolder = (QualificationResultsViewHolder) view.getTag();
         }
 
-        Picasso.with(context).load(RestUrls.FILE + qualifierShortList.get(i).getDriver().getProfilePicture()).noPlaceholder().into(viewHolder.driversPictureImageView, new Callback() {
+        Utils.loadImage(200, 200, context, RestUrls.FILE + qualifierShortList.get(i).getDriver().getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -92,12 +95,12 @@ public class QualificationsResultsAdapter extends BaseAdapter {
         viewHolder.driversCarModel.setText(qualifierShortList.get(i).getDriver().getDriverDetails().getModel());
         viewHolder.driversCarHP.setText(String.valueOf(qualifierShortList.get(i).getDriver().getDriverDetails().getHorsePower()));
         viewHolder.driversPointsTextView.setText(String.valueOf(qualifierShortList.get(i).getPoints()) + " POINTS");
+        viewHolder.driverOrderTextView.setText(String.valueOf(i+1));
 
-        Picasso.with(context).load(RestUrls.FILE + qualifierShortList.get(i).getDriver().getCountry()).noPlaceholder().into(viewHolder.driverCountryFlag, new Callback() {
+        Utils.loadImage(100, 100, context, RestUrls.FILE + qualifierShortList.get(i).getDriver().getCountry(), viewHolder.driverCountryFlag, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
-                viewHolder.driversProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -118,4 +121,5 @@ class QualificationResultsViewHolder {
     TextView driversCarModel;
     TextView driversCarHP;
     ImageView driverCountryFlag;
+    TextView driverOrderTextView;
 }

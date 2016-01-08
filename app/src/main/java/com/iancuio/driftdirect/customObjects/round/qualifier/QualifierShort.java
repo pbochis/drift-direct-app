@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Soulstorm on 12/22/2015.
  */
-public class QualifierShort implements Serializable {
+public class QualifierShort implements Serializable, Comparable<QualifierShort> {
     private long id;
     private PersonShort driver;
     private Integer points;
@@ -52,5 +52,29 @@ public class QualifierShort implements Serializable {
 
     public void setSecondRunScore(Integer secondRunScore) {
         this.secondRunScore = secondRunScore;
+    }
+
+
+    @Override
+    public int compareTo(QualifierShort another) {
+        int result = 0;
+        int firstDriverBiggestScore;
+        int secondDriverBiggestScore;
+
+        if (this.getFirstRunScore() > this.getSecondRunScore()) {
+            firstDriverBiggestScore = this.getFirstRunScore();
+        } else {
+            firstDriverBiggestScore = this.getSecondRunScore();
+        }
+
+        if (another.getFirstRunScore() > another.getSecondRunScore()) {
+            secondDriverBiggestScore = another.getFirstRunScore();
+        } else {
+            secondDriverBiggestScore = another.getSecondRunScore();
+        }
+        if (firstDriverBiggestScore < secondDriverBiggestScore) result = 1;
+        if (firstDriverBiggestScore == secondDriverBiggestScore) result = 0;
+        if (firstDriverBiggestScore > secondDriverBiggestScore) result = -1;
+        return result;
     }
 }

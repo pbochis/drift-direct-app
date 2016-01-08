@@ -13,12 +13,16 @@ import android.widget.ListView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
+import com.iancuio.driftdirect.adapters.listViewAdapters.FinalResultsListAdapter;
 import com.iancuio.driftdirect.adapters.listViewAdapters.QualificationsResultsAdapter;
 import com.iancuio.driftdirect.customObjects.round.Round;
+import com.iancuio.driftdirect.customObjects.round.RoundDriverResult;
 import com.iancuio.driftdirect.customObjects.round.qualifier.QualifierShort;
 import com.iancuio.driftdirect.customObjects.temporary.ResultsDriver;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -55,7 +59,6 @@ public class QualificationsResultsListFragment extends Fragment {
 
         ((RoundNavigationViewActivity) getActivity()).setCurrentFragment(this);
         roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
-
         getResultsList();
     }
 
@@ -68,24 +71,34 @@ public class QualificationsResultsListFragment extends Fragment {
                 judgedQualifiersList.add(roundFull.getQualifiers().get(i));
             }
         }
-        qualificationsResultListListView.setAdapter(new QualificationsResultsAdapter(getActivity(), judgedQualifiersList));
-        //qualificationsResultListListView.setEmptyView();
+        Collections.sort(judgedQualifiersList);
 
-        qualificationsResultListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("publicList", "publicList");
-                bundle.putLong("qualifierId", roundFull.getQualifiers().get(position).getId());
-                judgingScoresFragment.setArguments(bundle);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+
+        if (getArguments() != null) {
+            List<RoundDriverResult> roundDriverResultList = (List<RoundDriverResult>) getArguments().getSerializable("results");
+            Collections.sort(roundDriverResultList);
+            qualificationsResultListListView.setAdapter(new FinalResultsListAdapter(getActivity(), roundDriverResultList));
+        } else {
+            qualificationsResultListListView.setAdapter(new QualificationsResultsAdapter(getActivity(), judgedQualifiersList));
+
+            //qualificationsResultListListView.setEmptyView();
+
+            qualificationsResultListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("publicList", "publicList");
+                    bundle.putLong("qualifierId", roundFull.getQualifiers().get(position).getId());
+                    judgingScoresFragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+        }
 
 
     }

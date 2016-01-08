@@ -15,7 +15,6 @@
             android:id="@+id/textView_runDetailsListViewRow_judgeType"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
-            android:text="Line Judge"
             android:textColor="@color/white" />
 
         <TextView
@@ -28,7 +27,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Cozmuta Florin"
             android:id="@+id/textView_runDetailsListViewRow_judgeName"
             android:textColor="@color/white" />
 

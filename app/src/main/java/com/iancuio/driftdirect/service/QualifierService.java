@@ -8,6 +8,7 @@ import com.iancuio.driftdirect.customObjects.round.qualifier.run.JudgeAwardedPoi
 import com.iancuio.driftdirect.utils.RestUrls;
 
 import retrofit.Call;
+import retrofit.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -25,5 +26,5 @@ public interface QualifierService {
     Call<QualifierJudge> getQualifierJudge(@Header("Authorization") String token, @Path("id") Long id);
 
     @POST(RestUrls.QUALIFIER_ID_SUBMIT)
-    Call<JudgeQualifierAwards> postJudgeAwardedPoints(@Header("Authorization") String Token, @Body JudgeQualifierAwards judgeQualifierAwards, @Path("id") Long id, @Path("runId") Long runId);
+    Call<Void> postJudgeAwardedPoints(@Header("Authorization") String Token, @Body JudgeQualifierAwards judgeQualifierAwards, @Path("id") Long id, @Path("runId") Long runId);
 }

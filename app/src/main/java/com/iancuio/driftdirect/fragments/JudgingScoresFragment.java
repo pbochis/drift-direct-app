@@ -30,6 +30,8 @@ import com.iancuio.driftdirect.customObjects.round.qualifier.Qualifier;
 import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.service.QualifierService;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
+import com.squareup.okhttp.internal.Util;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -174,33 +176,32 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
                 driverCarModelTextView.setText(qualifier.getDriver().getDriverDetails().getModel());
                 driverCarModelHPTextView.setText(String.valueOf(qualifier.getDriver().getDriverDetails().getHorsePower()) + " HP");
                 driverNameTextView.setText(qualifier.getDriver().getFirstName() + " " + qualifier.getDriver().getLastName());
-                //driverTeamTextView.setText(String.valueOf(championshipDriverParticipation.()));
+                driverTeamTextView.setText(qualifier.getDriver().getDriverDetails().getTeam().getName());
                 driverAgeTextView.setText(String.valueOf(Years.yearsBetween(qualifier.getDriver().getBirthDate(), DateTime.now()).getYears()));
-                //driverSessionPointsTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getTotalPoints()));
+                driverSessionPointsTextView.setText(String.valueOf(qualifier.getFinalScore()));
 
-                Picasso.with(getActivity()).load(RestUrls.FILE + qualifier.getDriver().getProfilePicture()).noPlaceholder().into(driverPictureImageView, new Callback() {
+                Utils.loadImage(200, 200, getActivity(), RestUrls.FILE + qualifier.getDriver().getProfilePicture(), driverPictureImageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.e("driverProfilePicture", "e.x.c.e.l.e.n.t");
                         driverImageProgressBar.setVisibility(View.GONE);
+
                     }
 
                     @Override
                     public void onError() {
-                        Log.e("driverProfilePicture", "PROSTULE");
+
                     }
                 });
 
-                Picasso.with(getActivity()).load(RestUrls.FILE + qualifier.getDriver().getProfilePicture()).noPlaceholder().into(driverFlagImageView, new Callback() {
+                Utils.loadImage(100, 100, getActivity(), RestUrls.FILE + qualifier.getDriver().getCountry(), driverFlagImageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.e("driverProfilePicture", "e.x.c.e.l.e.n.t");
-                        //driverImageProgressBar.setVisibility(View.GONE);
+
                     }
 
                     @Override
                     public void onError() {
-                        Log.e("driverProfilePicture", "PROSTULE");
+
                     }
                 });
 
@@ -233,5 +234,6 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
     public void onSliderClick(BaseSliderView slider) {
 
     }
+
 
 }

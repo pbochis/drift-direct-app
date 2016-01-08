@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_publicBattleCommentsListViewRow_judgeName"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="Florin Cozmuta"
+            android:textColor="@color/battle_screen_gray_text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@drawable/gradient_line_judge_gray"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:paddingBottom="5dp"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_weight="0.5"
+            android:dividerHeight="5dp"
+            android:id="@+id/listView_publicBattleCommentsListViewRow_positiveComments"
+            android:divider="#00000000"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"/>
+
+        <ListView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:id="@+id/listView_publicBattleCommentsListViewRow_negativeComments"
+            android:layout_weight="0.5"
+            android:dividerHeight="5dp"
+            android:divider="#00000000"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -3,6 +3,7 @@ package com.iancuio.driftdirect.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -74,6 +76,7 @@ import retrofit.Callback;
 import retrofit.JacksonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
+import retrofit.http.HTTP;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -185,7 +188,36 @@ public class JudgingScoresJudgeScores extends Fragment {
         qualifierJudgeCall.enqueue(new retrofit.Callback<QualifierJudge>() {
             @Override
             public void onResponse(final Response<QualifierJudge> response, Retrofit retrofit) {
-                if (response.body().getRunId() != null) {
+
+                if (response.body().getRunId() == null) {
+                    dialog.dismiss();
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Attention!")
+                            .setMessage("Finished judging for this driver!")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                    Toast.makeText(getActivity(), "Finished judging for this driver!", Toast.LENGTH_SHORT).show();
+                                    getActivity().onBackPressed();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else if (response.body().getRunId().equals(0L)) {
+                    dialog.dismiss();
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Run already judged!")
+                            .setMessage("Wait for the other judges to finish judging!")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                    Toast.makeText(getActivity(), "Run already judged! Wait for the other judges to finish judging.", Toast.LENGTH_SHORT).show();
+                                    getActivity().onBackPressed();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else {
                     judgeNameTextView.setText(response.body().getJudge().getJudge().getFirstName() + " " + response.body().getJudge().getJudge().getLastName());
                     judgeTypeTextView.setText(response.body().getJudge().getTitle());
 
@@ -206,21 +238,14 @@ public class JudgingScoresJudgeScores extends Fragment {
                             selectedNegativeComments.add(comment);
                         }
                     }
-
-                } else {
-                    dialog.dismiss();
-                    Toast.makeText(getActivity(), "Run already judged!", Toast.LENGTH_SHORT).show();
-                    getActivity().onBackPressed();
                 }
-
-
             }
 
             @Override
             public void onFailure(Throwable t) {
                 t.printStackTrace();
                 dialog.dismiss();
-                Log.e("championship", "FMM PILU");
+                Log.e("championship", t.toString());
 
             }
         });
@@ -272,17 +297,36 @@ public class JudgingScoresJudgeScores extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "token");
-        Call<JudgeQualifierAwards> judgeQualifierAwardsCall = qualifierService.postJudgeAwardedPoints(token, judgeQualifierAwards, qualifierJudge.getId(), qualifierJudge.getRunId());
+        Call<Void> judgeQualifierAwardsCall = qualifierService.postJudgeAwardedPoints(token, judgeQualifierAwards, qualifierJudge.getId(), qualifierJudge.getRunId());
 
-        judgeQualifierAwardsCall.enqueue(new Callback<JudgeQualifierAwards>() {
+        judgeQualifierAwardsCall.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Response<JudgeQualifierAwards> response, Retrofit retrofit) {
+            public void onResponse(Response<Void> response, Retrofit retrofit) {
                 dialog.dismiss();
+
+                switch (response.code()) {
+                    case 200:
+                        Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                        getActivity().onBackPressed();
+                        break;
+                    case 401:
+                        Toast.makeText(getActivity(), "You must be authorized for this operation!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 403:
+                        Toast.makeText(getActivity(), "You do not have the required permissions for this operation!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 500:
+                        Toast.makeText(getActivity(), "Something went wrong! Please try again!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 404:
+                        Toast.makeText(getActivity(), "Requested resource not found!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
                 Log.e("jhg", t.toString());
+                dialog.dismiss();
             }
         });
     }
@@ -416,7 +460,7 @@ public class JudgingScoresJudgeScores extends Fragment {
                     } else {
                         Comment newComment = new Comment();
                         newComment.setComment(newCommentEditText.getText().toString());
-                        newComment.setPositive(true);
+                        newComment.setPositive(false);
                         selectedNegativeComments.add(newComment);
                         selectedNegativeCommentsFull.add(newComment);
                         newCommentEditText.setText("");

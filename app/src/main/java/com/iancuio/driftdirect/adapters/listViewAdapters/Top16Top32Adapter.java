@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.person.PersonShort;
+import com.iancuio.driftdirect.customObjects.round.playoffs.BattleGraphicDisplay;
+import com.iancuio.driftdirect.customObjects.round.playoffs.PlayoffStageGraphicDisplay;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -29,18 +32,18 @@ public class Top16Top32Adapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private Context context;
-    private List<PersonShort> driversList;
+    private List<BattleGraphicDisplay> battleGraphicDisplayList;
 
 
-    public Top16Top32Adapter (Context context, List<PersonShort> driversList) {
+    public Top16Top32Adapter (Context context, List<BattleGraphicDisplay> battleGraphicDisplayList) {
         this.context = context;
-        this.driversList = driversList;
+        this.battleGraphicDisplayList = battleGraphicDisplayList;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return driversList.size();
+        return battleGraphicDisplayList.size();
     }
 
     @Override
@@ -66,18 +69,22 @@ public class Top16Top32Adapter extends BaseAdapter {
             viewHolder.firstDriverFlag = (ImageView) listItem.findViewById(R.id.imageView_top16Top32Layout_firstDriverFlag);
             viewHolder.firstDriverName = (TextView) listItem.findViewById(R.id.textView_top16Top32Layout_firstDriverName);
             viewHolder.firstDriverPicture = (CircleImageView) listItem.findViewById(R.id.imageView_top16Yop32Layout_firstBadgePicture);
+            viewHolder.firstDriverPictureProgressBar = (ProgressBar) listItem.findViewById(R.id.progressBar_top16Yop32Layout_firstBadgePictureProgressBar);
             viewHolder.firstDriverOrder = (TextView) listItem.findViewById(R.id.textView_top16Yop32Layout_firstBadgeOrder);
             viewHolder.firstDriverStatus = (TextView) listItem.findViewById(R.id.textView_top16Yop32Layout_firstBadgeText);
             viewHolder.firstDriverCarModel = (TextView) listItem.findViewById(R.id.textView_top16Top32Layout_firstDriverCarModel);
             viewHolder.firstDriverCarHP = (TextView) listItem.findViewById(R.id.textView_top16Top32Layout_firstDriverCarHP);
+            viewHolder.firstDriverWinner = (TextView) listItem.findViewById(R.id.textView_top16Yop32Layout_firstBadgeText);
 
-            viewHolder.secondDriverFlag = (ImageView) listItem.findViewById(R.id.imageView_top16Top32Layout_firstDriverFlag);
-            viewHolder.secondDriverName = (TextView) listItem.findViewById(R.id.textView_top16Top32Layout_firstDriverName);
+            viewHolder.secondDriverFlag = (ImageView) listItem.findViewById(R.id.imageView_top16Top32Layout_secondDriverFlag);
+            viewHolder.secondDriverName = (TextView) listItem.findViewById(R.id.textView_top16Top32Layout_secondDriverName);
             viewHolder.secondDriverPicture = (CircleImageView) listItem.findViewById(R.id.imageView_top16Yop32Layout_secondBadgePicture);
+            viewHolder.secondDriverPictureProgressBar = (ProgressBar) listItem.findViewById(R.id.progressBar_top16Yop32Layout_secondBadgePictureProgressBar);
             viewHolder.secondDriverOrder = (TextView) listItem.findViewById(R.id.textView_top16Yop32Layout_secondBadgeOrder);
             viewHolder.secondDriverStatus = (TextView) listItem.findViewById(R.id.textView_top16Yop32Layout_secondBadgeText);
             viewHolder.secondDriverCarModel = (TextView) listItem.findViewById(R.id.textView_top16Top32Layout_secondDriverCarModel);
             viewHolder.secondDriverCarHP = (TextView) listItem.findViewById(R.id.textView_top16Top32Layout_secondDriverCarHP);
+            viewHolder.secondDriverWinner = (TextView) listItem.findViewById(R.id.textView_top16Yop32Layout_secondBadgeText);
 
             listItem.setTag(viewHolder);
         } else {
@@ -85,27 +92,101 @@ public class Top16Top32Adapter extends BaseAdapter {
         }
 
 
+        Utils.loadImage(100, 100, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver1().getDriver().getCountry(), viewHolder.firstDriverFlag, new Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
+        viewHolder.firstDriverName.setText(battleGraphicDisplayList.get(i).getDriver1().getDriver().getFirstName());
+
+        Utils.loadImage(200, 200, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver1().getDriver().getProfilePicture(), viewHolder.firstDriverPicture, new Callback() {
+            @Override
+            public void onSuccess() {
+                viewHolder.firstDriverPictureProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
+        viewHolder.firstDriverOrder.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver1().getRanking()));
+        //viewHolder.firstDriverStatus
+        viewHolder.firstDriverCarModel.setText(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getMake() + " " + battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getModel());
+        viewHolder.firstDriverCarHP.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getHorsePower()));
+
+        Utils.loadImage(100, 100, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver2().getDriver().getCountry(), viewHolder.secondDriverFlag, new Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
 
+        viewHolder.secondDriverName.setText(battleGraphicDisplayList.get(i).getDriver2().getDriver().getFirstName());
+
+        Utils.loadImage(200, 200, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver2().getDriver().getProfilePicture(), viewHolder.secondDriverPicture, new Callback() {
+            @Override
+            public void onSuccess() {
+                viewHolder.secondDriverPictureProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
+        viewHolder.secondDriverOrder.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver2().getRanking()));
+        //viewHolder.secondDriverStatus
+        viewHolder.secondDriverCarModel.setText(battleGraphicDisplayList.get(i).getDriver2().getDriver().getDriverDetails().getMake() + " " + battleGraphicDisplayList.get(i).getDriver2().getDriver().getDriverDetails().getModel());
+        viewHolder.secondDriverCarHP.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver2().getDriver().getDriverDetails().getHorsePower()));
+
+        if (battleGraphicDisplayList.get(i).getWinner() != null) {
+            if (battleGraphicDisplayList.get(i).getDriver1().getId() == battleGraphicDisplayList.get(i).getWinner().getId()) {
+                viewHolder.firstDriverWinner.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.secondDriverWinner.setVisibility(View.VISIBLE);
+            }
+        }
         return listItem;
     }
 }
+
+
 
 class Top16Top32ViewHolder {
     ImageView firstDriverFlag;
     TextView firstDriverName;
     CircleImageView firstDriverPicture;
+    ProgressBar firstDriverPictureProgressBar;
     TextView firstDriverOrder;
     TextView firstDriverStatus;
     TextView firstDriverCarModel;
     TextView firstDriverCarHP;
+    TextView firstDriverWinner;
 
     ImageView secondDriverFlag;
     TextView secondDriverName;
     CircleImageView secondDriverPicture;
+    ProgressBar secondDriverPictureProgressBar;
     TextView secondDriverOrder;
     TextView secondDriverStatus;
     TextView secondDriverCarModel;
     TextView secondDriverCarHP;
+    TextView secondDriverWinner;
 
 }

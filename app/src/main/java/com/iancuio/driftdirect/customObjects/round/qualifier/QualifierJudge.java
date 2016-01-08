@@ -15,6 +15,7 @@ import java.util.List;
 public class QualifierJudge implements Serializable {
     private Long id;
     private Long runId;
+    private Long roundId;
     private int runNumber;
     private PersonShort driver;
     private ChampionshipJudgeParticipation judge;
@@ -66,5 +67,13 @@ public class QualifierJudge implements Serializable {
 
     public void setAvailableComments(List<Comment> availableComments) {
         this.availableComments = availableComments;
+    }
+
+    public Long getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(Long roundId) {
+        this.roundId = roundId;
     }
 }

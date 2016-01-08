@@ -4,6 +4,7 @@ package com.iancuio.driftdirect.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.customObjects.track.Track;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -62,18 +64,19 @@ public class SubTrackLayoutFragment extends Fragment {
         roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
 
         trackDescriptionTextView.setText(roundFull.getTrack().getDescription());
-        Picasso.with(getActivity()).load(RestUrls.FILE + roundFull.getTrack().getLayout()).noPlaceholder().into(trackCartoonImageImageView, new Callback() {
+
+        Utils.loadImage(600, 600, getActivity(), RestUrls.FILE + roundFull.getTrack().getLayout(), trackCartoonImageImageView, new Callback() {
             @Override
             public void onSuccess() {
+                Log.e("succes", "image succes");
                 trackProgressBar.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onError() {
-
+                Log.e("error", "imageError");
             }
         });
-
-
     }
 }

@@ -16,54 +16,50 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout_top16Top32Layout_driverInfoContainer"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:background="@color/menu_general_color"
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="25dp">
+            android:layout_height="25dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/menu_general_color">
 
             <ImageView
                 android:id="@+id/imageView_top16Top32Layout_firstDriverFlag"
                 android:layout_width="30dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="20dp"
-                android:src="@drawable/car"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp" />
 
             <TextView
+                android:id="@+id/textView_top16Top32Layout_firstDriverName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/white"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
                 android:layout_toRightOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
-                android:text="FLORIN"
-                android:id="@+id/textView_top16Top32Layout_firstDriverName" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/textView_top16Top32Layout_secondDriverName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FLORIN"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:id="@+id/textView_top16Top32Layout_secondDriverName"
                 android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverName"
                 android:layout_toLeftOf="@+id/imageView_top16Top32Layout_secondDriverFlag"
-                android:layout_toStartOf="@+id/imageView_top16Top32Layout_secondDriverFlag" />
+                android:layout_toStartOf="@+id/imageView_top16Top32Layout_secondDriverFlag"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imageView_top16Top32Layout_secondDriverFlag"
                 android:layout_width="30dp"
-                android:src="@drawable/car"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp" />
 
 
 
@@ -74,19 +70,20 @@
             android:id="@+id/relativeLayout_top16Top32Layout_battleLauncher"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginRight="5dp"
+            android:layout_below="@+id/relativeLayout_top16Top32Layout_driverInfoContainer"
             android:layout_marginLeft="5dp"
-            android:background="@color/black"
-            android:layout_below="@+id/relativeLayout_top16Top32Layout_driverInfoContainer">
+            android:layout_marginRight="5dp"
+            android:background="@color/black">
 
             <RelativeLayout
                 android:id="@+id/relativeLayout5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true">
-
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageView_top16Yop32Layout_firstBadgePicture"
@@ -95,11 +92,15 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/car"
                     app:civ_border_color="#FFFFFF"
                     app:civ_border_width="2dp" />
+
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:visibility="visible"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/progressBar_top16Yop32Layout_firstBadgePictureProgressBar"
+                    android:layout_height="50dp" />
 
 
                 <TextView
@@ -112,20 +113,8 @@
                     android:background="@drawable/rounded_corner"
                     android:gravity="center"
                     android:text="1"
+                    android:visibility="invisible"
                     android:textColor="@color/colorChampionships" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
 
             </RelativeLayout>
 
@@ -134,48 +123,62 @@
                 android:id="@+id/textView_top16Yop32Layout_firstBadgeText"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:textStyle="bold"
                 android:layout_alignBottom="@+id/relativeLayout5"
                 android:layout_toEndOf="@+id/relativeLayout5"
                 android:layout_toRightOf="@+id/relativeLayout5"
                 android:gravity="center"
-                android:text="LEAD"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_alignBottom="@+id/textView_top16Yop32Layout_firstBadgeText"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:id="@+id/rellayout7"
+                android:layout_height="wrap_content">
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView_top16Yop32Layout_secondBadgePicture"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_alignBottom="@+id/textView_top16Yop32Layout_firstBadgeText"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/car"
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="2dp" />
+
+            <ProgressBar
+                android:layout_width="50dp"
+                android:id="@+id/progressBar_top16Yop32Layout_secondBadgePictureProgressBar"
+                android:layout_height="50dp"
+                android:visibility="visible"
+                android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/textView_top16Yop32Layout_secondBadgeText"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:textStyle="bold"
-                android:layout_alignBottom="@+id/imageView_top16Yop32Layout_secondBadgePicture"
-                android:layout_toLeftOf="@+id/imageView_top16Yop32Layout_secondBadgePicture"
-                android:layout_toStartOf="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_alignBottom="@+id/rellayout7"
+                android:layout_toLeftOf="@+id/rellayout7"
+                android:layout_toStartOf="@+id/rellayout7"
                 android:gravity="center"
-                android:text="CHASE"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_top16Yop32Layout_secondBadgeOrder"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignTop="@+id/imageView_top16Yop32Layout_secondBadgePicture"
+                android:layout_alignTop="@+id/rellayout7"
                 android:layout_toEndOf="@+id/textView_top16Yop32Layout_secondBadgeText"
                 android:layout_toRightOf="@+id/textView_top16Yop32Layout_secondBadgeText"
                 android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:text="1"
+                android:visibility="invisible"
                 android:textColor="@color/colorChampionships" />
 
 
@@ -185,25 +188,26 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
 
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/vs_triangle"
-                android:layout_marginTop="5dp"/>
+                android:src="@drawable/vs_triangle"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="18sp"
-                android:text="VS"
                 android:paddingRight="2dp"
-                android:layout_height="wrap_content" />
+                android:text="VS"
+                android:paddingBottom="5dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -216,55 +220,60 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/menu_general_color"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp">
+        android:background="@color/menu_general_color">
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/refresh_icon"
+            android:id="@+id/button_top16Top32Layout_refreshButton"
+            android:layout_height="20dp" />
 
         <TextView
             android:id="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:paddingLeft="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="NISSAN" />
+            android:paddingLeft="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+         />
 
         <TextView
+            android:id="@+id/textView_top16Top32Layout_firstDriverCarHP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:textStyle="bold"
-            android:id="@+id/textView_top16Top32Layout_firstDriverCarHP"
             android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverCarModel"
             android:layout_toEndOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
             android:layout_toRightOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:text="780HP" />
+            android:paddingLeft="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+        />
 
         <TextView
+            android:id="@+id/textView_top16Top32Layout_secondDriverCarModel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:id="@+id/textView_top16Top32Layout_secondDriverCarModel"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
             android:layout_toStartOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
-            android:text="NISSAN" />
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView_top16Top32Layout_secondDriverCarHP"
-            android:paddingRight="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="780HP" />
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
@@ -273,8 +282,8 @@
         android:id="@+id/tabLayout_top16Top32Layout_slidingTabs"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
         android:layout_marginBottom="5dp"
+        android:background="@color/white"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/colorChampionships"
         app:tabMaxWidth="0dp"

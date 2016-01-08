@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="@color/negative_comments_bright_red"
+        android:endColor="@color/negative_comments_dark_red"
+        android:angle="-180" />
+</shape>
