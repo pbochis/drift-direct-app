@@ -14,6 +14,8 @@ import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
 import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.round.Round;
+import com.iancuio.driftdirect.utils.NullCheck;
+import com.iancuio.driftdirect.utils.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,11 +30,9 @@ public class JudgingCriteriaFragment extends Fragment {
 
     Round roundFull;
 
-
     public JudgingCriteriaFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +49,17 @@ public class JudgingCriteriaFragment extends Fragment {
 
         roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
 
+        Utils.nullCheck(roundFull.getTrack().getJudgingCriteria(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                judgingCriteriaTextView.setText(roundFull.getTrack().getJudgingCriteria());
+            }
+
+            @Override
+            public void onNull() {
+                judgingCriteriaTextView.setText("-");
+            }
+        });
         judgingCriteriaTextView.setText(roundFull.getTrack().getJudgingCriteria());
     }
 }

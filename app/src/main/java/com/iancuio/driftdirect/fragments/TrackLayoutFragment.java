@@ -14,16 +14,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
 import com.iancuio.driftdirect.adapters.viewPagerAdapters.ScreenSlidePagerAdapter;
-import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.round.Round;
-import com.iancuio.driftdirect.customObjects.track.Track;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +51,6 @@ public class TrackLayoutFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +69,7 @@ public class TrackLayoutFragment extends Fragment {
         roundImageId = ((RoundNavigationViewActivity)getActivity()).getRoundImageId();
         getTrack();
 
-        Utils.loadImage(600, 600, getActivity(), RestUrls.FILE + roundImageId, trackImageImageView, new Callback() {
+        Utils.loadNormalImage(600, 600, getActivity(), RestUrls.FILE + roundImageId, trackImageImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -85,10 +80,9 @@ public class TrackLayoutFragment extends Fragment {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                trackImageProgressBar.setVisibility(View.GONE);
             }
         });
-
-
     }
 
     private void initializeTrackLayoutViewPager() {

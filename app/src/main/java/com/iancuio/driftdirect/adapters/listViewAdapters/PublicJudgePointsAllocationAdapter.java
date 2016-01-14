@@ -21,6 +21,8 @@ import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.judge.JudgePointsAllocation;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.AwardedPoints;
 import com.iancuio.driftdirect.customObjects.temporary.NormalDriver;
+import com.iancuio.driftdirect.utils.NullCheck;
+import com.iancuio.driftdirect.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,19 +81,43 @@ public class PublicJudgePointsAllocationAdapter extends BaseAdapter {
             viewHolder = (PointsAllocationViewHolder) view.getTag();
         }
 
-        viewHolder.pointsTypeTextView.setText(awardedPointsList.get(i).getPointsAllocation().getName());
-        viewHolder.maxPointsTextView.setText(String.valueOf(awardedPointsList.get(i).getPointsAllocation().getMaxPoints()));
-        viewHolder.pointsSeekBar.setMax(awardedPointsList.get(i).getPointsAllocation().getMaxPoints());
-
-        viewHolder.pointsSeekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(awardedPointsList.get(i).getAwardedPoints())));
-        viewHolder.pointsSeekBar.setProgress(awardedPointsList.get(i).getAwardedPoints());
-
-        viewHolder.pointsSeekBar.setOnTouchListener(new View.OnTouchListener() {
+        Utils.nullCheck(awardedPointsList.get(i).getPointsAllocation().getName(), new NullCheck() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
+            public void onNotNull() {
+                viewHolder.pointsTypeTextView.setText(awardedPointsList.get(i).getPointsAllocation().getName());
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.pointsTypeTextView.setText("-");
             }
         });
+
+        Utils.nullCheck(awardedPointsList.get(i).getPointsAllocation().getMaxPoints(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.maxPointsTextView.setText(String.valueOf(awardedPointsList.get(i).getPointsAllocation().getMaxPoints()));
+
+                viewHolder.pointsSeekBar.setMax(awardedPointsList.get(i).getPointsAllocation().getMaxPoints());
+
+                viewHolder.pointsSeekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(awardedPointsList.get(i).getAwardedPoints())));
+                viewHolder.pointsSeekBar.setProgress(awardedPointsList.get(i).getAwardedPoints());
+
+                viewHolder.pointsSeekBar.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.maxPointsTextView.setText("-");
+            }
+        });
+
 
 
         return listItem;

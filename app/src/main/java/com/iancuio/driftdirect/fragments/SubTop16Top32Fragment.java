@@ -45,11 +45,9 @@ public class SubTop16Top32Fragment extends Fragment {
     PlayoffStageGraphicDisplay playoffStageGraphicDisplay;
     long topNumber;
 
-
     public SubTop16Top32Fragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +56,6 @@ public class SubTop16Top32Fragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_sub_top16_top32, container, false);
         ButterKnife.bind(this, v);
         return v;
-
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class AwardedPoints implements Serializable {
     private Long id;
     private JudgePointsAllocation pointsAllocation;
-    private int awardedPoints;
+    private float awardedPoints;
 
     public Long getId() {
         return id;
@@ -28,11 +28,11 @@ public class AwardedPoints implements Serializable {
         this.pointsAllocation = pointsAllocation;
     }
 
-    public int getAwardedPoints() {
+    public float getAwardedPoints() {
         return awardedPoints;
     }
 
-    public void setAwardedPoints(int awardedPoints) {
+    public void setAwardedPoints(float awardedPoints) {
         this.awardedPoints = awardedPoints;
     }
 }

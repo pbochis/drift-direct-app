@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.round.RoundDriverResult;
-import com.iancuio.driftdirect.customObjects.round.qualifier.QualifierShort;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,7 +53,7 @@ public class FinalResultsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View listItem = view;
         final FinalResultsViewHolder viewHolder;
@@ -76,7 +75,7 @@ public class FinalResultsListAdapter extends BaseAdapter {
             viewHolder = (FinalResultsViewHolder) view.getTag();
         }
 
-        Utils.loadImage(200, 200, context, RestUrls.FILE + roundDriverResultList.get(i).getDriver().getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
+        Utils.loadNormalImage(200, 200, context, RestUrls.FILE + roundDriverResultList.get(i).getDriver().getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -86,18 +85,67 @@ public class FinalResultsListAdapter extends BaseAdapter {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                viewHolder.driversProgressBar.setVisibility(View.GONE);
             }
         });
 
-        viewHolder.driversNameTextView.setText(roundDriverResultList.get(i)
-                .getDriver()
-                .getFirstName() + " " + roundDriverResultList.get(i).getDriver().getLastName() + ((roundDriverResultList.get(i).getDriver().getNick() != null) ? " `" + roundDriverResultList.get(i).getDriver().getNick() + "`" : ""));
-        viewHolder.driversCarModel.setText(roundDriverResultList.get(i).getDriver().getDriverDetails().getModel());
-        viewHolder.driversCarHP.setText(String.valueOf(roundDriverResultList.get(i).getDriver().getDriverDetails().getHorsePower()));
-        viewHolder.driversPointsTextView.setText(String.valueOf(roundDriverResultList.get(i).getRoundScore()) + " POINTS");
+        Utils.nullCheck(roundDriverResultList.get(i).getDriver().getFirstName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversNameTextView.setText(roundDriverResultList.get(i)
+                        .getDriver()
+                        .getFirstName() + " " + roundDriverResultList.get(i).getDriver().getLastName() + ((roundDriverResultList.get(i).getDriver().getNick() != null) ? " `" + roundDriverResultList.get(i).getDriver().getNick() + "`" : ""));
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversNameTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(roundDriverResultList.get(i).getDriver().getDriverDetails().getModel(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversCarModel.setText(roundDriverResultList.get(i).getDriver().getDriverDetails().getModel());
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversCarModel.setText("-");
+            }
+        });
+
+        Utils.nullCheck(roundDriverResultList.get(i).getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversCarHP.setText(String.valueOf(roundDriverResultList.get(i).getDriver().getDriverDetails().getHorsePower() + "HP"));
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversCarHP.setText("-");
+            }
+        });
+
+        Utils.nullCheck(roundDriverResultList.get(i).getRoundScore(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversPointsTextView.setText(String.valueOf(roundDriverResultList.get(i).getRoundScore()) + " POINTS");
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversPointsTextView.setText("- POINTS");
+            }
+        });
+
         viewHolder.driverOrderTextView.setText(String.valueOf(i+1));
 
-        Utils.loadImage(100, 100, context, RestUrls.FILE + roundDriverResultList.get(i).getDriver().getCountry(), viewHolder.driverCountryFlag, new Callback() {
+        Utils.loadNormalImage(100, 100, context, RestUrls.FILE + roundDriverResultList.get(i).getDriver().getCountry(), viewHolder.driverCountryFlag, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");

@@ -1,7 +1,6 @@
 package com.iancuio.driftdirect.adapters.listViewAdapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.customObjects.person.PersonShort;
 import com.iancuio.driftdirect.customObjects.round.playoffs.BattleGraphicDisplay;
-import com.iancuio.driftdirect.customObjects.round.playoffs.PlayoffStageGraphicDisplay;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -57,7 +52,7 @@ public class Top16Top32Adapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View listItem = view;
         final Top16Top32ViewHolder viewHolder;
@@ -92,7 +87,7 @@ public class Top16Top32Adapter extends BaseAdapter {
         }
 
 
-        Utils.loadImage(100, 100, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver1().getDriver().getCountry(), viewHolder.firstDriverFlag, new Callback() {
+        Utils.loadNormalImage(100, 100, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver1().getDriver().getCountry(), viewHolder.firstDriverFlag, new Callback() {
             @Override
             public void onSuccess() {
 
@@ -106,7 +101,7 @@ public class Top16Top32Adapter extends BaseAdapter {
 
         viewHolder.firstDriverName.setText(battleGraphicDisplayList.get(i).getDriver1().getDriver().getFirstName());
 
-        Utils.loadImage(200, 200, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver1().getDriver().getProfilePicture(), viewHolder.firstDriverPicture, new Callback() {
+        Utils.loadNormalImage(200, 200, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver1().getDriver().getProfilePicture(), viewHolder.firstDriverPicture, new Callback() {
             @Override
             public void onSuccess() {
                 viewHolder.firstDriverPictureProgressBar.setVisibility(View.GONE);
@@ -114,16 +109,52 @@ public class Top16Top32Adapter extends BaseAdapter {
 
             @Override
             public void onError() {
+                viewHolder.firstDriverPictureProgressBar.setVisibility(View.GONE);
 
             }
         });
 
-        viewHolder.firstDriverOrder.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver1().getRanking()));
-        //viewHolder.firstDriverStatus
-        viewHolder.firstDriverCarModel.setText(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getMake() + " " + battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getModel());
-        viewHolder.firstDriverCarHP.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getHorsePower()));
+        Utils.nullCheck(battleGraphicDisplayList.get(i).getDriver1().getRanking(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.firstDriverOrder.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver1().getRanking()));
 
-        Utils.loadImage(100, 100, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver2().getDriver().getCountry(), viewHolder.secondDriverFlag, new Callback() {
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.firstDriverOrder.setText("-");
+            }
+        });
+
+        Utils.nullCheck(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getMake(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.firstDriverCarModel.setText(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getMake() + " " + battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getModel());
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.firstDriverCarModel.setText("-");
+            }
+        });
+        //viewHolder.firstDriverStatus
+
+        Utils.nullCheck(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.firstDriverCarHP.setText(String.valueOf(battleGraphicDisplayList.get(i).getDriver1().getDriver().getDriverDetails().getHorsePower()));
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.firstDriverCarHP.setText("-");
+            }
+        });
+
+        Utils.loadNormalImage(100, 100, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver2().getDriver().getCountry(), viewHolder.secondDriverFlag, new Callback() {
             @Override
             public void onSuccess() {
 
@@ -138,7 +169,7 @@ public class Top16Top32Adapter extends BaseAdapter {
 
         viewHolder.secondDriverName.setText(battleGraphicDisplayList.get(i).getDriver2().getDriver().getFirstName());
 
-        Utils.loadImage(200, 200, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver2().getDriver().getProfilePicture(), viewHolder.secondDriverPicture, new Callback() {
+        Utils.loadNormalImage(200, 200, context, RestUrls.FILE + battleGraphicDisplayList.get(i).getDriver2().getDriver().getProfilePicture(), viewHolder.secondDriverPicture, new Callback() {
             @Override
             public void onSuccess() {
                 viewHolder.secondDriverPictureProgressBar.setVisibility(View.GONE);
@@ -146,6 +177,7 @@ public class Top16Top32Adapter extends BaseAdapter {
 
             @Override
             public void onError() {
+                viewHolder.secondDriverPictureProgressBar.setVisibility(View.GONE);
 
             }
         });

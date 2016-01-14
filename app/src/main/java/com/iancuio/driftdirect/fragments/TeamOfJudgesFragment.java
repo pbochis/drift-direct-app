@@ -44,7 +44,6 @@ public class TeamOfJudgesFragment extends Fragment implements BaseSliderView.OnS
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,8 +61,6 @@ public class TeamOfJudgesFragment extends Fragment implements BaseSliderView.OnS
         championshipFull = ((ChampionshipNavigationViewActivity)getActivity()).getChampionshipFull();
 
         getJudges();
-
-
     }
 
     @Override
@@ -88,7 +85,6 @@ public class TeamOfJudgesFragment extends Fragment implements BaseSliderView.OnS
 
     private List<Fragment> getFragmentsForViewPager(List<ChampionshipJudgeParticipation> judgeParticipation) {
         List<Fragment> fList = new ArrayList<Fragment>();
-
 
         JudgeDetailsFragment firstJudgeDetailsFragment = new JudgeDetailsFragment();
         Bundle firstBundle = new Bundle();
@@ -126,17 +122,16 @@ public class TeamOfJudgesFragment extends Fragment implements BaseSliderView.OnS
         //driverDetailsTabLayout.setSelectedTabIndicatorColor(Color.parseColor('#' + Integer.toHexString(getResources().getColor(R.color.colorChampionships))));
         judgesTabsTabLayout.setupWithViewPager(judgesViewPager);
 
-
         for (int i = 0; i < judgesTabsTabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = judgesTabsTabLayout.getTabAt(i);
             tab.setCustomView(judgesPagerAdapter.getTabView(i, getActivity()));
         }
 
-
         judgesTabsTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 setBorderSelectedColor(tab, getResources().getColor(R.color.colorChampionships));
+                judgesViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -146,6 +141,23 @@ public class TeamOfJudgesFragment extends Fragment implements BaseSliderView.OnS
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        judgesViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
@@ -162,6 +174,8 @@ public class TeamOfJudgesFragment extends Fragment implements BaseSliderView.OnS
         CircleImageView judgeImageView = (CircleImageView) tabView.findViewById(R.id.imageView_judgesCustomTabLayout_judgePicture);
         judgeImageView.setBorderColor(color);
     }
+
+
 
 
 }

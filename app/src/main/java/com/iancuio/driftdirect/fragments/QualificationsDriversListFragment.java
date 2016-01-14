@@ -38,11 +38,9 @@ public class QualificationsDriversListFragment extends Fragment {
 
     Round roundFull;
 
-
     public QualificationsDriversListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

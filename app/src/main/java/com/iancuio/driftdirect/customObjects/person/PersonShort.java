@@ -1,6 +1,7 @@
 package com.iancuio.driftdirect.customObjects.person;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iancuio.driftdirect.customObjects.PersonType;
 import com.iancuio.driftdirect.customObjects.driver.DriverDetailsShort;
 
 import org.joda.time.DateTime;
@@ -20,6 +21,7 @@ public class PersonShort implements Serializable {
     private DateTime birthDate;
     private DriverDetailsShort driverDetails;
     private long country;
+    private PersonType personType;
 
     public Long getId() {
         return id;
@@ -91,5 +93,13 @@ public class PersonShort implements Serializable {
 
     public void setCountry(long country) {
         this.country = country;
+    }
+
+    public PersonType getPersonType() {
+        return personType;
+    }
+
+    public void setPersonType(PersonType personType) {
+        this.personType = personType;
     }
 }

@@ -1,7 +1,6 @@
 package com.iancuio.driftdirect.adapters.gridViewAdapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +11,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.customObjects.news.News;
 import com.iancuio.driftdirect.customObjects.sponsor.Sponsor;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -38,6 +34,7 @@ public class OfficialSponsorsAdapter extends BaseAdapter {
         this.sponsorList = sponsorList;
         inflater = LayoutInflater.from(c);
     }
+
     @Override
     public int getCount() {
         return sponsorList.size();
@@ -54,7 +51,7 @@ public class OfficialSponsorsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View gridItem = convertView;
         final NewsViewHolder newsViewHolder;
 
@@ -70,7 +67,7 @@ public class OfficialSponsorsAdapter extends BaseAdapter {
             newsViewHolder = (NewsViewHolder) convertView.getTag();
         }
 
-        Utils.loadImage(400, 400, context, RestUrls.FILE + sponsorList.get(position).getLogo(), newsViewHolder.newsImage, new Callback() {
+        Utils.loadNormalImage(400, 400, context, RestUrls.FILE + sponsorList.get(position).getLogo(), newsViewHolder.newsImage, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -80,11 +77,35 @@ public class OfficialSponsorsAdapter extends BaseAdapter {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                newsViewHolder.newsProgressBar.setVisibility(View.GONE);
             }
         });
 
-        newsViewHolder.newsTitle.setText(sponsorList.get(position).getName());
-        newsViewHolder.newsDescription.setText(sponsorList.get(position).getDescription());
+        Utils.nullCheck(sponsorList.get(position).getName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                newsViewHolder.newsTitle.setText(sponsorList.get(position).getName());
+
+            }
+
+            @Override
+            public void onNull() {
+                newsViewHolder.newsTitle.setText("-");
+            }
+        });
+
+        Utils.nullCheck(sponsorList.get(position).getDescription(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                newsViewHolder.newsDescription.setText(sponsorList.get(position).getDescription());
+
+            }
+
+            @Override
+            public void onNull() {
+                newsViewHolder.newsDescription.setText("-");
+            }
+        });
 
         return gridItem;
     }

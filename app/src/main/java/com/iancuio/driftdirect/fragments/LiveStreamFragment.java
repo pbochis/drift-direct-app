@@ -21,8 +21,6 @@ public class LiveStreamFragment extends Fragment {
 
     Round roundFull;
 
-
-
     public LiveStreamFragment() {
         // Required empty public constructor
     }

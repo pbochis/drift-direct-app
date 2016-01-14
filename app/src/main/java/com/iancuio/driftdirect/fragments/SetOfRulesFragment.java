@@ -1,6 +1,5 @@
 package com.iancuio.driftdirect.fragments;
 
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,15 +42,11 @@ public class SetOfRulesFragment extends Fragment {
     @Bind(R.id.progressBar_setOfRulesLayout_progressBar)
     ProgressBar imageProgressBar;
 
-
     Championship championshipFull;
-
-
 
     public SetOfRulesFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,8 +70,6 @@ public class SetOfRulesFragment extends Fragment {
                 ruleImagePlayImageView.setVisibility(View.VISIBLE);
                 ruleImageBlackImageView.setVisibility(View.VISIBLE);
             }
-
-
             @Override
             public void onError() {
 
@@ -88,12 +81,6 @@ public class SetOfRulesFragment extends Fragment {
 
     @OnClick(R.id.imageView_setOfRulesLayout_ruleImagePlay)
     public void setRuleImagePlayImageViewClick () {
-//        Intent internetIntent = new Intent(Intent.ACTION_WEB_SEARCH,
-//                Uri.parse(championshipFull.getRules().getVideoUrl()));
-////        internetIntent.setComponent(new ComponentName("com.android.browser","com.android.browser.BrowserActivity"));
-////        internetIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        getActivity().startActivity(internetIntent);
-
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(championshipFull.getRules().getVideoUrl()));
         startActivity(browserIntent);
     }

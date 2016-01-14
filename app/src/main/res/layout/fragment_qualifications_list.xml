@@ -35,19 +35,21 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
+        android:id="@+id/relativeLayout_qualificationListLayout_startJudging"
         android:background="@drawable/gradient"
         android:paddingTop="10dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:id="@+id/rel"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView_qualificationListLayout_driverImage"
                 android:layout_width="100dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
+
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="2dp"
                 android:layout_height="100dp" />

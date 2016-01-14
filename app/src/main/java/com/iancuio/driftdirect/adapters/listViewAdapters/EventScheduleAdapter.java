@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.ChampionshipShort;
 import com.iancuio.driftdirect.customObjects.round.RoundScheduleEntry;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
@@ -22,6 +23,8 @@ import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.List;
 
@@ -55,12 +58,22 @@ public class EventScheduleAdapter extends BaseAdapter {
         return 0;
     }
 
+    @Override
+    public int getViewTypeCount() {
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public boolean eventIsNow(DateTime startHour, DateTime endHour) {
         return new Interval( startHour, endHour).contains(DateTime.now());
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View listItem = view;
         final EventScheduleViewHolder viewHolder;
@@ -79,21 +92,60 @@ public class EventScheduleAdapter extends BaseAdapter {
             viewHolder = (EventScheduleViewHolder) view.getTag();
         }
 
-        viewHolder.scheduleNameTextView.setText(roundScheduleEntryList.get(i).getName());
-        viewHolder.scheduleDateTextView.setText(String.valueOf(roundScheduleEntryList.get(i).getStartDate().getDayOfMonth() + " " + roundScheduleEntryList.get(i).getStartDate().monthOfYear().getAsText() + " "  + roundScheduleEntryList.get(i).getStartDate().year().get()));
-        viewHolder.scheduleTimeTextView.setText(String.valueOf(roundScheduleEntryList.get(i).getStartDate().hourOfDay().get() + " - " + roundScheduleEntryList.get(i).getEndDate().hourOfDay().get()));
+        Utils.nullCheck(roundScheduleEntryList.get(i).getName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.scheduleNameTextView.setText(roundScheduleEntryList.get(i).getName());
 
-        if (eventIsNow(roundScheduleEntryList.get(i).getStartDate(), roundScheduleEntryList.get(i).getEndDate())) {
-            viewHolder.scheduleBubbleTextView.setBackgroundResource(R.drawable.schedule_current);
-        } else {
-            if (roundScheduleEntryList.get(i).getStartDate().isBeforeNow()) {
-                viewHolder.scheduleBubbleTextView.setBackgroundResource(R.drawable.schedule_past);
-            } else {
-                if (!eventIsNow(roundScheduleEntryList.get(i).getStartDate(), roundScheduleEntryList.get(i).getEndDate())) {
-                    viewHolder.scheduleBubbleTextView.setBackgroundResource(R.drawable.schedule_next);
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.scheduleNameTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(roundScheduleEntryList.get(i).getStartDate(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.scheduleDateTextView.setText(String.valueOf(roundScheduleEntryList.get(i).getStartDate().getDayOfMonth() + " " + roundScheduleEntryList.get(i).getStartDate().monthOfYear().getAsText() + " "  + roundScheduleEntryList.get(i).getStartDate().year().get()));
+
+                DateTimeFormatter fmt = DateTimeFormat.forPattern("HH:mm");
+                String startHour = fmt.print(roundScheduleEntryList.get(i).getStartDate());
+                String endHour = fmt.print(roundScheduleEntryList.get(i).getEndDate());
+
+                viewHolder.scheduleTimeTextView.setText(String.valueOf(startHour + " - " + endHour));
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.scheduleDateTextView.setText("-");
+                viewHolder.scheduleTimeTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(roundScheduleEntryList.get(i).getEndDate(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                if (eventIsNow(roundScheduleEntryList.get(i).getStartDate(), roundScheduleEntryList.get(i).getEndDate())) {
+                    viewHolder.scheduleBubbleTextView.setBackgroundResource(R.drawable.schedule_current);
+                } else {
+                    if (roundScheduleEntryList.get(i).getStartDate().isBeforeNow()) {
+                        viewHolder.scheduleBubbleTextView.setBackgroundResource(R.drawable.schedule_past);
+                    } else {
+                        if (!eventIsNow(roundScheduleEntryList.get(i).getStartDate(), roundScheduleEntryList.get(i).getEndDate())) {
+                            viewHolder.scheduleBubbleTextView.setBackgroundResource(R.drawable.schedule_next);
+                        }
+                    }
                 }
             }
-        }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
+
 
         if (i+1 == roundScheduleEntryList.size()) {
             viewHolder.scheduleStateLineImageView.setVisibility(View.GONE);

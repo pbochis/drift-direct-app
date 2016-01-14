@@ -30,13 +30,9 @@ public class NewsFragment extends Fragment {
 
     Championship championshipFull;
 
-
-
-
     public NewsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

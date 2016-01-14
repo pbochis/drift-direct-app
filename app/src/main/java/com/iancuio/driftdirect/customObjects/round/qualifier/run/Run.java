@@ -9,7 +9,7 @@ import java.util.List;
 public class Run implements Serializable {
     private Long id;
     private float entrySpeed;
-    private int totalPoints;
+    private float totalPoints;
     private List<RunJudging> judgings;
 
     public Long getId() {
@@ -28,11 +28,11 @@ public class Run implements Serializable {
         this.entrySpeed = entrySpeed;
     }
 
-    public int getTotalPoints() {
+    public float getTotalPoints() {
         return totalPoints;
     }
 
-    public void setTotalPoints(int totalPoints) {
+    public void setTotalPoints(float totalPoints) {
         this.totalPoints = totalPoints;
     }
 

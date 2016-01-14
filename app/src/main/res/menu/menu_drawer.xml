@@ -26,9 +26,9 @@
         <item android:id="@+id/buy_tickets_online"
             android:icon="@drawable/tickets_icon"
             android:title="@string/buy_tickets_online"/>
-        <item android:id="@+id/notifications"
-            android:icon="@drawable/notifications_icon"
-            android:title="@string/notifications"/>
+        <!--<item android:id="@+id/notifications"-->
+            <!--android:icon="@drawable/notifications_icon"-->
+            <!--android:title="@string/notifications"/>-->
         <item android:id="@+id/authority_login"
             android:title="@string/authority_login"/>
 

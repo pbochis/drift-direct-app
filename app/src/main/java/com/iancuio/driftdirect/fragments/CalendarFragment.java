@@ -33,7 +33,6 @@ public class CalendarFragment extends Fragment {
     @Bind(R.id.listView_calendarFragmentLayout_roundsList)
     ListView roundsListView;
 
-    List<Round> roundsList;
     ChampionshipShort selectedChampionship;
     Championship championshipFull;
 
@@ -41,7 +40,6 @@ public class CalendarFragment extends Fragment {
     public CalendarFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,18 +73,6 @@ public class CalendarFragment extends Fragment {
     }
 
     private void getRounds() {
-//        roundsList = new ArrayList<>();
-//
-//        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
-//
-//        ChampionshipService championshipService;
-//        championshipService = retrofit.create(ChampionshipService.class);
-//
-//        Call<List<RoundShort>> championshipsCall = championshipService.getChampionshipRounds(selectedChampionship.getId());
-//
-//        championshipsCall.enqueue(new retrofit.Callback<List<RoundShort>>() {
-//            @Override
-//            public void onResponse(final Response<List<RoundShort>> response, Retrofit retrofit) {
                 roundsListView.setAdapter(new RoundsAdapter(getActivity(), championshipFull.getRounds()));
 
                 roundsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,14 +87,6 @@ public class CalendarFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Log.e("failure", t.toString());
-//
-//            }
-//        });
     }
 
 

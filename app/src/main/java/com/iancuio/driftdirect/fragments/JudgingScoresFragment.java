@@ -14,32 +14,23 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.daimajia.slider.library.Indicators.PagerIndicator;
-import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
 import com.iancuio.driftdirect.adapters.viewPagerAdapters.ScreenSlidePagerAdapter;
-import com.iancuio.driftdirect.customObjects.championship.Championship;
-import com.iancuio.driftdirect.customObjects.championship.driver.ChampionshipDriverParticipation;
 import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.customObjects.round.qualifier.Qualifier;
-import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.service.QualifierService;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
-import com.squareup.okhttp.internal.Util;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -77,17 +68,14 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
     @Bind(R.id.imageView_judgingScoresLayout_driverFlag)
     ImageView driverFlagImageView;
 
-
     private ScreenSlidePagerAdapter driverRunDetailsPagerAdapter;
     private Bundle bundle;
 
     Round roundFull;
 
-
     public JudgingScoresFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,7 +93,6 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
         roundFull = ((RoundNavigationViewActivity) getActivity()).getRoundFull();
         getDriver();
     }
-
 
     private void initializeDriverDetailsViewPager() {
         List<Fragment> fragments = getFragmentsForViewPager();
@@ -172,15 +159,90 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
         qualifierCall.enqueue(new retrofit.Callback<Qualifier>() {
             @Override
             public void onResponse(Response<Qualifier> response, Retrofit retrofit) {
-                Qualifier qualifier = response.body();
-                driverCarModelTextView.setText(qualifier.getDriver().getDriverDetails().getModel());
-                driverCarModelHPTextView.setText(String.valueOf(qualifier.getDriver().getDriverDetails().getHorsePower()) + " HP");
-                driverNameTextView.setText(qualifier.getDriver().getFirstName() + " " + qualifier.getDriver().getLastName());
-                driverTeamTextView.setText(qualifier.getDriver().getDriverDetails().getTeam().getName());
-                driverAgeTextView.setText(String.valueOf(Years.yearsBetween(qualifier.getDriver().getBirthDate(), DateTime.now()).getYears()));
-                driverSessionPointsTextView.setText(String.valueOf(qualifier.getFinalScore()));
+                final Qualifier qualifier = response.body();
 
-                Utils.loadImage(200, 200, getActivity(), RestUrls.FILE + qualifier.getDriver().getProfilePicture(), driverPictureImageView, new Callback() {
+                Utils.nullCheck(qualifier.getDriver().getDriverDetails().getModel(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverCarModelTextView.setText(qualifier.getDriver().getDriverDetails().getModel());
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverCarModelTextView.setText("-");
+                    }
+                });
+
+                Utils.nullCheck(qualifier.getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverCarModelHPTextView.setText(String.valueOf(qualifier.getDriver().getDriverDetails().getHorsePower()) + " HP");
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverCarModelHPTextView.setText("-");
+                    }
+                });
+
+                Utils.nullCheck(qualifier.getDriver().getFirstName(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverNameTextView.setText(qualifier.getDriver().getFirstName() + " " + qualifier.getDriver().getLastName());
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverNameTextView.setText("-");
+                    }
+                });
+
+
+                Utils.nullCheck(qualifier.getDriver().getDriverDetails().getTeam(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverTeamTextView.setText(qualifier.getDriver().getDriverDetails().getTeam().getName());
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverTeamTextView.setText("-");
+
+                    }
+                });
+
+                Utils.nullCheck(qualifier.getDriver().getBirthDate(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverAgeTextView.setText(String.valueOf(Years.yearsBetween(qualifier.getDriver().getBirthDate(), DateTime.now()).getYears()));
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverTeamTextView.setText("-");
+
+                    }
+                });
+
+                Utils.nullCheck(qualifier.getFinalScore(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverSessionPointsTextView.setText(String.valueOf(qualifier.getFinalScore()));
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverSessionPointsTextView.setText("-");
+                    }
+                });
+
+                Utils.loadNormalImage(200, 200, getActivity(), RestUrls.FILE + qualifier.getDriver().getProfilePicture(), driverPictureImageView, new Callback() {
                     @Override
                     public void onSuccess() {
                         driverImageProgressBar.setVisibility(View.GONE);
@@ -189,11 +251,12 @@ public class JudgingScoresFragment extends Fragment implements BaseSliderView.On
 
                     @Override
                     public void onError() {
+                        driverImageProgressBar.setVisibility(View.GONE);
 
                     }
                 });
 
-                Utils.loadImage(100, 100, getActivity(), RestUrls.FILE + qualifier.getDriver().getCountry(), driverFlagImageView, new Callback() {
+                Utils.loadNormalImage(100, 100, getActivity(), RestUrls.FILE + qualifier.getDriver().getCountry(), driverFlagImageView, new Callback() {
                     @Override
                     public void onSuccess() {
 

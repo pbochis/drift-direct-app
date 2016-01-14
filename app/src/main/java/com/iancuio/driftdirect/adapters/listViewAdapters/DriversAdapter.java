@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.person.PersonShort;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class DriversAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View listItem = view;
         final DriversViewHolder viewHolder;
@@ -70,7 +70,7 @@ public class DriversAdapter extends BaseAdapter {
         }
 
 
-        Utils.loadImage(200, 200, context, RestUrls.FILE + driversList.get(i).getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
+        Utils.loadNormalImage(200, 200, context, RestUrls.FILE + driversList.get(i).getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -80,9 +80,22 @@ public class DriversAdapter extends BaseAdapter {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                viewHolder.driversProgressBar.setVisibility(View.GONE);
             }
         });
-        viewHolder.driversNameTextView.setText(driversList.get(i).getFirstName() + " " + driversList.get(i).getLastName());
+
+        Utils.nullCheck(driversList.get(i).getFirstName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversNameTextView.setText(driversList.get(i).getFirstName() + " " + driversList.get(i).getLastName());
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversNameTextView.setText("-");
+            }
+        });
 
         return listItem;
     }

@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.driver.ChampionshipDriverParticipation;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -60,8 +62,6 @@ public class DriversProfileBiographyFragment extends Fragment {
         getDriverBiography();
     }
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -74,13 +74,84 @@ public class DriversProfileBiographyFragment extends Fragment {
 
     private void getDriverBiography() {
         Bundle bundle = this.getArguments();
-        ChampionshipDriverParticipation championshipDriverParticipation = (ChampionshipDriverParticipation) bundle.getSerializable("driver");
+        final ChampionshipDriverParticipation championshipDriverParticipation = (ChampionshipDriverParticipation) bundle.getSerializable("driver");
 
-        countryNameTextView.setText(championshipDriverParticipation.getDriver().getCountry().getName());
-        teamTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getTeam().getName());
-        driftingFromTextView.setText(String.valueOf(championshipDriverParticipation.getDriver().getCareerStartDate().year().get()));
-        portofolioTextView.setText(championshipDriverParticipation.getDriver().getPortfolio());
-        descriptionTextView.setText(championshipDriverParticipation.getDriver().getDescription());
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getCountry().getName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getCountry().getName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                countryNameTextView.setText(championshipDriverParticipation.getDriver().getCountry().getName());
+
+            }
+
+            @Override
+            public void onNull() {
+                countryNameTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getTeam(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                teamTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getTeam().getName());
+
+            }
+
+            @Override
+            public void onNull() {
+                teamTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getCareerStartDate(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                driftingFromTextView.setText(String.valueOf(championshipDriverParticipation.getDriver().getCareerStartDate().year().get()));
+
+            }
+
+            @Override
+            public void onNull() {
+                driftingFromTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getPortfolio(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                portofolioTextView.setText(championshipDriverParticipation.getDriver().getPortfolio());
+
+            }
+
+            @Override
+            public void onNull() {
+                portofolioTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDescription(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                descriptionTextView.setText(championshipDriverParticipation.getDriver().getDescription());
+
+            }
+
+            @Override
+            public void onNull() {
+                descriptionTextView.setText("-");
+            }
+        });
 
         Picasso.with(getActivity()).load(RestUrls.FILE + championshipDriverParticipation.getDriver().getCountry().getFlag()).noPlaceholder().into(countryFlagImageView, new Callback() {
             @Override

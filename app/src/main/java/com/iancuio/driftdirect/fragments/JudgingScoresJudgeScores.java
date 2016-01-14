@@ -1,6 +1,7 @@
 package com.iancuio.driftdirect.fragments;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -123,8 +124,6 @@ public class JudgingScoresJudgeScores extends Fragment {
 
     ProgressDialog dialog;
 
-
-
     public JudgingScoresJudgeScores() {
         // Required empty public constructor
     }
@@ -157,7 +156,6 @@ public class JudgingScoresJudgeScores extends Fragment {
         retainedPositiveCheckedcomments = new SparseBooleanArray();
         retainedNegativeCheckedcomments = new SparseBooleanArray();
 
-
         getLoggedInUserDetails();
 
         overrideBackPressed();
@@ -165,6 +163,7 @@ public class JudgingScoresJudgeScores extends Fragment {
 
     private void getAllocationPoints(List<JudgePointsAllocation> judgePointsAllocationList) {
         pointsAllocationListListView.setAdapter(new JudgePointsAllocationAdapter(getActivity(), judgePointsAllocationList));
+        Utils.setListViewHeightBasedOnItems(pointsAllocationListListView);
     }
 
     private void getLoggedInUserDetails() {
@@ -177,8 +176,7 @@ public class JudgingScoresJudgeScores extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "token");
 
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL + RestUrls.QUALIFIER_ID_START).addConverterFactory(JacksonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
 
         QualifierService qualifierService;
         qualifierService = retrofit.create(QualifierService.class);
@@ -189,34 +187,12 @@ public class JudgingScoresJudgeScores extends Fragment {
             @Override
             public void onResponse(final Response<QualifierJudge> response, Retrofit retrofit) {
 
-                if (response.body().getRunId() == null) {
+                if (response.body() == null) {
                     dialog.dismiss();
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Attention!")
-                            .setMessage("Finished judging for this driver!")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-                                    Toast.makeText(getActivity(), "Finished judging for this driver!", Toast.LENGTH_SHORT).show();
-                                    getActivity().onBackPressed();
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                    Utils.showAlertDialog(getActivity(), "Attention!", "Finished judging for this driver!", "Finished judging for this driver!");
                 } else if (response.body().getRunId().equals(0L)) {
                     dialog.dismiss();
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Run already judged!")
-                            .setMessage("Wait for the other judges to finish judging!")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-                                    Toast.makeText(getActivity(), "Run already judged! Wait for the other judges to finish judging.", Toast.LENGTH_SHORT).show();
-                                    getActivity().onBackPressed();
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                    Utils.showAlertDialog(getActivity(), "Run already judged!", "Wait for the other judges to finish judging!", "Run already judged! Wait for the other judges to finish judging.");
                 } else {
                     judgeNameTextView.setText(response.body().getJudge().getJudge().getFirstName() + " " + response.body().getJudge().getJudge().getLastName());
                     judgeTypeTextView.setText(response.body().getJudge().getTitle());
@@ -266,69 +242,87 @@ public class JudgingScoresJudgeScores extends Fragment {
     @OnClick(R.id.button_judgingScoresJudgeScoresLayout_submit)
     public void setSubmitButtonClick() {
 
-        dialog = ProgressDialog.show(getActivity(), "Loading", "Uploading judging info...");
-        JudgeQualifierAwards judgeQualifierAwards = new JudgeQualifierAwards();
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Warning!")
+                .setMessage("Are you sure you want to submit the scores? You cannot change them after submission!")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
 
-        List<Comment> allCommentsList = new ArrayList<>();
-        allCommentsList.addAll(selectedPositiveCommentsFull);
-        allCommentsList.addAll(selectedNegativeCommentsFull);
+                        dialog = ProgressDialog.show(getActivity(), "Loading", "Uploading judging info...");
+                        JudgeQualifierAwards judgeQualifierAwards = new JudgeQualifierAwards();
 
-        List<JudgeAwardedPoints> judgeAwardedPointsList = new ArrayList<>();
+                        List<Comment> allCommentsList = new ArrayList<>();
+                        allCommentsList.addAll(selectedPositiveCommentsFull);
+                        allCommentsList.addAll(selectedNegativeCommentsFull);
 
-        for (int i = 0; i<judgePointsAllocationList.size(); i++) {
-            JudgeAwardedPoints awardedPoints = new JudgeAwardedPoints();
-            awardedPoints.setAwardedPoints(((JudgePointsAllocationAdapter)pointsAllocationListListView.getAdapter()).getPoints(i));
-            awardedPoints.setPointsAllocation(((JudgePointsAllocationAdapter)pointsAllocationListListView.getAdapter()).getItemId(i));
-            judgeAwardedPointsList.add(awardedPoints);
-        }
+                        List<JudgeAwardedPoints> judgeAwardedPointsList = new ArrayList<>();
 
-        if (!entrySpeedEditText.getText().toString().trim().equals("")) {
-            entrySpeed = Float.valueOf(entrySpeedEditText.getText().toString());
-            judgeQualifierAwards.setEntrySpeed(entrySpeed);
-        }
+                        for (int i = 0; i<judgePointsAllocationList.size(); i++) {
+                            JudgeAwardedPoints awardedPoints = new JudgeAwardedPoints();
+                            awardedPoints.setAwardedPoints(((JudgePointsAllocationAdapter)pointsAllocationListListView.getAdapter()).getPoints(i));
+                            awardedPoints.setPointsAllocation(((JudgePointsAllocationAdapter)pointsAllocationListListView.getAdapter()).getItemId(i));
+                            judgeAwardedPointsList.add(awardedPoints);
+                        }
 
-        judgeQualifierAwards.setComments(allCommentsList);
-        judgeQualifierAwards.setAwardedPoints(judgeAwardedPointsList);
+                        if (!entrySpeedEditText.getText().toString().trim().equals("")) {
+                            entrySpeed = Float.valueOf(entrySpeedEditText.getText().toString());
+                            judgeQualifierAwards.setEntrySpeed(entrySpeed);
+                        }
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
+                        judgeQualifierAwards.setComments(allCommentsList);
+                        judgeQualifierAwards.setAwardedPoints(judgeAwardedPointsList);
 
-        QualifierService qualifierService;
-        qualifierService = retrofit.create(QualifierService.class);
+                        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "token");
-        Call<Void> judgeQualifierAwardsCall = qualifierService.postJudgeAwardedPoints(token, judgeQualifierAwards, qualifierJudge.getId(), qualifierJudge.getRunId());
+                        QualifierService qualifierService;
+                        qualifierService = retrofit.create(QualifierService.class);
 
-        judgeQualifierAwardsCall.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Response<Void> response, Retrofit retrofit) {
-                dialog.dismiss();
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+                        String token = sharedPreferences.getString("token", "token");
+                        Call<Void> judgeQualifierAwardsCall = qualifierService.postJudgeAwardedPoints(token, judgeQualifierAwards, qualifierJudge.getId(), qualifierJudge.getRunId());
 
-                switch (response.code()) {
-                    case 200:
-                        Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
-                        getActivity().onBackPressed();
-                        break;
-                    case 401:
-                        Toast.makeText(getActivity(), "You must be authorized for this operation!", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 403:
-                        Toast.makeText(getActivity(), "You do not have the required permissions for this operation!", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 500:
-                        Toast.makeText(getActivity(), "Something went wrong! Please try again!", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 404:
-                        Toast.makeText(getActivity(), "Requested resource not found!", Toast.LENGTH_SHORT).show();
-                }
-            }
+                        final DialogInterface finalDialog = dialog;
+                        judgeQualifierAwardsCall.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Response<Void> response, Retrofit retrofit) {
+                                finalDialog.dismiss();
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("jhg", t.toString());
-                dialog.dismiss();
-            }
-        });
+                                switch (response.code()) {
+                                    case 200:
+                                        Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                                        getActivity().onBackPressed();
+                                        break;
+                                    case 401:
+                                        Toast.makeText(getActivity(), "You must be authorized for this operation!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 403:
+                                        Toast.makeText(getActivity(), "You do not have the required permissions for this operation!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 500:
+                                        Toast.makeText(getActivity(), "Something went wrong! Please try again!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 404:
+                                        Toast.makeText(getActivity(), "Requested resource not found!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Log.e("jhg", t.toString());
+                                finalDialog.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     public void showPopup(final View anchorView, boolean positiveComments) {
@@ -390,7 +384,6 @@ public class JudgingScoresJudgeScores extends Fragment {
                     } else {
                         completeButton.setText("COMPLETE SELECTION");
                     }
-                    //}
                 }
             });
 
@@ -556,8 +549,6 @@ public class JudgingScoresJudgeScores extends Fragment {
             }
         }
     }
-
-
 }
 
 

@@ -14,7 +14,6 @@ import com.iancuio.driftdirect.customObjects.championship.judge.ChampionshipJudg
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class ScreenSlidePagerAdapterCustomView extends FragmentStatePagerAdapter
             judgePictureImageView.setBorderColor(context.getResources().getColor(R.color.colorChampionships));
         }
 
-        Utils.loadImage(300, 300, context, RestUrls.FILE + championshipJudgeParticipationList.get(position).getJudge().getProfilePicture(), judgePictureImageView, new Callback() {
+        Utils.loadNormalImage(300, 300, context, RestUrls.FILE + championshipJudgeParticipationList.get(position).getJudge().getProfilePicture(), judgePictureImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -61,6 +60,7 @@ public class ScreenSlidePagerAdapterCustomView extends FragmentStatePagerAdapter
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                imageProgressBar.setVisibility(View.GONE);
             }
         });
         return v;

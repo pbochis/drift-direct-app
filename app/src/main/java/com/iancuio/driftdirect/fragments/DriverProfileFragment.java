@@ -26,10 +26,10 @@ import com.iancuio.driftdirect.adapters.viewPagerAdapters.ScreenSlidePagerAdapte
 import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.championship.driver.ChampionshipDriverParticipation;
 import com.iancuio.driftdirect.service.ChampionshipService;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 import org.joda.time.Years;
@@ -66,19 +66,15 @@ public class DriverProfileFragment extends Fragment implements BaseSliderView.On
     TextView driverRankTextView;
     @Bind(R.id.textView_driverProfileLayout_driverAge)
     TextView driverAgeTextView;
-    @Bind(R.id.textView_driverProfileLayout_driverSessionPoints)
+    @Bind(R.id.textView_driverProfileLayout_driverSeasonPoints)
     TextView driverSessionPointsTextView;
     @Bind(R.id.progressBar_driverProfileLayout_progressBar)
     ProgressBar driverImageProgressBar;
-
 
     private ScreenSlidePagerAdapter driverProfileDetailsPagerAdapter;
     private Bundle bundle;
 
     Championship championshipFull;
-
-
-
 
     public DriverProfileFragment() {
         // Required empty public constructor
@@ -135,18 +131,9 @@ public class DriverProfileFragment extends Fragment implements BaseSliderView.On
     }
 
     private void configureSlider() {
-        //        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-//        file_maps.put("Hannibal",R.drawable.hannibal);
-//        file_maps.put("Big Bang Theory",R.drawable.bigbang);
-//        file_maps.put("House of Cards",R.drawable.house);
-//        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
-
         HashMap<String,String> url_maps = new HashMap<String, String>();
         url_maps.put("Drift", "http://www.speedhunters.com/wp-content/uploads/2011/12/1_IuB6_339.jpg");
         url_maps.put("Drift2", "http://www.sneakerfreaker.com/content/uploads/2013/11/insane-drifters-2014-drift-cars-1.jpg");
-        //url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        //url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
 
         for(String name : url_maps.keySet()){
             DefaultSliderView sliderView = new DefaultSliderView(getActivity());
@@ -171,8 +158,6 @@ public class DriverProfileFragment extends Fragment implements BaseSliderView.On
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
     }
-
-
 
     private void initializeDriverDetailsViewPager(ChampionshipDriverParticipation championshipDriverParticipation) {
         List<Fragment> fragments = getFragmentsForViewPager(championshipDriverParticipation);
@@ -222,32 +207,104 @@ public class DriverProfileFragment extends Fragment implements BaseSliderView.On
         championshipDriverParticipationCall.enqueue(new retrofit.Callback<ChampionshipDriverParticipation>() {
             @Override
             public void onResponse(Response<ChampionshipDriverParticipation> response, Retrofit retrofit) {
-                ChampionshipDriverParticipation championshipDriverParticipation = response.body();
-                driverCarModelTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getCarName());
-                driverCarModelHPTextView.setText(String.valueOf(championshipDriverParticipation.getDriver().getDriverDetails().getHorsePower()) + " HP");
-                driverNameTextView.setText(championshipDriverParticipation.getDriver().getFirstName() + " " + championshipDriverParticipation.getDriver().getLastName());
-                if (championshipDriverParticipation.getResults() != null) {
-                        if (championshipDriverParticipation.getResults().getRank() != null || championshipDriverParticipation.getResults().getRank() != 0) {
-                            driverRankTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getRank()));
-                        } else {
-                            driverRankTextView.setText("-");
-                        }
-                } else {
-                    driverRankTextView.setText("-");
-                }
-                driverAgeTextView.setText(String.valueOf(Years.yearsBetween(championshipDriverParticipation.getDriver().getBirthDate(), DateTime.now()).getYears()));
+                final ChampionshipDriverParticipation championshipDriverParticipation = response.body();
 
-                if (championshipDriverParticipation.getResults() != null) {
-                    if (championshipDriverParticipation.getResults().getTotalPoints() != null || championshipDriverParticipation.getResults().getTotalPoints() != 0) {
-                        driverSessionPointsTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getTotalPoints()));
-                    } else {
-                            driverSessionPointsTextView.setText("-");
-                        }
-                    } else {
-                    driverSessionPointsTextView.setText("-");
+                Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getCarName(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getMake(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                driverCarModelTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getCarName());
+                            }
+
+                            @Override
+                            public void onNull() {
+                                driverCarModelTextView.setText("-");
+                            }
+                        });
+
                     }
 
-                Utils.loadImage(200, 200, getActivity(), RestUrls.FILE + championshipDriverParticipation.getDriver().getProfilePicture(), driverPictureImageView, new Callback() {
+                    @Override
+                    public void onNull() {
+                        driverCarModelTextView.setText("-");
+                    }
+                });
+
+                Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverCarModelHPTextView.setText(String.valueOf(championshipDriverParticipation.getDriver().getDriverDetails().getHorsePower()) + " HP");
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverCarModelHPTextView.setText("- HP");
+                    }
+                });
+
+                Utils.nullCheck(championshipDriverParticipation.getDriver().getFirstName(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverNameTextView.setText(championshipDriverParticipation.getDriver().getFirstName() + " " + championshipDriverParticipation.getDriver().getLastName());
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverNameTextView.setText("-");
+                    }
+                });
+                    Utils.nullCheck(championshipDriverParticipation.getResults(), new NullCheck() {
+                        @Override
+                        public void onNotNull() {
+                            if (championshipDriverParticipation.getResults().getRank() != null || championshipDriverParticipation.getResults().getRank() != 0) {
+                                driverRankTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getRank()));
+                            } else {
+                                driverRankTextView.setText("-");
+                            }
+                        }
+
+                        @Override
+                        public void onNull() {
+                            driverRankTextView.setText("-");
+
+                        }
+                    });
+
+                Utils.nullCheck(championshipDriverParticipation.getDriver().getBirthDate(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        driverAgeTextView.setText(String.valueOf(Years.yearsBetween(championshipDriverParticipation.getDriver().getBirthDate(), DateTime.now()).getYears()));
+
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverAgeTextView.setText("-");
+
+                    }
+                });
+
+                Utils.nullCheck(championshipDriverParticipation.getResults(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        if (championshipDriverParticipation.getResults().getTotalPoints() != null || championshipDriverParticipation.getResults().getTotalPoints() != 0) {
+                            driverSessionPointsTextView.setText(String.valueOf(championshipDriverParticipation.getResults().getTotalPoints()));
+                        } else {
+                            driverSessionPointsTextView.setText("-");
+                        }
+                    }
+
+                    @Override
+                    public void onNull() {
+                        driverSessionPointsTextView.setText("-");
+                    }
+                });
+
+                Utils.loadNormalImage(200, 200, getActivity(), RestUrls.FILE + championshipDriverParticipation.getDriver().getProfilePicture(), driverPictureImageView, new Callback() {
                     @Override
                     public void onSuccess() {
                         Log.e("succes", "image succes");
@@ -257,6 +314,7 @@ public class DriverProfileFragment extends Fragment implements BaseSliderView.On
                     @Override
                     public void onError() {
                         Log.e("error", "imageError");
+                        driverImageProgressBar.setVisibility(View.GONE);
                     }
                 });
 
@@ -269,4 +327,6 @@ public class DriverProfileFragment extends Fragment implements BaseSliderView.On
             }
         });
     }
+
+
 }

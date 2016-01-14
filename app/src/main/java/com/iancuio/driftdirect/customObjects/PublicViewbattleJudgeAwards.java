@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Soulstorm on 1/7/2016.
  */
-public class PublicViewbattleJudgeAwards implements Serializable {
+public class PublicViewBattleJudgeAwards implements Serializable {
     private int firstDriverPoints;
     private int secondDriverPoints;
     private String judgeName;

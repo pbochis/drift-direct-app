@@ -30,12 +30,9 @@ public class DriversFragment extends Fragment {
     ChampionshipShort selectedChampionship;
     Championship championshipFull;
 
-
-
     public DriversFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,10 +50,8 @@ public class DriversFragment extends Fragment {
 
         selectedChampionship = ((ChampionshipNavigationViewActivity)getActivity()).getSelectedChampionship();
         championshipFull = ((ChampionshipNavigationViewActivity)getActivity()).getChampionshipFull();
+
         getDrivers();
-
-
-
 
     }
 
@@ -73,17 +68,6 @@ public class DriversFragment extends Fragment {
 
     private void getDrivers() {
 
-//        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
-//
-//        ChampionshipService championshipService;
-//        championshipService = retrofit.create(ChampionshipService.class);
-//
-//        Call<List<PersonShort>> championshipsCall = championshipService.getDrivers(selectedChampionship.getId());
-//
-//        championshipsCall.enqueue(new retrofit.Callback<List<PersonShort>>() {
-//            @Override
-//            public void onResponse(final Response<List<PersonShort>> response, Retrofit retrofit) {
-//                if (response.code() == 200) {
         driversListView.setAdapter(new DriversAdapter(getActivity(), championshipFull.getDrivers()));
 
         driversListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,19 +84,5 @@ public class DriversFragment extends Fragment {
                         .commit();
             }
         });
-//                } else {
-//                    Toast.makeText(getActivity(), "Something went wrong " + response.code(), Toast.LENGTH_SHORT).show();
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Log.e("failure", t.toString());
-//
-//            }
-//        });
-//    }
     }
 }

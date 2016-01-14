@@ -2,10 +2,13 @@ package com.iancuio.driftdirect.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,26 +17,26 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
 import com.iancuio.driftdirect.adapters.viewPagerAdapters.ScreenSlidePagerAdapter;
-import com.iancuio.driftdirect.customObjects.championship.Championship;
-import com.iancuio.driftdirect.customObjects.championship.driver.ChampionshipDriverParticipation;
 import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.service.RoundService;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 
 import org.joda.time.DateTime;
 import org.joda.time.Years;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,7 +56,6 @@ public class QualificationsListFragment extends Fragment {
     TabLayout qualificationsTabLayout;
     @Bind(R.id.viewPager_qualificationListLayout_drivers)
     ViewPager qualificationViewPager;
-
     @Bind(R.id.button_qualificationListLayout_refreshButton)
     Button refreshButton;
     @Bind(R.id.imageView_qualificationListLayout_driverFlag)
@@ -76,9 +78,8 @@ public class QualificationsListFragment extends Fragment {
     TextView driverSecondRunPointsTextView;
     @Bind(R.id.progressBar_qualificationListLayout_progressBar)
     ProgressBar driverPictureProgressBar;
-
-
-
+    @Bind(R.id.relativeLayout_qualificationListLayout_startJudging)
+    RelativeLayout startJudgingRelativeLayout;
 
     ProgressDialog dialog;
 
@@ -86,11 +87,9 @@ public class QualificationsListFragment extends Fragment {
 
     private ScreenSlidePagerAdapter qualificationPagerAdapter;
 
-
     public QualificationsListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,7 +101,6 @@ public class QualificationsListFragment extends Fragment {
         if (qualificationPagerAdapter != null) {
             requestRoundUpdate();
         }
-
         return v;
     }
 
@@ -110,12 +108,34 @@ public class QualificationsListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
+        roundFull = ((RoundNavigationViewActivity) getActivity()).getRoundFull();
 
         if (qualificationPagerAdapter == null) {
             requestRoundUpdate();
         }
 
+        startJudgingRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+                if (sharedPreferences != null) {
+                    if (roundFull.getCurrentDriver() != null) {
+                        Set<String> roles = sharedPreferences.getStringSet("roles", new HashSet<String>());
+
+                        JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("driversList", "driversList");
+                        bundle.putLong("qualifierId", roundFull.getCurrentDriver().getId());
+                        judgingScoresFragment.setArguments(bundle);
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
+                                .addToBackStack("judgingScoresFragment")
+                                .commit();
+                    }
+                }
+            }
+        });
     }
 
     private List<Fragment> getFragmentsForViewPager() {
@@ -131,7 +151,7 @@ public class QualificationsListFragment extends Fragment {
 
     private void initializeDriverDetailsViewPager() {
         List<Fragment> fragments = getFragmentsForViewPager();
-        String tabTitles[] = new String[] {"Results", "Qualification List"};
+        String tabTitles[] = new String[]{"Results", "Qualification List"};
 
         // Instantiate a ViewPager and a PagerAdapter.
         qualificationPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(), fragments, tabTitles);
@@ -162,16 +182,16 @@ public class QualificationsListFragment extends Fragment {
         RoundService roundService;
         roundService = retrofit.create(RoundService.class);
 
-        final Call<Round> roundCall = roundService.getRound(((RoundNavigationViewActivity)getActivity()).getRoundId());
+        final Call<Round> roundCall = roundService.getRound(((RoundNavigationViewActivity) getActivity()).getRoundId());
 
         roundCall.enqueue(new retrofit.Callback<Round>() {
             @Override
             public void onResponse(final Response<Round> response, Retrofit retrofit) {
-                ((RoundNavigationViewActivity)getActivity()).setRoundFull(response.body());
+                ((RoundNavigationViewActivity) getActivity()).setRoundFull(response.body());
                 initializeDriverDetailsViewPager();
 
                 if (roundFull.getCurrentDriver() != null) {
-                    Utils.loadImage(200, 200, getActivity(), RestUrls.FILE + roundFull.getCurrentDriver().getDriver().getProfilePicture(), driverImageImageView, new Callback() {
+                    Utils.loadNormalImage(200, 200, getActivity(), RestUrls.FILE + roundFull.getCurrentDriver().getDriver().getProfilePicture(), driverImageImageView, new Callback() {
                         @Override
                         public void onSuccess() {
                             Log.e("succes", "image succes");
@@ -181,10 +201,11 @@ public class QualificationsListFragment extends Fragment {
                         @Override
                         public void onError() {
                             Log.e("error", "imageError");
+                            driverPictureProgressBar.setVisibility(View.GONE);
                         }
                     });
 
-                    Utils.loadImage(100, 100, getActivity(), RestUrls.FILE + roundFull.getCurrentDriver().getDriver().getCountry(), driverFlagImageView, new Callback() {
+                    Utils.loadNormalImage(100, 100, getActivity(), RestUrls.FILE + roundFull.getCurrentDriver().getDriver().getCountry(), driverFlagImageView, new Callback() {
                         @Override
                         public void onSuccess() {
                             Log.e("succes", "image succes");
@@ -196,9 +217,46 @@ public class QualificationsListFragment extends Fragment {
                         }
                     });
 
-                    driverNameTextView.setText(roundFull.getCurrentDriver().getDriver().getFirstName() + " " + roundFull.getCurrentDriver().getDriver().getLastName());
-                    driverAgeTextView.setText("Age: " + String.valueOf(Years.yearsBetween(roundFull.getCurrentDriver().getDriver().getBirthDate(), DateTime.now()).getYears()));
-                    driverCarModelTextView.setText(roundFull.getCurrentDriver().getDriver().getDriverDetails().getMake() + " " + roundFull.getCurrentDriver().getDriver().getDriverDetails().getModel());
+                    Utils.nullCheck(roundFull.getCurrentDriver().getDriver().getFirstName(), new NullCheck() {
+                        @Override
+                        public void onNotNull() {
+                            driverNameTextView.setText(roundFull.getCurrentDriver().getDriver().getFirstName() + " " + roundFull.getCurrentDriver().getDriver().getLastName());
+
+                        }
+
+                        @Override
+                        public void onNull() {
+                            driverNameTextView.setText("-");
+                        }
+                    });
+
+                    Utils.nullCheck(roundFull.getCurrentDriver().getDriver().getBirthDate(), new NullCheck() {
+                        @Override
+                        public void onNotNull() {
+                            driverAgeTextView.setText("Age: " + String.valueOf(Years.yearsBetween(roundFull.getCurrentDriver().getDriver().getBirthDate(), DateTime.now()).getYears()));
+
+                        }
+
+                        @Override
+                        public void onNull() {
+                            driverAgeTextView.setText("Age: -");
+
+                        }
+                    });
+
+                    Utils.nullCheck(roundFull.getCurrentDriver().getDriver().getDriverDetails().getMake(), new NullCheck() {
+                        @Override
+                        public void onNotNull() {
+                            driverCarModelTextView.setText(roundFull.getCurrentDriver().getDriver().getDriverDetails().getMake() + " " + roundFull.getCurrentDriver().getDriver().getDriverDetails().getModel());
+
+                        }
+
+                        @Override
+                        public void onNull() {
+                            driverCarModelTextView.setText("-");
+                        }
+                    });
+
                     driverSpeedTextView.setText("-");
 
                     if (roundFull.getCurrentDriver().getFirstRunScore() != null && roundFull.getCurrentDriver().getFirstRunScore() != 0) {
@@ -212,8 +270,10 @@ public class QualificationsListFragment extends Fragment {
                     } else {
                         driverSecondRunPointsTextView.setText("-");
                     }
-                    dialog.dismiss();
+                } else {
+                    driverPictureProgressBar.setVisibility(View.GONE);
                 }
+                dialog.dismiss();
             }
 
             @Override

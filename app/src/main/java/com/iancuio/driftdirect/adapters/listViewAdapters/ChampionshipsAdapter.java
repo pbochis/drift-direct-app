@@ -13,10 +13,10 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.ChampionshipShort;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class ChampionshipsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View listItem = view;
         final ChampionshipsViewHolder viewHolder;
@@ -72,17 +72,57 @@ public class ChampionshipsAdapter extends BaseAdapter {
             viewHolder = (ChampionshipsViewHolder) view.getTag();
         }
 
-        if (championshipsList.get(i).getNextRound() != null) {
-            viewHolder.championshipDateTextView.setText(championshipsList.get(i).getRoundTimeTable());
-            viewHolder.championshipRoundNumberTextView.setText(String.valueOf("Round " + championshipsList.get(i).getNextRound().getOrder()));
-            viewHolder.championshipRoundNameTextView.setText(championshipsList.get(i).getNextRound().getName());
-        } else {
-            viewHolder.championshipRoundNumberTextView.setText("ENDED");
-        }
+            Utils.nullCheck(championshipsList.get(i).getNextRound(), new NullCheck() {
+                @Override
+                public void onNotNull() {
+                    Utils.nullCheck(championshipsList.get(i).getRoundTimeTable(), new NullCheck() {
+                        @Override
+                        public void onNotNull() {
+                            viewHolder.championshipDateTextView.setText(championshipsList.get(i).getRoundTimeTable());
 
+                        }
 
+                        @Override
+                        public void onNull() {
+                            viewHolder.championshipDateTextView.setText("-");
+                        }
+                    });
 
-        Utils.loadImage(600, 600, context, RestUrls.FILE + championshipsList.get(i).getBackgroundImage(), viewHolder.championshipBackgroundImageView, new Callback() {
+                    Utils.nullCheck(championshipsList.get(i).getNextRound().getOrder(), new NullCheck() {
+                        @Override
+                        public void onNotNull() {
+                            viewHolder.championshipRoundNumberTextView.setText(String.valueOf("Round " + championshipsList.get(i).getNextRound().getOrder()));
+
+                        }
+
+                        @Override
+                        public void onNull() {
+                            viewHolder.championshipRoundNumberTextView.setText("-");
+                        }
+                    });
+
+                    Utils.nullCheck(championshipsList.get(i).getNextRound().getName(), new NullCheck() {
+                        @Override
+                        public void onNotNull() {
+                            viewHolder.championshipRoundNameTextView.setText(championshipsList.get(i).getNextRound().getName());
+
+                        }
+
+                        @Override
+                        public void onNull() {
+                            viewHolder.championshipRoundNameTextView.setText("-");
+                        }
+                    });
+                }
+
+                @Override
+                public void onNull() {
+                    viewHolder.championshipRoundNumberTextView.setText("ENDED");
+
+                }
+            });
+
+        Utils.loadNormalImage(600, 600, context, RestUrls.FILE + championshipsList.get(i).getBackgroundImage(), viewHolder.championshipBackgroundImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -95,7 +135,7 @@ public class ChampionshipsAdapter extends BaseAdapter {
             }
         });
 
-        Utils.loadImage(600, 600, context, RestUrls.FILE + championshipsList.get(i).getLogo(), viewHolder.championshipLogoImageView, new Callback() {
+        Utils.loadNormalImage(600, 600, context, RestUrls.FILE + championshipsList.get(i).getLogo(), viewHolder.championshipLogoImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -105,6 +145,7 @@ public class ChampionshipsAdapter extends BaseAdapter {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                viewHolder.championshipImageProgressBar.setVisibility(View.GONE);
             }
         });
 

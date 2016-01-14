@@ -18,6 +18,7 @@ import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.person.Judge;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.Comment;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.Run;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.Utils;
 
 import java.util.ArrayList;
@@ -102,15 +103,37 @@ public class PublicRunDetailsAdapter extends BaseAdapter {
         }
 
         judge = new Judge();
-        judge.setType(run.getJudgings().get(i).getJudgeParticipation().getTitle());
-        judge.setName(run.getJudgings().get(i).getJudgeParticipation().getJudge().getFirstName() + " " + run.getJudgings().get(i).getJudgeParticipation().getJudge().getLastName());
 
-        viewHolder.judgeTypeTextView.setText(judge.getType());
-        viewHolder.judgeNameTextView.setText(judge.getName());
+        Utils.nullCheck(judge, new NullCheck() {
+            @Override
+            public void onNotNull() {
+                judge.setType(run.getJudgings().get(i).getJudgeParticipation().getTitle());
+                judge.setName(run.getJudgings().get(i).getJudgeParticipation().getJudge().getFirstName() + " " + run.getJudgings().get(i).getJudgeParticipation().getJudge().getLastName());
 
-        viewHolder.pointsListView.setAdapter(new PublicJudgePointsAllocationAdapter(context, run.getJudgings().get(i).getAwardedPoints()));
-        Utils.setListViewHeightBasedOnItems(viewHolder.pointsListView);
+                viewHolder.judgeTypeTextView.setText(judge.getType());
+                viewHolder.judgeNameTextView.setText(judge.getName());
+            }
 
+            @Override
+            public void onNull() {
+                viewHolder.judgeTypeTextView.setText("-");
+                viewHolder.judgeNameTextView.setText("-");
+            }
+        });
+
+
+        Utils.nullCheck(run.getJudgings().get(i).getAwardedPoints(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.pointsListView.setAdapter(new PublicJudgePointsAllocationAdapter(context, run.getJudgings().get(i).getAwardedPoints()));
+                Utils.setListViewHeightBasedOnItems(viewHolder.pointsListView);
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
 
 
         viewHolder.positiveCommentsListView.setAdapter(new RunJudgeViewCommentsAdapter(context, positiveCommentsList, judge, true));

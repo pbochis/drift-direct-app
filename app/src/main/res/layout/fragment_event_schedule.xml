@@ -8,39 +8,66 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_height="25dp"
         android:layout_marginTop="5dp"
-        android:background="@color/colorChampionships"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/colorChampionships">
+
+        <Button
+            android:layout_width="20dp"
+            android:background="@drawable/refresh_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_height="20dp"
+            android:id="@+id/button_qualificationListLayout_refreshButton"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_height="145dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/gradient"
-        android:paddingTop="10dp"
-        android:id="@+id/relativeLayout3">
+        android:paddingTop="10dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageView_qualificationListLayout_driverImage"
-            android:layout_width="100dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/rel"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            app:civ_border_color="#FFFFFF"
-            app:civ_border_width="2dp"
-            android:layout_height="100dp"
-            android:src="@drawable/car" />
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView_qualificationListLayout_driverImage"
+                android:layout_width="100dp"
+
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="2dp"
+                android:layout_height="100dp" />
+
+            <ProgressBar
+                android:layout_width="50dp"
+                android:layout_centerInParent="true"
+                android:visibility="visible"
+                android:id="@+id/progressBar_qualificationListLayout_progressBar"
+                android:layout_height="50dp" />
+
+
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageView_qualificationListLayout_driverImage"
+            android:layout_toRightOf="@+id/rel"
             android:orientation="vertical"
             android:paddingLeft="10dp"
             android:layout_above="@+id/hdsga"
@@ -56,17 +83,17 @@
 
                 <ImageView
                     android:layout_width="30dp"
+                    android:id="@+id/imageView_qualificationListLayout_driverFlag"
                     android:layout_height="20dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/car" />
+                    android:adjustViewBounds="true" />
 
                 <TextView
                     android:layout_width="match_parent"
+                    android:id="@+id/textView_qualificationListLayout_driverName"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:paddingLeft="10dp"
-                    android:textAllCaps="true"
-                    android:text="ejhg" />
+                    android:textAllCaps="true" />
 
 
             </LinearLayout>
@@ -84,8 +111,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:text="age 28" />
+                    android:id="@+id/textView_qualificationListLayout_driverAge"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="1dp"
@@ -97,17 +124,17 @@
                     android:textColor="@color/white"
                     android:layout_marginLeft="5dp"
                     android:textAllCaps="true"
-                    android:layout_height="wrap_content"
-                    android:text="nissaan skyline"/>
+                    android:id="@+id/textView_qualificationListLayout_driverCarModel"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:textColor="@color/white"
                     android:textAllCaps="true"
+                    android:id="@+id/textView_qualificationListLayout_driverCarHp"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp"
-                    android:layout_height="wrap_content"
-                    android:text="780hp"/>
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>
@@ -123,8 +150,8 @@
             android:id="@+id/hdsga"
             android:paddingTop="10dp"
             android:layout_above="@+id/linearLayout3"
-            android:layout_toRightOf="@+id/imageView_qualificationListLayout_driverImage"
-            android:layout_toEndOf="@+id/imageView_qualificationListLayout_driverImage">
+            android:layout_toRightOf="@+id/rel"
+            android:layout_toEndOf="@+id/rel">
 
             <TextView
                 android:layout_width="0dp"
@@ -137,11 +164,11 @@
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="25dp" />
 
             <TextView
                 android:layout_width="0dp"
-                android:text="run 1"
+                android:text="RUN 1"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -150,11 +177,11 @@
                 android:layout_marginLeft="8dp"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="25dp" />
 
             <TextView
                 android:layout_width="0dp"
-                android:text="run 2"
+                android:text="RUN 2"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -163,17 +190,17 @@
                 android:gravity="center"
                 android:background="@color/colorChampionships"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="25dp" />
 
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="25dp"
             android:orientation="horizontal"
             android:background="@color/colorChampionships"
-            android:layout_below="@+id/imageView_qualificationListLayout_driverImage"
+            android:layout_below="@+id/rel"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/linearLayout3">
@@ -183,20 +210,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_toEndOf="@+id/imageView_qualificationListLayout_driverImage"
-            android:layout_toRightOf="@+id/imageView_qualificationListLayout_driverImage"
+            android:layout_toEndOf="@+id/rel"
+            android:layout_toRightOf="@+id/rel"
             android:layout_below="@id/hdsga"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
 
             <TextView
                 android:layout_width="0dp"
-                android:text="168 km/h"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:gravity="center"
                 android:textStyle="bold"
+                android:id="@+id/textView_qualificationListLayout_driverSpeed"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:layout_weight="1"
@@ -204,9 +232,9 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:text="88p"
                 android:textAllCaps="true"
                 android:gravity="center"
+                android:id="@+id/textView_qualificationListLayout_driverFirstRunPoints"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginRight="8dp"
@@ -217,7 +245,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:textStyle="bold"
-                android:text="55p"
+                android:id="@+id/textView_qualificationListLayout_driverSecondRunPoints"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:layout_marginRight="8dp"
@@ -228,29 +256,6 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:background="@color/white"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="SCHEDULE"
-            android:paddingBottom="10dp"
-            android:textColor="@color/colorChampionships"
-            android:paddingTop="10dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:background="@color/colorChampionships"
-            android:layout_height="5dp"/>
-
-    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

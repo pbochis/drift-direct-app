@@ -18,10 +18,8 @@ import com.iancuio.driftdirect.adapters.listViewAdapters.QualificationsResultsAd
 import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.customObjects.round.RoundDriverResult;
 import com.iancuio.driftdirect.customObjects.round.qualifier.QualifierShort;
-import com.iancuio.driftdirect.customObjects.temporary.ResultsDriver;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,11 +36,9 @@ public class QualificationsResultsListFragment extends Fragment {
 
     Round roundFull;
 
-
     public QualificationsResultsListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +54,7 @@ public class QualificationsResultsListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ((RoundNavigationViewActivity) getActivity()).setCurrentFragment(this);
-        roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
+        roundFull = ((RoundNavigationViewActivity) getActivity()).getRoundFull();
         getResultsList();
     }
 
@@ -66,7 +62,7 @@ public class QualificationsResultsListFragment extends Fragment {
 
         List<QualifierShort> judgedQualifiersList = new ArrayList<>();
 
-        for (int i = 0; i<roundFull.getQualifiers().size(); i++) {
+        for (int i = 0; i < roundFull.getQualifiers().size(); i++) {
             if (roundFull.getQualifiers().get(i).getPoints() != null) {
                 judgedQualifiersList.add(roundFull.getQualifiers().get(i));
             }
@@ -80,8 +76,6 @@ public class QualificationsResultsListFragment extends Fragment {
             qualificationsResultListListView.setAdapter(new FinalResultsListAdapter(getActivity(), roundDriverResultList));
         } else {
             qualificationsResultListListView.setAdapter(new QualificationsResultsAdapter(getActivity(), judgedQualifiersList));
-
-            //qualificationsResultListListView.setEmptyView();
 
             qualificationsResultListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -99,9 +93,5 @@ public class QualificationsResultsListFragment extends Fragment {
                 }
             });
         }
-
-
     }
-
-
 }

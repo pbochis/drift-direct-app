@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.judge.JudgePointsAllocation;
 import com.iancuio.driftdirect.customObjects.temporary.NormalDriver;
+import com.iancuio.driftdirect.utils.NullCheck;
+import com.iancuio.driftdirect.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,30 +87,55 @@ public class JudgePointsAllocationAdapter extends BaseAdapter {
             viewHolder = (PointsAllocationViewHolder) view.getTag();
         }
 
-        viewHolder.pointsTypeTextView.setText(judgePointsAllocationList.get(i).getName());
-        viewHolder.maxPointsTextView.setText(String.valueOf(judgePointsAllocationList.get(i).getMaxPoints()));
-        viewHolder.pointsSeekBar.setMax(judgePointsAllocationList.get(i).getMaxPoints());
-
-        viewHolder.pointsSeekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(0)));
-
-        viewHolder.pointsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Utils.nullCheck(judgePointsAllocationList.get(i).getName(), new NullCheck() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                seekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(progress)));
-                pointsList.add(i, seekBar.getProgress());
-                //Log.e("pointsadapter", String.valueOf(pointsList.get(i)));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onNotNull() {
+                viewHolder.pointsTypeTextView.setText(judgePointsAllocationList.get(i).getName());
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onNull() {
+                viewHolder.pointsTypeTextView.setText("-");
             }
         });
+
+        Utils.nullCheck(judgePointsAllocationList.get(i).getMaxPoints(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.maxPointsTextView.setText(String.valueOf(judgePointsAllocationList.get(i).getMaxPoints()));
+
+                viewHolder.pointsSeekBar.setMax(judgePointsAllocationList.get(i).getMaxPoints());
+
+                viewHolder.pointsSeekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(0)));
+
+                viewHolder.pointsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                        seekBar.setThumb(new BitmapDrawable(context.getResources(), prepareThumbBitmap(progress)));
+                        pointsList.add(i, seekBar.getProgress());
+                        //Log.e("pointsadapter", String.valueOf(pointsList.get(i)));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.maxPointsTextView.setText("-");
+            }
+        });
+
+
 
 
         return listItem;

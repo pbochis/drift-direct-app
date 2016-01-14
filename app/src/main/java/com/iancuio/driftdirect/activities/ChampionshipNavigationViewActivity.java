@@ -1,7 +1,9 @@
 package com.iancuio.driftdirect.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +40,14 @@ import com.iancuio.driftdirect.fragments.TeamOfJudgesFragment;
 import com.iancuio.driftdirect.fragments.TrackLayoutFragment;
 import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.service.RoundService;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
+import com.squareup.picasso.Callback;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit.Call;
 import retrofit.JacksonConverterFactory;
 import retrofit.Response;
@@ -47,6 +55,10 @@ import retrofit.Retrofit;
 
 public class ChampionshipNavigationViewActivity extends AppCompatActivity {
 
+    public static ChampionshipShort selectedChampionship = null;
+    public static Championship championshipFull = null;
+    public static Round roundFull;
+    public Fragment currentFragment;
     @Bind(R.id.toolbar_navigationViewLayout_feed)
     Toolbar feedToolbar;
     @Bind(R.id.toolbar_championshipNavigationViewLayout_navigationDrawerTitle)
@@ -57,23 +69,19 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     @Bind(R.id.textView_championshipNavigationViewLayout_navigationDrawerTitle)
     TextView navigationDrawerTitleTextView;
-
-    public Fragment currentFragment;
+    @Bind(R.id.textView_championshipNavigationViewLayout_navigationDrawerLoggedInName)
+    TextView toolbarLoggedInName;
+    @Bind(R.id.imageView_championshipNavigationViewLayout_driverPicture)
+    CircleImageView loggedInProfilePicture;
+    @Bind(R.id.progressBar_championshipNavigationViewLayout_progressBar)
+    ProgressBar loggedInProgressBar;
     ProgressDialog dialog;
-
-    public static ChampionshipShort selectedChampionship = null;
-    public static Championship championshipFull = null;
-    public static Round roundFull;
-
-
-
     ActionBarDrawerToggle drawerToggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_championship_navigation_view);
         ButterKnife.bind(this);
-
 
         setSelectedChampionship((ChampionshipShort) getIntent().getSerializableExtra("championship"));
         setSupportActionBar(feedToolbar);
@@ -95,14 +103,50 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
         Toolbar parent = (Toolbar) actionBarLayout.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
+        TextView website = (TextView) findViewById(R.id.textView_actionBsrLayout_website);
+        website.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // profit
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.d1nz.com/"));
+                startActivity(browserIntent);
+            }
+        });
+
+        ImageView website2 = (ImageView) findViewById(R.id.textView_actionBsrLayout_logo);
+        website2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // profit
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.d1nz.com/"));
+                startActivity(browserIntent);
+            }
+        });
+
+        SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("username", "token");
+
+        if (!token.equals("token")) {
+            toolbarLoggedInName.setText(token);
+            Utils.loadProfileImage(100, 100, this, "TO ADD LINK", loggedInProfilePicture, new Callback() {
+                @Override
+                public void onSuccess() {
+                    loggedInProgressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    loggedInProgressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+
+
+
         getFullChampionship();
-        //Initialising toolbar.
-        //Setting toolbar as Actionbar.
 
-
-        //Initialising NavigationView
-        //Setting OnNavigationItemSelectedListener to the Navigation View.
-        //This is used to perform specific action when an item is clicked.
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -117,7 +161,19 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
                         setFragment(new CalendarFragment(), R.string.calendar);
                         return true;
                     case R.id.rule_book:
-                        setFragment(new SetOfRulesFragment(), R.string.rule_book);
+                        Utils.nullCheck(championshipFull.getRules().getRules(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                Intent browserIntent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(championshipFull.getRules().getRules()));
+                                startActivity(browserIntent2);
+                            }
+
+                            @Override
+                            public void onNull() {
+
+                            }
+                        });
+
                         return true;
                     case R.id.team_of_judges:
                         setFragment(new TeamOfJudgesFragment(), R.string.team_of_judges);
@@ -139,14 +195,13 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(championshipFull.getTicketsUrl()));
                         startActivity(browserIntent);
                         return true;
-                    case R.id.notifications:
-                        setFragment(new JudgingScoresJudgeScores(), R.string.notifications);
-                        return true;
+//                    case R.id.notifications:
+//                        setFragment(new JudgingScoresJudgeScores(), R.string.notifications);
+//                        return true;
                     case R.id.authority_login:
                         Intent intent = new Intent(ChampionshipNavigationViewActivity.this, LoginActivity.class);
                         startActivity(intent);
                     default:
-                        Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
                         return true;
                 }
 
@@ -248,7 +303,7 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-            t.printStackTrace();
+                t.printStackTrace();
                 Log.e("championship", "FMM PILU");
 
             }
@@ -261,7 +316,7 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-                super.onBackPressed();
-            }
+            super.onBackPressed();
+        }
     }
 }

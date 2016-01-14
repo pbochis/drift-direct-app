@@ -1,7 +1,6 @@
 package com.iancuio.driftdirect.adapters.gridViewAdapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,10 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.news.News;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -30,7 +27,6 @@ public class NewsAdapter extends BaseAdapter {
     Context context;
     List<News> newsList;
     LayoutInflater inflater;
-
 
     public NewsAdapter(Context c, List<News> newsList) {
         context = c;
@@ -53,7 +49,7 @@ public class NewsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View gridItem = convertView;
         final NewsViewHolder newsViewHolder;
 
@@ -69,7 +65,7 @@ public class NewsAdapter extends BaseAdapter {
             newsViewHolder = (NewsViewHolder) convertView.getTag();
         }
 
-        Utils.loadImage(400, 400, context, RestUrls.FILE + newsList.get(position).getLogo(), newsViewHolder.newsImage, new Callback() {
+        Utils.loadNormalImage(400, 400, context, RestUrls.FILE + newsList.get(position).getLogo(), newsViewHolder.newsImage, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -79,11 +75,35 @@ public class NewsAdapter extends BaseAdapter {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                newsViewHolder.newsProgressBar.setVisibility(View.GONE);
             }
         });
 
-        newsViewHolder.newsTitle.setText(newsList.get(position).getName());
-        newsViewHolder.newsDescription.setText(newsList.get(position).getDescription());
+        Utils.nullCheck(newsList.get(position).getName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                newsViewHolder.newsTitle.setText(newsList.get(position).getName());
+
+            }
+
+            @Override
+            public void onNull() {
+                newsViewHolder.newsTitle.setText("-");
+            }
+        });
+
+        Utils.nullCheck(newsList.get(position).getDescription(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                newsViewHolder.newsDescription.setText(newsList.get(position).getDescription());
+
+            }
+
+            @Override
+            public void onNull() {
+                newsViewHolder.newsDescription.setText("-");
+            }
+        });
 
         return gridItem;
     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DriftDirect</string>
+    <string name="app_name">DriftDirect - BETA</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_navigation_view">NavigationViewActivity</string>
 
@@ -22,8 +22,8 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="track_layout">TRACK LAYOUT</string>
     <string name="judging_team">JUDGING TEAM</string>
-    <string name="qualifications_list">QUALIFICATIONS LIST</string>
-    <string name="top_16_32">TOP 16/32</string>
+    <string name="qualifications">QUALIFICATIONS</string>
+    <string name="top_32_16">TOP 32/16</string>
     <string name="event_schedule">EVENT SCHEDULE</string>
     <string name="live_stream">LIVE STREAM</string>
     <string name="buy_tickets_online_rounds">BUY TICKETS ONLINE</string>

@@ -18,6 +18,7 @@ import com.iancuio.driftdirect.adapters.listViewAdapters.ChampionshipsAdapter;
 import com.iancuio.driftdirect.customObjects.championship.ChampionshipShort;
 import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 
 import java.util.List;
 
@@ -68,7 +69,6 @@ public class ChampionshipsActivity extends AppCompatActivity {
             @Override
             public void onResponse(final Response<List<ChampionshipShort>> response, Retrofit retrofit) {
                 championshipsListView.setAdapter(new ChampionshipsAdapter(ChampionshipsActivity.this, response.body()));
-                championshipsListView.getAdapter().getView(1, null, championshipsListView);
                 dialog.dismiss();
 
                 championshipsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,7 +86,7 @@ public class ChampionshipsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 Log.e("failure", t.toString());
-
+                Utils.showAlertDialog(ChampionshipsActivity.this, "No internet!", "Please check your internet connection!", null);
             }
         });
     }

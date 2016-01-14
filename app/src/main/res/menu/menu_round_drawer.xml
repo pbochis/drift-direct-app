@@ -4,10 +4,10 @@
     <group android:checkableBehavior="single" android:id="@+id/group_rounds">
         <item android:id="@+id/track_layout"
             android:title="@string/track_layout"/>
-        <item android:id="@+id/qualifications_list"
-            android:title="@string/qualifications_list"/>
-        <item android:id="@+id/top_16_32"
-            android:title="@string/top_16_32"/>
+        <item android:id="@+id/qualifications"
+            android:title="@string/qualifications"/>
+        <item android:id="@+id/top_32_16"
+            android:title="@string/top_32_16"/>
         <item android:id="@+id/event_schedule"
             android:title="@string/event_schedule"/>
         <item android:id="@+id/live_stream"

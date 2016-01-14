@@ -54,11 +54,9 @@ public class JudgingScoresPublicScores extends Fragment {
     Round roundFull;
     ProgressDialog dialog;
 
-
     public JudgingScoresPublicScores() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,7 +103,6 @@ public class JudgingScoresPublicScores extends Fragment {
                     runDetailsListView.setAdapter(new PublicRunDetailsAdapter(getActivity(), qualifier.getSecondRun(), getView()));
                     entrySpeedTextView.setText(String.valueOf(qualifier.getSecondRun().getEntrySpeed()));
                 }
-
                 dialog.dismiss();
             }
 

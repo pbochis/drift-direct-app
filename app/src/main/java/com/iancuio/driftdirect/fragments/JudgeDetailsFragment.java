@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.customObjects.championship.Championship;
+import com.iancuio.driftdirect.utils.NullCheck;
+import com.iancuio.driftdirect.utils.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +36,6 @@ public class JudgeDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,17 +46,51 @@ public class JudgeDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) { super.onViewCreated(view, savedInstanceState);
 
         championshipFull = ((ChampionshipNavigationViewActivity)getActivity()).getChampionshipFull();
 
         Bundle bundle = getArguments();
-        int judgeNumber = bundle.getInt("judgeNumber");
+        final int judgeNumber = bundle.getInt("judgeNumber");
 
-        judgeName.setText(championshipFull.getJudges().get(judgeNumber).getJudge().getFirstName() + " " + championshipFull.getJudges().get(judgeNumber).getJudge().getLastName());
-        judgeType.setText(championshipFull.getJudges().get(judgeNumber).getTitle());
-        judgeDescription.setText(championshipFull.getJudges().get(judgeNumber).getJudge().getDescription());
+        Utils.nullCheck(championshipFull.getJudges().get(judgeNumber).getJudge().getFirstName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                judgeName.setText(championshipFull.getJudges().get(judgeNumber).getJudge().getFirstName() + " " + championshipFull.getJudges().get(judgeNumber).getJudge().getLastName());
+
+            }
+
+            @Override
+            public void onNull() {
+                judgeName.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipFull.getJudges().get(judgeNumber).getTitle(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                judgeType.setText(championshipFull.getJudges().get(judgeNumber).getTitle());
+
+            }
+
+            @Override
+            public void onNull() {
+                judgeType.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipFull.getJudges().get(judgeNumber).getJudge().getDescription(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                judgeDescription.setText(championshipFull.getJudges().get(judgeNumber).getJudge().getDescription());
+
+            }
+
+            @Override
+            public void onNull() {
+                judgeDescription.setText("-");
+            }
+        });
 
 
     }

@@ -12,13 +12,11 @@ import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.round.qualifier.QualifierShort;
-import com.iancuio.driftdirect.customObjects.temporary.NormalDriver;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,7 +53,7 @@ public class QualificationsDriversAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View listItem = view;
         final QualificationDriversViewHolder viewHolder;
@@ -77,7 +75,7 @@ public class QualificationsDriversAdapter extends BaseAdapter {
             viewHolder = (QualificationDriversViewHolder) view.getTag();
         }
 
-        Utils.loadImage(200, 200, context, RestUrls.FILE + qualifierShortList.get(i).getDriver().getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
+        Utils.loadNormalImage(200, 200, context, RestUrls.FILE + qualifierShortList.get(i).getDriver().getProfilePicture(), viewHolder.driversPictureImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -87,17 +85,50 @@ public class QualificationsDriversAdapter extends BaseAdapter {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                viewHolder.driversProgressBar.setVisibility(View.GONE);
             }
         });
 
-        viewHolder.driversNameTextView.setText(qualifierShortList.get(i)
-                .getDriver()
-                .getFirstName() + " " + qualifierShortList.get(i).getDriver().getLastName() + ((qualifierShortList.get(i).getDriver().getNick() != null) ? " `" + qualifierShortList.get(i).getDriver().getNick() + "`" : ""));
-        viewHolder.driversCarModel.setText(qualifierShortList.get(i).getDriver().getDriverDetails().getModel());
-        viewHolder.driversCarHP.setText(String.valueOf(qualifierShortList.get(i).getDriver().getDriverDetails().getHorsePower()) + "HP");
+        Utils.nullCheck(qualifierShortList.get(i).getDriver().getFirstName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversNameTextView.setText(qualifierShortList.get(i).getDriver().getFirstName() + " " + qualifierShortList.get(i).getDriver().getLastName() + ((qualifierShortList.get(i).getDriver().getNick() != null) ? " `" + qualifierShortList.get(i).getDriver().getNick() + "`" : ""));
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversNameTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(qualifierShortList.get(i).getDriver().getDriverDetails().getModel(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversCarModel.setText(qualifierShortList.get(i).getDriver().getDriverDetails().getModel());
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversCarModel.setText("-");
+            }
+        });
+
+        Utils.nullCheck(qualifierShortList.get(i).getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.driversCarHP.setText(String.valueOf(qualifierShortList.get(i).getDriver().getDriverDetails().getHorsePower()) + "HP");
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.driversCarHP.setText("-");
+            }
+        });
         viewHolder.driversOrder.setText(String.valueOf(i+1));
 
-        Utils.loadImage(100, 100, context, RestUrls.FILE + qualifierShortList.get(i).getDriver().getCountry(), viewHolder.driverCountryFlag, new Callback() {
+        Utils.loadNormalImage(100, 100, context, RestUrls.FILE + qualifierShortList.get(i).getDriver().getCountry(), viewHolder.driverCountryFlag, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");

@@ -13,15 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
-import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.round.Round;
-import com.iancuio.driftdirect.customObjects.track.Track;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,13 +36,9 @@ public class SubTrackLayoutFragment extends Fragment {
 
     Round roundFull;
 
-
-
-
     public SubTrackLayoutFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +57,7 @@ public class SubTrackLayoutFragment extends Fragment {
 
         trackDescriptionTextView.setText(roundFull.getTrack().getDescription());
 
-        Utils.loadImage(600, 600, getActivity(), RestUrls.FILE + roundFull.getTrack().getLayout(), trackCartoonImageImageView, new Callback() {
+        Utils.loadNormalImage(600, 600, getActivity(), RestUrls.FILE + roundFull.getTrack().getLayout(), trackCartoonImageImageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.e("succes", "image succes");
@@ -76,6 +68,7 @@ public class SubTrackLayoutFragment extends Fragment {
             @Override
             public void onError() {
                 Log.e("error", "imageError");
+                trackProgressBar.setVisibility(View.GONE);
             }
         });
     }

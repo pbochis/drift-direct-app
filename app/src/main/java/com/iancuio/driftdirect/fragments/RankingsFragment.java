@@ -19,11 +19,9 @@ public class RankingsFragment extends Fragment {
 
     Championship championshipFull;
 
-
     public RankingsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,8 +35,7 @@ public class RankingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        championshipFull = ((ChampionshipNavigationViewActivity)getActivity()).getChampionshipFull();
-
+        championshipFull = ((ChampionshipNavigationViewActivity) getActivity()).getChampionshipFull();
     }
 
     @Override
@@ -50,5 +47,4 @@ public class RankingsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
 }

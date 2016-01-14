@@ -1,29 +1,17 @@
 package com.iancuio.driftdirect.adapters.listViewAdapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.customObjects.PublicViewbattleJudgeAwards;
-import com.iancuio.driftdirect.customObjects.championship.ChampionshipShort;
-import com.iancuio.driftdirect.customObjects.round.RoundScheduleEntry;
+import com.iancuio.driftdirect.customObjects.PublicViewBattleJudgeAwards;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RangeSeekBar.RangeBar;
-import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 
 import java.util.List;
 
@@ -34,9 +22,9 @@ public class BattlePublicJudgeAwardedPointsAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private Context context;
-    private List<PublicViewbattleJudgeAwards> publicViewbattleJudgeAwardsList;
+    private List<PublicViewBattleJudgeAwards> publicViewbattleJudgeAwardsList;
 
-    public BattlePublicJudgeAwardedPointsAdapter (Context context, List<PublicViewbattleJudgeAwards> publicViewbattleJudgeAwardsList) {
+    public BattlePublicJudgeAwardedPointsAdapter (Context context, List<PublicViewBattleJudgeAwards> publicViewbattleJudgeAwardsList) {
         this.context = context;
         this.publicViewbattleJudgeAwardsList = publicViewbattleJudgeAwardsList;
         inflater = LayoutInflater.from(context);
@@ -58,7 +46,7 @@ public class BattlePublicJudgeAwardedPointsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View listItem = view;
         final BattlePublicJudgeAwardedPointsViewHolder viewHolder;
@@ -76,19 +64,41 @@ public class BattlePublicJudgeAwardedPointsAdapter extends BaseAdapter {
             viewHolder = (BattlePublicJudgeAwardedPointsViewHolder) view.getTag();
         }
 
-        if (publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints() > 5) {
-            viewHolder.judgeNamePosition1TextView.setText(publicViewbattleJudgeAwardsList.get(i).getJudgeName());
-        } else if (publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints() == 5) {
-            viewHolder.judgeNamePosition2TextView.setText(publicViewbattleJudgeAwardsList.get(i).getJudgeName());
-        } else {
-            viewHolder.judgeNamePosition3TextView.setText(publicViewbattleJudgeAwardsList.get(i).getJudgeName());
-        }
+        Utils.nullCheck(publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                if (publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints() > 5) {
+                    viewHolder.judgeNamePosition1TextView.setText(publicViewbattleJudgeAwardsList.get(i).getJudgeName());
+                } else if (publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints() == 5) {
+                    viewHolder.judgeNamePosition2TextView.setText(publicViewbattleJudgeAwardsList.get(i).getJudgeName());
+                } else {
+                    viewHolder.judgeNamePosition3TextView.setText(publicViewbattleJudgeAwardsList.get(i).getJudgeName());
+                }
+            }
 
-        if ((publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints() - publicViewbattleJudgeAwardsList.get(i).getSecondDriverPoints() > 0)) {
-            viewHolder.awardedPointsRangeBar.setThumbIndices(publicViewbattleJudgeAwardsList.get(i).getSecondDriverPoints());
-        } else {
-            viewHolder.awardedPointsRangeBar.setThumbIndices(publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints());
-        }
+            @Override
+            public void onNull() {
+
+            }
+        });
+
+
+        Utils.nullCheck(publicViewbattleJudgeAwardsList.get(i).getSecondDriverPoints(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                if ((publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints() - publicViewbattleJudgeAwardsList.get(i).getSecondDriverPoints() > 0)) {
+                    viewHolder.awardedPointsRangeBar.setThumbIndices(publicViewbattleJudgeAwardsList.get(i).getSecondDriverPoints());
+                } else {
+                    viewHolder.awardedPointsRangeBar.setThumbIndices(publicViewbattleJudgeAwardsList.get(i).getFirstDriverPoints());
+                }
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
+
         return listItem;
     }
 }

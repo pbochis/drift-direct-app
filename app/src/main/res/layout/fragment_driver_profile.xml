@@ -173,14 +173,14 @@
                     android:layout_gravity="center"
                     android:textColor="@color/colorChampionships"
                     android:gravity="center"
-                    android:text="Session Points" />
+                    android:text="Season Points" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:id="@+id/textView_driverProfileLayout_driverSessionPoints"
+                    android:id="@+id/textView_driverProfileLayout_driverSeasonPoints"
                     android:gravity="center"
                     android:text="100" />
 

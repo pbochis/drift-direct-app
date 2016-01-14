@@ -18,25 +18,26 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.activities.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.activities.JudgeBattleActivity;
+import com.iancuio.driftdirect.activities.PublicBattleActivity;
 import com.iancuio.driftdirect.activities.RoundNavigationViewActivity;
 import com.iancuio.driftdirect.adapters.viewPagerAdapters.ScreenSlidePagerAdapter;
-import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.customObjects.round.playoffs.PlayoffTreeGraphicDisplay;
 import com.iancuio.driftdirect.service.RoundService;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 
-import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -94,6 +95,7 @@ public class Top16Top32Fragment extends Fragment {
 
 
     private ScreenSlidePagerAdapter top16Top32PagerAdapter;
+    PlayoffTreeGraphicDisplay playoffTreeGraphicDisplay;
 
 
     Round roundFull;
@@ -101,6 +103,7 @@ public class Top16Top32Fragment extends Fragment {
     ProgressDialog dialog;
 
     Bundle bundle;
+    int topNumber;
 
 
     public Top16Top32Fragment() {
@@ -125,7 +128,7 @@ public class Top16Top32Fragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
+        roundFull = ((RoundNavigationViewActivity) getActivity()).getRoundFull();
 
         if (top16Top32PagerAdapter == null) {
             getPlayoffs();
@@ -133,55 +136,170 @@ public class Top16Top32Fragment extends Fragment {
 
     }
 
-    private List<Fragment> getFragmentsForViewPager(PlayoffTreeGraphicDisplay playoffTreeGraphicDisplay) {
+    private List<Fragment> getFragmentsForViewPager(final PlayoffTreeGraphicDisplay playoffTreeGraphicDisplay) {
         List<Fragment> fList = new ArrayList<Fragment>();
 
-        SubTop16Top32Fragment top24 = new SubTop16Top32Fragment();
+        final SubTop16Top32Fragment top24 = new SubTop16Top32Fragment();
         bundle = new Bundle();
-        if (playoffTreeGraphicDisplay.getStages().get(0) != null) {
-            bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(0));
-            bundle.putLong("topNumber", 24);
-            top24.setArguments(bundle);
-        }
+        Utils.nullCheck(playoffTreeGraphicDisplay, new NullCheck() {
+            @Override
+            public void onNotNull() {
 
-        SubTop16Top32Fragment top16 = new SubTop16Top32Fragment();
-        bundle = new Bundle();
-        if (playoffTreeGraphicDisplay.getStages().get(1) != null) {
-            bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(1));
-            bundle.putLong("topNumber", 16);
-            top16.setArguments(bundle);
-        }
+                Utils.nullCheck(playoffTreeGraphicDisplay.getStages().get(0), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(0));
+                        bundle.putLong("topNumber", 24);
+                        top24.setArguments(bundle);
+                    }
 
-        SubTop16Top32Fragment top8 = new SubTop16Top32Fragment();
-        bundle = new Bundle();
-        if (playoffTreeGraphicDisplay.getStages().get(2) != null) {
-            bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(2));
-            bundle.putLong("topNumber", 8);
-            top8.setArguments(bundle);
-        }
+                    @Override
+                    public void onNull() {
 
-        SubTop16Top32Fragment top4 = new SubTop16Top32Fragment();
-        bundle = new Bundle();
-        if (playoffTreeGraphicDisplay.getStages().get(3) != null) {
-            bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(3));
-            bundle.putLong("topNumber", 4);
-            top4.setArguments(bundle);
-        }
+                    }
+                });
 
-        SubTop16Top32Fragment finals = new SubTop16Top32Fragment();
-        bundle = new Bundle();
-        if (playoffTreeGraphicDisplay.getStages().get(4) != null) {
-            bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(4));
-            bundle.putLong("topNumber", 0);
-            finals.setArguments(bundle);
-        }
+            }
 
-        QualificationsResultsListFragment results = new QualificationsResultsListFragment();
+            @Override
+            public void onNull() {
+
+            }
+        });
+
+
+        final SubTop16Top32Fragment top16 = new SubTop16Top32Fragment();
         bundle = new Bundle();
-        if (playoffTreeGraphicDisplay.getRoundResults() != null) {
-            bundle.putSerializable("results", (Serializable) playoffTreeGraphicDisplay.getRoundResults());
-            results.setArguments(bundle);
-        }
+
+        Utils.nullCheck(playoffTreeGraphicDisplay, new NullCheck() {
+            @Override
+            public void onNotNull() {
+
+                Utils.nullCheck(playoffTreeGraphicDisplay.getStages().get(1), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(1));
+                        bundle.putLong("topNumber", 16);
+                        top16.setArguments(bundle);
+                    }
+
+                    @Override
+                    public void onNull() {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
+
+        final SubTop16Top32Fragment top8 = new SubTop16Top32Fragment();
+        bundle = new Bundle();
+
+        Utils.nullCheck(playoffTreeGraphicDisplay, new NullCheck() {
+            @Override
+            public void onNotNull() {
+                Utils.nullCheck(playoffTreeGraphicDisplay.getStages().get(2), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(2));
+                        bundle.putLong("topNumber", 8);
+                        top8.setArguments(bundle);
+                    }
+
+                    @Override
+                    public void onNull() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
+
+        final SubTop16Top32Fragment top4 = new SubTop16Top32Fragment();
+        bundle = new Bundle();
+        Utils.nullCheck(playoffTreeGraphicDisplay, new NullCheck() {
+            @Override
+            public void onNotNull() {
+                Utils.nullCheck(playoffTreeGraphicDisplay.getStages().get(3), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(3));
+                        bundle.putLong("topNumber", 4);
+                        top4.setArguments(bundle);
+                    }
+
+                    @Override
+                    public void onNull() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
+
+        final SubTop16Top32Fragment finals = new SubTop16Top32Fragment();
+        bundle = new Bundle();
+        Utils.nullCheck(playoffTreeGraphicDisplay, new NullCheck() {
+            @Override
+            public void onNotNull() {
+                Utils.nullCheck(playoffTreeGraphicDisplay.getStages().get(4), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        bundle.putSerializable("playoffStage", playoffTreeGraphicDisplay.getStages().get(4));
+                        bundle.putLong("topNumber", 0);
+                        finals.setArguments(bundle);
+                    }
+
+                    @Override
+                    public void onNull() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
+
+        final QualificationsResultsListFragment results = new QualificationsResultsListFragment();
+        bundle = new Bundle();
+        Utils.nullCheck(playoffTreeGraphicDisplay, new NullCheck() {
+            @Override
+            public void onNotNull() {
+                Utils.nullCheck(playoffTreeGraphicDisplay.getRoundResults(), new NullCheck() {
+                    @Override
+                    public void onNotNull() {
+                        bundle.putSerializable("results", (Serializable) playoffTreeGraphicDisplay.getRoundResults());
+                        results.setArguments(bundle);
+                    }
+
+                    @Override
+                    public void onNull() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNull() {
+
+            }
+        });
 
         fList.add(top24);
         fList.add(top16);
@@ -194,7 +312,7 @@ public class Top16Top32Fragment extends Fragment {
 
     private void initializeDriverDetailsViewPager(PlayoffTreeGraphicDisplay playoffTreeGraphicDisplay) {
         List<Fragment> fragments = getFragmentsForViewPager(playoffTreeGraphicDisplay);
-        String tabTitles[] = new String[] {"Top 24", "Top 16", "Top 8", "Top 4", "Finals", "Results"};
+        String tabTitles[] = new String[]{"Top 24", "Top 16", "Top 8", "Top 4", "Finals", "Results"};
 
         // Instantiate a ViewPager and a PagerAdapter.
 
@@ -208,12 +326,48 @@ public class Top16Top32Fragment extends Fragment {
 
     @OnClick(R.id.relativeLayout_top16Top32Layout_battleLauncher)
     public void battleLauncherClick() {
-        Intent intent = new Intent(getActivity(), JudgeBattleActivity.class);
-        startActivity(intent);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+        Set<String> roles = sharedPreferences.getStringSet("roles", new HashSet<String>());
+        if (roles.size() == 0) {
+            if (playoffTreeGraphicDisplay != null) {
+                if (playoffTreeGraphicDisplay.getCurrentBattle() != null) {
+                    Intent intent = new Intent(getActivity(), PublicBattleActivity.class);
+                    intent.putExtra("battleId", playoffTreeGraphicDisplay.getCurrentBattle().getId());
+                    topNumber = 0;
+                    switch (playoffTreeGraphicDisplay.getCurrentBattle().getOrder()) {
+                        case 0:
+                            topNumber = 24;
+                            break;
+                        case 1:
+                            topNumber = 16;
+                            break;
+                        case 2:
+                            topNumber = 8;
+                            break;
+                        case 3:
+                            topNumber = 4;
+                            break;
+                        case 4:
+                            topNumber = 0;
+                            break;
+                    }
+                    intent.putExtra("topNumber", topNumber);
+                    startActivity(intent);
+                } else {
+                    if (roles.contains("ROLE_JUDGE")) {
+                        Intent intent = new Intent(getActivity(), JudgeBattleActivity.class);
+                        intent.putExtra("battleId", playoffTreeGraphicDisplay.getCurrentBattle().getId());
+                        intent.putExtra("token", sharedPreferences.getString("token", "token"));
+                        intent.putExtra("topNumber", topNumber);
+                        startActivity(intent);
+                    }
+                }
+            }
+        }
     }
 
     public void getPlayoffs() {
-        dialog = ProgressDialog.show(getActivity(), "Loading", "Getting playoffs...");
+        dialog = ProgressDialog.show(getActivity(), "Loading", "Getting battles...");
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
 
@@ -228,79 +382,188 @@ public class Top16Top32Fragment extends Fragment {
         playoffTreeGraphicDisplayCall.enqueue(new retrofit.Callback<PlayoffTreeGraphicDisplay>() {
             @Override
             public void onResponse(final Response<PlayoffTreeGraphicDisplay> response, Retrofit retrofit) {
-                PlayoffTreeGraphicDisplay playoffTreeGraphicDisplay = response.body();
+                playoffTreeGraphicDisplay = response.body();
                 initializeDriverDetailsViewPager(playoffTreeGraphicDisplay);
 
-                if (playoffTreeGraphicDisplay.getCurrentBattle() != null) {
-                    Utils.loadImage(200, 200, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getProfilePicture(), firstDriverPicture, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            firstDriverPictureProgressBar.setVisibility(View.GONE);
-                        }
+                if (playoffTreeGraphicDisplay != null) {
+                    if (playoffTreeGraphicDisplay.getCurrentBattle() != null) {
+                        Utils.loadNormalImage(200, 200, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getProfilePicture(), firstDriverPicture, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                firstDriverPictureProgressBar.setVisibility(View.GONE);
+                            }
 
-                        @Override
-                        public void onError() {
+                            @Override
+                            public void onError() {
+                                firstDriverPictureProgressBar.setVisibility(View.GONE);
 
-                        }
-                    });
+                            }
+                        });
 
-                    firstDriverName.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getFirstName());
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getFirstName(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverName.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getFirstName());
 
-                    Utils.loadImage(100, 100, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getCountry(), firstDriverFlag, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
+                            }
 
-                        @Override
-                        public void onError() {
+                            @Override
+                            public void onNull() {
+                                firstDriverName.setText("-");
+                            }
+                        });
 
-                        }
-                    });
+                        Utils.loadNormalImage(100, 100, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getCountry(), firstDriverFlag, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
 
-                    firstDriverQualificationOrder.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getRanking()));
-                    //viewHolder.firstDriverStatus
-                    firstDriverCarModel.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getMake() + " " + playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getModel());
-                    firstDriverCarHP.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getHorsePower()));
+                            @Override
+                            public void onError() {
 
-                    Utils.loadImage(200, 200, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getProfilePicture(), secondDriverPicture, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            secondDriverPictureProgressBar.setVisibility(View.GONE);
-                        }
+                            }
+                        });
 
-                        @Override
-                        public void onError() {
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getRanking(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverQualificationOrder.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getRanking()));
 
-                        }
-                    });
+                            }
 
-                    secondDriverName.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getFirstName());
+                            @Override
+                            public void onNull() {
+                                firstDriverQualificationOrder.setText("-");
+                            }
+                        });
+                        //viewHolder.firstDriverStatus
 
-                    Utils.loadImage(100, 100, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getCountry(), secondDriverFlag, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getMake(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverCarModel.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getMake() + " " + playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getModel());
 
-                        @Override
-                        public void onError() {
-                        }
-                    });
+                            }
 
-                    secondDriverQualificationOrder.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getRanking()));
-                    //viewHolder.firstDriverStatus
-                    secondDriverCarModel.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getMake() + " " + playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getModel());
-                    secondDriverCarHP.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getHorsePower()));
-                    dialog.dismiss();
+                            @Override
+                            public void onNull() {
+                                firstDriverCarModel.setText("-");
+
+                            }
+                        });
+
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverCarHP.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getDriverDetails().getHorsePower() + "hp"));
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                firstDriverCarHP.setText("- HP");
+                            }
+                        });
+
+                        Utils.loadNormalImage(200, 200, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getProfilePicture(), secondDriverPicture, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                secondDriverPictureProgressBar.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError() {
+                                secondDriverPictureProgressBar.setVisibility(View.GONE);
+
+                            }
+                        });
+
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getFirstName(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverName.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getFirstName());
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                secondDriverName.setText("-");
+
+                            }
+                        });
+
+                        Utils.loadNormalImage(100, 100, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getCountry(), secondDriverFlag, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError() {
+                            }
+                        });
+
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getRanking(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverQualificationOrder.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getRanking()));
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                secondDriverQualificationOrder.setText("-");
+                            }
+                        });
+                        //viewHolder.firstDriverStatus
+
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getMake(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverCarModel.setText(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getMake() + " " + playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getModel());
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                secondDriverCarModel.setText("-");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverCarHP.setText(String.valueOf(playoffTreeGraphicDisplay.getCurrentBattle().getDriver2().getDriver().getDriverDetails().getHorsePower() + "HP"));
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                secondDriverCarHP.setText("- HP");
+                            }
+                        });
+                        dialog.dismiss();
+                    }
                 }
                 dialog.dismiss();
+                Toast.makeText(getActivity(), "No drift battles yet!", Toast.LENGTH_SHORT).show();
+                firstDriverPictureProgressBar.setVisibility(View.GONE);
+                secondDriverPictureProgressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Throwable t) {
                 Log.e("top16top32", t.toString());
                 dialog.dismiss();
+                Toast.makeText(getActivity(), "No drift battles yet!", Toast.LENGTH_SHORT).show();
+                firstDriverPictureProgressBar.setVisibility(View.GONE);
+                secondDriverPictureProgressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    @OnClick(R.id.button_top16Top32Layout_refreshButton)
+    public void refreshButtonClick() {
+        getPlayoffs();
     }
 
 

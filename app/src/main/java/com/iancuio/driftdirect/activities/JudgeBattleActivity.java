@@ -3,24 +3,17 @@ package com.iancuio.driftdirect.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,22 +30,17 @@ import android.widget.Toast;
 
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.adapters.listViewAdapters.BattleRunBubbleAdapter;
-import com.iancuio.driftdirect.adapters.listViewAdapters.BattleRunBubbleTempAdapter;
 import com.iancuio.driftdirect.adapters.listViewAdapters.RunJudgeSelectCommentsAdapter;
-import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.customObjects.round.playoffs.battle.PlayoffBattleSubmitDriverJudgeAwards;
 import com.iancuio.driftdirect.customObjects.round.playoffs.battle.PlayoffBattleSubmitJudgeBattle;
 import com.iancuio.driftdirect.customObjects.round.playoffs.battle.PlayoffBattleViewJudgeBattle;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.Comment;
-import com.iancuio.driftdirect.service.QualifierService;
 import com.iancuio.driftdirect.service.RoundService;
-import com.iancuio.driftdirect.utils.CustomLinearLayoutManager;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RangeSeekBar.RangeBar;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +49,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.sephiroth.android.library.widget.HListView;
 import retrofit.Call;
 import retrofit.JacksonConverterFactory;
 import retrofit.Response;
@@ -138,8 +125,8 @@ public class JudgeBattleActivity extends AppCompatActivity {
     List<Comment> firstDriverSelectedPositiveComments;
     List<Comment> firstDriverSelectedNegativeComments;
 
-    SparseBooleanArray firstDriverRetainedPositiveCheckedcomments;
-    SparseBooleanArray firstDriverRetainedNegativeCheckedcomments;
+    SparseBooleanArray firstDriverRetainedPositiveCheckedComments;
+    SparseBooleanArray firstDriverRetainedNegativeCheckedComments;
 
     List<Comment> secondDriverSelectedPositiveCommentsFull;
     List<Comment> secondDriverSelectedNegativeCommentsFull;
@@ -147,16 +134,14 @@ public class JudgeBattleActivity extends AppCompatActivity {
     List<Comment> secondDriverSelectedPositiveComments;
     List<Comment> secondDriverSelectedNegativeComments;
 
-    SparseBooleanArray secondDriverRetainedPositiveCheckedcomments;
-    SparseBooleanArray secondDriverRetainedNegativeCheckedcomments;
+    SparseBooleanArray secondDriverRetainedPositiveCheckedComments;
+    SparseBooleanArray secondDriverRetainedNegativeCheckedComments;
 
     static PopupWindow fadePopup;
     static View popupView;
     static PopupWindow popupWindow;
 
     PlayoffBattleViewJudgeBattle playoffBattleViewJudgeBattle;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,15 +158,14 @@ public class JudgeBattleActivity extends AppCompatActivity {
             topNumberTextView.setText("FINALS");
         }
 
-
         firstDriverSelectedPositiveComments = new ArrayList<>();
         firstDriverSelectedNegativeComments = new ArrayList<>();
 
         firstDriverSelectedPositiveCommentsFull = new ArrayList<>();
         firstDriverSelectedNegativeCommentsFull = new ArrayList<>();
 
-        firstDriverRetainedPositiveCheckedcomments = new SparseBooleanArray();
-        firstDriverRetainedNegativeCheckedcomments = new SparseBooleanArray();
+        firstDriverRetainedPositiveCheckedComments = new SparseBooleanArray();
+        firstDriverRetainedNegativeCheckedComments = new SparseBooleanArray();
 
         secondDriverSelectedPositiveComments = new ArrayList<>();
         secondDriverSelectedNegativeComments = new ArrayList<>();
@@ -189,9 +173,8 @@ public class JudgeBattleActivity extends AppCompatActivity {
         secondDriverSelectedPositiveCommentsFull = new ArrayList<>();
         secondDriverSelectedNegativeCommentsFull = new ArrayList<>();
 
-        secondDriverRetainedPositiveCheckedcomments = new SparseBooleanArray();
-        secondDriverRetainedNegativeCheckedcomments = new SparseBooleanArray();
-
+        secondDriverRetainedPositiveCheckedComments = new SparseBooleanArray();
+        secondDriverRetainedNegativeCheckedComments = new SparseBooleanArray();
     }
 
     private void getBattleDetails() {
@@ -204,18 +187,19 @@ public class JudgeBattleActivity extends AppCompatActivity {
 
         Long battleId = getIntent().getLongExtra("battleId", 0);
         String token = getIntent().getStringExtra("token");
+
         Call<PlayoffBattleViewJudgeBattle> playoffBattleViewJudgeBattleCall = roundService.getBattleDetailsForJudge(token, battleId);
 
         playoffBattleViewJudgeBattleCall.enqueue(new retrofit.Callback<PlayoffBattleViewJudgeBattle>() {
             @Override
             public void onResponse(final Response<PlayoffBattleViewJudgeBattle> response, Retrofit retrofit) {
-
                 if(response.code() == 200) {
                     if (response.body() != null) {
                         dialog.dismiss();
                         playoffBattleViewJudgeBattle = response.body();
 
-                        Utils.loadImage(200, 200, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getProfilePicture(), firstDriverPictureImageView, new Callback() {
+
+                        Utils.loadNormalImage(200, 200, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getProfilePicture(), firstDriverPictureImageView, new Callback() {
                             @Override
                             public void onSuccess() {
                                 firstDriverPictureProgressBar.setVisibility(View.GONE);
@@ -223,11 +207,11 @@ public class JudgeBattleActivity extends AppCompatActivity {
 
                             @Override
                             public void onError() {
-
+                                firstDriverPictureProgressBar.setVisibility(View.GONE);
                             }
                         });
 
-                        Utils.loadImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getCountry(), firstDriverFlag, new Callback() {
+                        Utils.loadNormalImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getCountry(), firstDriverFlag, new Callback() {
                             @Override
                             public void onSuccess() {
                             }
@@ -238,7 +222,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                             }
                         });
 
-//                Utils.loadImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getCountry(), firstDriverFlag, new Callback() {
+//                Utils.loadNormalImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getCountry(), firstDriverFlag, new Callback() {
 //                    @Override
 //                    public void onSuccess() {
 //                    }
@@ -249,12 +233,57 @@ public class JudgeBattleActivity extends AppCompatActivity {
 //                    }
 //                });
 
-                        firstDriverNameTextView.setText(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getFirstName() + " " + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getLastName());
-                        firstDriverQualificationNumberTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver1().getDriver().getRanking()));
-                        firstDriverCarModelTextView.setText(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getMake() + " " + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getModel());
-                        firstDriverCarHpTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getHorsePower()));
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getProfilePicture(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverNameTextView.setText(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getFirstName() + " " + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getLastName());
+                            }
 
-                        Utils.loadImage(200, 200, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getProfilePicture(), secondDriverPictureImageView, new Callback() {
+                            @Override
+                            public void onNull() {
+                                firstDriverNameTextView.setText("-");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver1().getDriver().getRanking(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverQualificationNumberTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver1().getDriver().getRanking()));
+                            }
+
+                            @Override
+                            public void onNull() {
+                                firstDriverQualificationNumberTextView.setText("-");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getMake(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverCarModelTextView.setText(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getMake() + " " + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getModel());
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                firstDriverNameTextView.setText("-");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                firstDriverCarHpTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getDriverDetails().getHorsePower() + "HP"));
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                firstDriverCarHpTextView.setText("-HP");
+                            }
+                        });
+
+                        Utils.loadNormalImage(200, 200, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getProfilePicture(), secondDriverPictureImageView, new Callback() {
                             @Override
                             public void onSuccess() {
                                 firstDriverPictureProgressBar.setVisibility(View.GONE);
@@ -262,11 +291,11 @@ public class JudgeBattleActivity extends AppCompatActivity {
 
                             @Override
                             public void onError() {
-
+                                firstDriverPictureProgressBar.setVisibility(View.GONE);
                             }
                         });
 
-                        Utils.loadImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getCountry(), secondDriverFlag, new Callback() {
+                        Utils.loadNormalImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getCountry(), secondDriverFlag, new Callback() {
                             @Override
                             public void onSuccess() {
                             }
@@ -277,7 +306,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                             }
                         });
 
-//                Utils.loadImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getCountry(), firstDriverFlag, new Callback() {
+//                Utils.loadNormalImage(100, 100, JudgeBattleActivity.this, RestUrls.FILE + playoffBattleViewJudgeBattle.getDriver1().getDriver().getDriver().getCountry(), firstDriverFlag, new Callback() {
 //                    @Override
 //                    public void onSuccess() {
 //                    }
@@ -288,26 +317,96 @@ public class JudgeBattleActivity extends AppCompatActivity {
 //                    }
 //                });
 
-                        secondDriverNameTextView.setText(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getFirstName() + " " + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getLastName());
-                        secondDriverQualificationNumberTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver2().getDriver().getRanking()));
-                        secondDriverCarModelTextView.setText(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getMake() + " " + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getModel());
-                        secondDriverCarHpTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getHorsePower()));
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getFirstName(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverNameTextView.setText(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getFirstName() + " " + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getLastName());
 
-                        if (playoffBattleViewJudgeBattle.getDriver1().isLead()) {
-                            firstDriverStatusTextView.setText("LEAD");
-                            secondDriverStatusTextView.setText("CHASE");
-                        } else {
-                            firstDriverStatusTextView.setText("CHASE");
-                            secondDriverStatusTextView.setText("LEAD");
-                        }
+                            }
 
-                        if (playoffBattleViewJudgeBattle.getDriver1().isAdvantage()) {
-                            firstDriverAdvantageTextView.setVisibility(View.VISIBLE);
-                            secondDriverAdvantageTextView.setVisibility(View.GONE);
-                        } else {
-                            firstDriverAdvantageTextView.setVisibility(View.GONE);
-                            secondDriverAdvantageTextView.setVisibility(View.VISIBLE);
-                        }
+                            @Override
+                            public void onNull() {
+                                secondDriverNameTextView.setText("-");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver2().getDriver().getRanking(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverQualificationNumberTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver2().getDriver().getRanking()));
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                secondDriverQualificationNumberTextView.setText("-");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getMake(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverCarModelTextView.setText(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getMake() + " " + playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getModel());
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                secondDriverCarModelTextView.setText("-");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getHorsePower(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                secondDriverCarHpTextView.setText(String.valueOf(playoffBattleViewJudgeBattle.getDriver2().getDriver().getDriver().getDriverDetails().getHorsePower() + "HP"));
+
+                            }
+
+                            @Override
+                            public void onNull() {
+                                secondDriverCarHpTextView.setText("-HP");
+                            }
+                        });
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver1().isLead(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                if (playoffBattleViewJudgeBattle.getDriver1().isLead()) {
+                                    firstDriverStatusTextView.setText("LEAD");
+                                    secondDriverStatusTextView.setText("CHASE");
+                                } else {
+                                    firstDriverStatusTextView.setText("CHASE");
+                                    secondDriverStatusTextView.setText("LEAD");
+                                }
+                            }
+
+                            @Override
+                            public void onNull() {
+                                firstDriverStatusTextView.setText("-");
+                                secondDriverStatusTextView.setText("-");
+                            }
+                        });
+
+
+                        Utils.nullCheck(playoffBattleViewJudgeBattle.getDriver1().isAdvantage(), new NullCheck() {
+                            @Override
+                            public void onNotNull() {
+                                if (playoffBattleViewJudgeBattle.getDriver1().isAdvantage()) {
+                                    firstDriverAdvantageTextView.setVisibility(View.VISIBLE);
+                                    secondDriverAdvantageTextView.setVisibility(View.GONE);
+                                } else {
+                                    firstDriverAdvantageTextView.setVisibility(View.GONE);
+                                    secondDriverAdvantageTextView.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onNull() {
+                                firstDriverAdvantageTextView.setVisibility(View.GONE);
+                                secondDriverAdvantageTextView.setVisibility(View.GONE);
+                            }
+                        });
 
                         driverPointsRangeBar.setThumbIndices(5);
 
@@ -339,27 +438,15 @@ public class JudgeBattleActivity extends AppCompatActivity {
                         int padding = (int)(10 * displayMetrics.density);
                         int childWidth = (int)(70 * displayMetrics.density);
                         int line = (int)(30 * displayMetrics.density);
-                        int paddindToBeAdded = dpWidth - childWidth*totalRunNumber - padding*2 + line;
+                        int paddingToBeAdded = dpWidth - childWidth*totalRunNumber - padding*2 + line;
 
-                        runNumberRecyclerView.setPadding(paddindToBeAdded/2, 0, 0, 0);
+                        runNumberRecyclerView.setPadding(paddingToBeAdded/2, 0, 0, 0);
                         runNumberRecyclerView.invalidate();
                         runNumberRecyclerView.requestLayout();
                     }
                 } else if (response.code() == 412) {
                     dialog.dismiss();
-                    new AlertDialog.Builder(JudgeBattleActivity.this)
-                            .setTitle("Attention!")
-                            .setMessage("Please wait for the other judges to give their scores for the current run!")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-                                    //Toast.makeText(JudgeBattleActivity.this, "Please wait for the other judges to give their scores for the first run!", Toast.LENGTH_SHORT).show();
-                                    onBackPressed();
-
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                    Utils.showAlertDialog(JudgeBattleActivity.this, "Attention!", "Please wait for the other judges to give their scores for the current run!", "Please wait for the other judges to give their scores for the first run!");
                 } else {
                     dialog.dismiss();
                     Toast.makeText(JudgeBattleActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
@@ -400,82 +487,97 @@ public class JudgeBattleActivity extends AppCompatActivity {
     @OnClick(R.id.button_battleJudgeLayout_submit)
     public void submitClick() {
 
-        PlayoffBattleSubmitJudgeBattle playoffBattleSubmitJudgeBattle = new PlayoffBattleSubmitJudgeBattle();
-        playoffBattleSubmitJudgeBattle.setRoundId(playoffBattleViewJudgeBattle.getBattleRoundId());
-        playoffBattleSubmitJudgeBattle.setRunId(playoffBattleViewJudgeBattle.getRunId());
+        new AlertDialog.Builder(JudgeBattleActivity.this)
+                .setTitle("Warning!")
+                .setMessage("Are you sure you want to submit the scores? You cannot change them after submission!")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, int which) {
+                        // continue with delete
+                        PlayoffBattleSubmitJudgeBattle playoffBattleSubmitJudgeBattle = new PlayoffBattleSubmitJudgeBattle();
+                        playoffBattleSubmitJudgeBattle.setRoundId(playoffBattleViewJudgeBattle.getBattleRoundId());
+                        playoffBattleSubmitJudgeBattle.setRunId(playoffBattleViewJudgeBattle.getRunId());
 
-        PlayoffBattleSubmitDriverJudgeAwards driver1 = new PlayoffBattleSubmitDriverJudgeAwards();
-        PlayoffBattleSubmitDriverJudgeAwards driver2 = new PlayoffBattleSubmitDriverJudgeAwards();
+                        PlayoffBattleSubmitDriverJudgeAwards driver1 = new PlayoffBattleSubmitDriverJudgeAwards();
+                        PlayoffBattleSubmitDriverJudgeAwards driver2 = new PlayoffBattleSubmitDriverJudgeAwards();
 
-        List<Comment> firstDriverAllCommentsList = new ArrayList<>();
-        firstDriverAllCommentsList.addAll(firstDriverSelectedPositiveCommentsFull);
-        firstDriverAllCommentsList.addAll(firstDriverSelectedNegativeCommentsFull);
+                        List<Comment> firstDriverAllCommentsList = new ArrayList<>();
+                        firstDriverAllCommentsList.addAll(firstDriverSelectedPositiveCommentsFull);
+                        firstDriverAllCommentsList.addAll(firstDriverSelectedNegativeCommentsFull);
 
-        List<Comment> secondDriverAllCommentsList = new ArrayList<>();
-        secondDriverAllCommentsList.addAll(secondDriverSelectedPositiveCommentsFull);
-        secondDriverAllCommentsList.addAll(secondDriverSelectedNegativeCommentsFull);
+                        List<Comment> secondDriverAllCommentsList = new ArrayList<>();
+                        secondDriverAllCommentsList.addAll(secondDriverSelectedPositiveCommentsFull);
+                        secondDriverAllCommentsList.addAll(secondDriverSelectedNegativeCommentsFull);
 
-        driver1.setComments(firstDriverAllCommentsList);
-        driver1.setQualifiedDriverId(playoffBattleViewJudgeBattle.getDriver1().getDriver().getId());
+                        driver1.setComments(firstDriverAllCommentsList);
+                        driver1.setQualifiedDriverId(playoffBattleViewJudgeBattle.getDriver1().getDriver().getId());
 
-        driver2.setComments(secondDriverAllCommentsList);
-        driver2.setQualifiedDriverId(playoffBattleViewJudgeBattle.getDriver2().getDriver().getId());
+                        driver2.setComments(secondDriverAllCommentsList);
+                        driver2.setQualifiedDriverId(playoffBattleViewJudgeBattle.getDriver2().getDriver().getId());
 
-        if (driverPointsRangeBar.getLeftIndex() <= 5) {
-            driver1.setPoints(10 - driverPointsRangeBar.getLeftIndex());
-            driver2.setPoints(driverPointsRangeBar.getLeftIndex());
-        } else {
-            if (driverPointsRangeBar.getLeftIndex() >= 5) {
-                driver2.setPoints(10 - driverPointsRangeBar.getLeftIndex());
-                driver1.setPoints(driverPointsRangeBar.getLeftIndex());
-            }
-        }
+                        if (driverPointsRangeBar.getLeftIndex() <= 5) {
+                            driver1.setPoints(10 - driverPointsRangeBar.getLeftIndex());
+                            driver2.setPoints(driverPointsRangeBar.getLeftIndex());
+                        } else {
+                            if (driverPointsRangeBar.getLeftIndex() >= 5) {
+                                driver2.setPoints(10 - driverPointsRangeBar.getLeftIndex());
+                                driver1.setPoints(driverPointsRangeBar.getLeftIndex());
+                            }
+                        }
 
-        playoffBattleSubmitJudgeBattle.setDriver1(driver1);
-        playoffBattleSubmitJudgeBattle.setDriver2(driver2);
+                        playoffBattleSubmitJudgeBattle.setDriver1(driver1);
+                        playoffBattleSubmitJudgeBattle.setDriver2(driver2);
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
+                        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
 
-        RoundService roundService;
-        roundService = retrofit.create(RoundService.class);
+                        RoundService roundService;
+                        roundService = retrofit.create(RoundService.class);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "token");
-        Call<Void> roundCall = roundService.postJudgeBattleAwards(token, playoffBattleViewJudgeBattle.getBattleId(), playoffBattleSubmitJudgeBattle);
+                        SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+                        String token = sharedPreferences.getString("token", "token");
+                        Call<Void> roundCall = roundService.postJudgeBattleAwards(token, playoffBattleViewJudgeBattle.getBattleId(), playoffBattleSubmitJudgeBattle);
 
-        roundCall.enqueue(new retrofit.Callback<Void>() {
-            @Override
-            public void onResponse(Response<Void> response, Retrofit retrofit) {
-                dialog.dismiss();
+                        roundCall.enqueue(new retrofit.Callback<Void>() {
+                            @Override
+                            public void onResponse(Response<Void> response, Retrofit retrofit) {
+                                dialog.dismiss();
 
-                switch (response.code()) {
-                    case 200:
-                        Toast.makeText(JudgeBattleActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                        JudgeBattleActivity.this.onBackPressed();
-                        break;
-                    case 401:
-                        Toast.makeText(JudgeBattleActivity.this, "You must be authorized for this operation!", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 403:
-                        Toast.makeText(JudgeBattleActivity.this, "You do not have the required permissions for this operation!", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 500:
-                        Toast.makeText(JudgeBattleActivity.this, "Something went wrong! Please try again!", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 404:
-                        Toast.makeText(JudgeBattleActivity.this, "Requested resource not found!", Toast.LENGTH_SHORT).show();
-                }
-            }
+                                switch (response.code()) {
+                                    case 200:
+                                        Toast.makeText(JudgeBattleActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                                        JudgeBattleActivity.this.onBackPressed();
+                                        break;
+                                    case 401:
+                                        Toast.makeText(JudgeBattleActivity.this, "You must be authorized for this operation!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 403:
+                                        Toast.makeText(JudgeBattleActivity.this, "You do not have the required permissions for this operation!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 500:
+                                        Toast.makeText(JudgeBattleActivity.this, "Something went wrong! Please try again!", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 404:
+                                        Toast.makeText(JudgeBattleActivity.this, "Requested resource not found!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("jhg", t.toString());
-                dialog.dismiss();
-            }
-        });
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Log.e("jhg", t.toString());
+                                dialog.dismiss();
+                            }
+                        });
+
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
-
-
 
     public void showPopupFirstDriver(final View anchorView, boolean positiveComments) {
 
@@ -486,10 +588,6 @@ public class JudgeBattleActivity extends AppCompatActivity {
 
         popupWindow = new PopupWindow(popupView,
                 percentWidth, percentHeight);
-
-
-//        final PopupWindow popupWindow = new PopupWindow(popupView,
-//                percentWidth, percentHeight);
 
         final Button completeButton = (Button) popupView.findViewById(R.id.button_popupJudgeCommentsLayout_completeButton);
         final ListView commentsListView = (ListView) popupView.findViewById(R.id.listView_popupJudgeCommentsLayout_commentList);
@@ -519,7 +617,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     TextView commentItem = (TextView) view.findViewById(R.id.textView_commentSelectionListViewRow_comment);
 
-                    firstDriverRetainedPositiveCheckedcomments = commentsListView.getCheckedItemPositions().clone();
+                    firstDriverRetainedPositiveCheckedComments = commentsListView.getCheckedItemPositions().clone();
                     //for (int i = 0; i < checkedItems.size(); i++) {
                     if (commentsListView.getCheckedItemPositions().get(position)) {
                         commentItem.setTextColor(getResources().getColor(R.color.top16Top32Winner));
@@ -536,7 +634,6 @@ public class JudgeBattleActivity extends AppCompatActivity {
                     } else {
                         completeButton.setText("COMPLETE SELECTION");
                     }
-                    //}
                 }
             });
 
@@ -552,7 +649,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                         firstDriverSelectedPositiveCommentsFull.add(newComment);
                         firstDriverSelectedPositiveComments.add(newComment);
                         newCommentEditText.setText("");
-                        firstDriverRetainedPositiveCheckedcomments.put(firstDriverSelectedPositiveComments.size()-1, true);
+                        firstDriverRetainedPositiveCheckedComments.put(firstDriverSelectedPositiveComments.size()-1, true);
                         commentsListView.setAdapter(new RunJudgeSelectCommentsAdapter(JudgeBattleActivity.this, firstDriverSelectedPositiveComments, true));
                         firstDriverRecheckPositiveItems(commentsListView);
                         final RunJudgeSelectCommentsAdapter castedAdapter = ((RunJudgeSelectCommentsAdapter) commentsListView.getAdapter());
@@ -579,7 +676,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     TextView commentItem = (TextView) view.findViewById(R.id.textView_commentSelectionListViewRow_comment);
 
-                    firstDriverRetainedNegativeCheckedcomments = commentsListView.getCheckedItemPositions().clone();
+                    firstDriverRetainedNegativeCheckedComments = commentsListView.getCheckedItemPositions().clone();
                     if (commentsListView.getCheckedItemPositions().get(position)) {
                         commentItem.setTextColor(getResources().getColor(R.color.red));
                         if (!firstDriverSelectedNegativeCommentsFull.contains(castedAdapter.getItem(position))) {
@@ -610,7 +707,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                         firstDriverSelectedNegativeComments.add(newComment);
                         firstDriverSelectedNegativeCommentsFull.add(newComment);
                         newCommentEditText.setText("");
-                        firstDriverRetainedNegativeCheckedcomments.put(firstDriverSelectedNegativeComments.size()-1, true);
+                        firstDriverRetainedNegativeCheckedComments.put(firstDriverSelectedNegativeComments.size()-1, true);
                         commentsListView.setAdapter(new RunJudgeSelectCommentsAdapter(JudgeBattleActivity.this, firstDriverSelectedNegativeComments, false));
                         firstDriverRecheckNegativeItems(commentsListView);
                         final RunJudgeSelectCommentsAdapter castedAdapter = ((RunJudgeSelectCommentsAdapter) commentsListView.getAdapter());
@@ -654,10 +751,6 @@ public class JudgeBattleActivity extends AppCompatActivity {
         popupWindow = new PopupWindow(popupView,
                 percentWidth, percentHeight);
 
-
-//        final PopupWindow popupWindow = new PopupWindow(popupView,
-//                percentWidth, percentHeight);
-
         final Button completeButton = (Button) popupView.findViewById(R.id.button_popupJudgeCommentsLayout_completeButton);
         final ListView commentsListView = (ListView) popupView.findViewById(R.id.listView_popupJudgeCommentsLayout_commentList);
         TextView header = (TextView) popupView.findViewById(R.id.textView_popupJudgeCommentsLayout_header);
@@ -686,7 +779,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     TextView commentItem = (TextView) view.findViewById(R.id.textView_commentSelectionListViewRow_comment);
 
-                    secondDriverRetainedPositiveCheckedcomments = commentsListView.getCheckedItemPositions().clone();
+                    secondDriverRetainedPositiveCheckedComments = commentsListView.getCheckedItemPositions().clone();
                     //for (int i = 0; i < checkedItems.size(); i++) {
                     if (commentsListView.getCheckedItemPositions().get(position)) {
                         commentItem.setTextColor(getResources().getColor(R.color.top16Top32Winner));
@@ -703,7 +796,6 @@ public class JudgeBattleActivity extends AppCompatActivity {
                     } else {
                         completeButton.setText("COMPLETE SELECTION");
                     }
-                    //}
                 }
             });
 
@@ -719,7 +811,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                         secondDriverSelectedPositiveCommentsFull.add(newComment);
                         secondDriverSelectedPositiveComments.add(newComment);
                         newCommentEditText.setText("");
-                        secondDriverRetainedPositiveCheckedcomments.put(secondDriverSelectedPositiveComments.size()-1, true);
+                        secondDriverRetainedPositiveCheckedComments.put(secondDriverSelectedPositiveComments.size()-1, true);
                         commentsListView.setAdapter(new RunJudgeSelectCommentsAdapter(JudgeBattleActivity.this, secondDriverSelectedPositiveComments, true));
                         secondDriverRecheckPositiveItems(commentsListView);
                         final RunJudgeSelectCommentsAdapter castedAdapter = ((RunJudgeSelectCommentsAdapter) commentsListView.getAdapter());
@@ -746,7 +838,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     TextView commentItem = (TextView) view.findViewById(R.id.textView_commentSelectionListViewRow_comment);
 
-                    secondDriverRetainedNegativeCheckedcomments = commentsListView.getCheckedItemPositions().clone();
+                    secondDriverRetainedNegativeCheckedComments = commentsListView.getCheckedItemPositions().clone();
                     if (commentsListView.getCheckedItemPositions().get(position)) {
                         commentItem.setTextColor(getResources().getColor(R.color.red));
                         if (!secondDriverSelectedNegativeCommentsFull.contains(castedAdapter.getItem(position))) {
@@ -777,7 +869,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
                         secondDriverSelectedPositiveComments.add(newComment);
                         secondDriverSelectedNegativeCommentsFull.add(newComment);
                         newCommentEditText.setText("");
-                        secondDriverRetainedNegativeCheckedcomments.put(secondDriverSelectedPositiveComments.size()-1, true);
+                        secondDriverRetainedNegativeCheckedComments.put(secondDriverSelectedPositiveComments.size()-1, true);
                         commentsListView.setAdapter(new RunJudgeSelectCommentsAdapter(JudgeBattleActivity.this, secondDriverSelectedPositiveComments, false));
                         secondDriverRecheckNegativeItems(commentsListView);
                         final RunJudgeSelectCommentsAdapter castedAdapter = ((RunJudgeSelectCommentsAdapter) commentsListView.getAdapter());
@@ -822,73 +914,49 @@ public class JudgeBattleActivity extends AppCompatActivity {
         return fadePopup;
     }
 
-    private void overrideBackPressed() {
-//        getView().setFocusableInTouchMode(true);
-//        getView().requestFocus();
-//        getView().setOnKeyListener( new View.OnKeyListener()
-//        {
-//            @Override
-//            public boolean onKey( View v, int keyCode, KeyEvent event )
-//            {
-//                boolean result = false;
-//                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-//                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                        if (popupWindow != null && popupWindow.isShowing()) {
-//                            popupWindow = null;
-//                            result = true;
-//                        } else {
-//                            result = false;
-//                        }
-//                    }
-//                }
-//                return result;
-//            }
-//        } );
-    }
-
     private void firstDriverRecheckPositiveItems(ListView commentsListView) {
-        if (firstDriverRetainedPositiveCheckedcomments != null) {
-            for (int i = 0; i < firstDriverRetainedPositiveCheckedcomments.size(); i++) {
-                if (firstDriverRetainedPositiveCheckedcomments.valueAt(i)) {
-                    commentsListView.setItemChecked(firstDriverRetainedPositiveCheckedcomments.keyAt(i), true);
+        if (firstDriverRetainedPositiveCheckedComments != null) {
+            for (int i = 0; i < firstDriverRetainedPositiveCheckedComments.size(); i++) {
+                if (firstDriverRetainedPositiveCheckedComments.valueAt(i)) {
+                    commentsListView.setItemChecked(firstDriverRetainedPositiveCheckedComments.keyAt(i), true);
                 } else {
-                    commentsListView.setItemChecked(firstDriverRetainedPositiveCheckedcomments.keyAt(i), false);
+                    commentsListView.setItemChecked(firstDriverRetainedPositiveCheckedComments.keyAt(i), false);
                 }
             }
         }
     }
 
     private void firstDriverRecheckNegativeItems(ListView commentsListView) {
-        if (firstDriverRetainedNegativeCheckedcomments != null) {
-            for (int i = 0; i < firstDriverRetainedNegativeCheckedcomments.size(); i++) {
-                if (firstDriverRetainedNegativeCheckedcomments.valueAt(i)) {
-                    commentsListView.setItemChecked(firstDriverRetainedNegativeCheckedcomments.keyAt(i), true);
+        if (firstDriverRetainedNegativeCheckedComments != null) {
+            for (int i = 0; i < firstDriverRetainedNegativeCheckedComments.size(); i++) {
+                if (firstDriverRetainedNegativeCheckedComments.valueAt(i)) {
+                    commentsListView.setItemChecked(firstDriverRetainedNegativeCheckedComments.keyAt(i), true);
                 } else {
-                    commentsListView.setItemChecked(firstDriverRetainedNegativeCheckedcomments.keyAt(i), false);
+                    commentsListView.setItemChecked(firstDriverRetainedNegativeCheckedComments.keyAt(i), false);
                 }
             }
         }
     }
 
     private void secondDriverRecheckPositiveItems(ListView commentsListView) {
-        if (secondDriverRetainedPositiveCheckedcomments != null) {
-            for (int i = 0; i < secondDriverRetainedPositiveCheckedcomments.size(); i++) {
-                if (secondDriverRetainedPositiveCheckedcomments.valueAt(i)) {
-                    commentsListView.setItemChecked(secondDriverRetainedPositiveCheckedcomments.keyAt(i), true);
+        if (secondDriverRetainedPositiveCheckedComments != null) {
+            for (int i = 0; i < secondDriverRetainedPositiveCheckedComments.size(); i++) {
+                if (secondDriverRetainedPositiveCheckedComments.valueAt(i)) {
+                    commentsListView.setItemChecked(secondDriverRetainedPositiveCheckedComments.keyAt(i), true);
                 } else {
-                    commentsListView.setItemChecked(secondDriverRetainedPositiveCheckedcomments.keyAt(i), false);
+                    commentsListView.setItemChecked(secondDriverRetainedPositiveCheckedComments.keyAt(i), false);
                 }
             }
         }
     }
 
     private void secondDriverRecheckNegativeItems(ListView commentsListView) {
-        if (secondDriverRetainedNegativeCheckedcomments != null) {
-            for (int i = 0; i < secondDriverRetainedNegativeCheckedcomments.size(); i++) {
-                if (secondDriverRetainedNegativeCheckedcomments.valueAt(i)) {
-                    commentsListView.setItemChecked(secondDriverRetainedNegativeCheckedcomments.keyAt(i), true);
+        if (secondDriverRetainedNegativeCheckedComments != null) {
+            for (int i = 0; i < secondDriverRetainedNegativeCheckedComments.size(); i++) {
+                if (secondDriverRetainedNegativeCheckedComments.valueAt(i)) {
+                    commentsListView.setItemChecked(secondDriverRetainedNegativeCheckedComments.keyAt(i), true);
                 } else {
-                    commentsListView.setItemChecked(secondDriverRetainedNegativeCheckedcomments.keyAt(i), false);
+                    commentsListView.setItemChecked(secondDriverRetainedNegativeCheckedComments.keyAt(i), false);
                 }
             }
         }

@@ -5,11 +5,11 @@ public class RestUrls {
     //Cloud server
     //public static final String BASE_URL = "https://driftdirect.herokuapp.com";
     //Pilu server
-    public static final String BASE_URL = "http://192.168.1.101:8080/driftdirect/";
+    //public static final String BASE_URL = "http://192.168.1.101:8080/driftdirect/";
     //Local developement
-    //public static final String BASE_URL = "http://192.168.1.100:8080";
+    //public static final String BASE_URL = "http://192.168.1.100:8080/";
     //Online
-    //public static final String BASE_URL = "http://46.101.120.89:8080/driftdirect/";
+    public static final String BASE_URL = "http://46.101.120.89:8080/driftdirect/";
 
     public static final String FILE = BASE_URL + "file/";
     //192.168.1.104:8080

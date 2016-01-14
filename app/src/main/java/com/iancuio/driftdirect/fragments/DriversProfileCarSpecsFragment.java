@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.customObjects.championship.driver.ChampionshipDriverParticipation;
 import com.iancuio.driftdirect.customObjects.person.Person;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -41,11 +43,9 @@ public class DriversProfileCarSpecsFragment extends Fragment {
     @Bind(R.id.textView_driverCarSpecsLayout_other)
     TextView otherTextView;
 
-
     public DriversProfileCarSpecsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,14 +65,97 @@ public class DriversProfileCarSpecsFragment extends Fragment {
 
     private void getDriverCarsSpecs() {
         Bundle bundle = this.getArguments();
-        ChampionshipDriverParticipation championshipDriverParticipation = (ChampionshipDriverParticipation) bundle.getSerializable("driver");
+        final ChampionshipDriverParticipation championshipDriverParticipation = (ChampionshipDriverParticipation) bundle.getSerializable("driver");
 
-        makerTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getMake());
-        modelTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getModel());
-        steeringAngleModsTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getSteeringAngle());
-        suspensionModsTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getSuspensionMods());
-        wheelsTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getWheels());
-        tiresTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getTires());
-        otherTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getOther());
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getMake(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                makerTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getMake());
+
+            }
+
+            @Override
+            public void onNull() {
+                makerTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getModel(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                modelTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getModel());
+
+            }
+
+            @Override
+            public void onNull() {
+                modelTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getSteeringAngle(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                steeringAngleModsTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getSteeringAngle());
+
+            }
+
+            @Override
+            public void onNull() {
+                steeringAngleModsTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getSuspensionMods(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                suspensionModsTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getSuspensionMods());
+
+            }
+
+            @Override
+            public void onNull() {
+                suspensionModsTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getWheels(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                wheelsTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getWheels());
+
+            }
+
+            @Override
+            public void onNull() {
+                wheelsTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getTires(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                tiresTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getTires());
+
+            }
+
+            @Override
+            public void onNull() {
+                tiresTextView.setText("-");
+            }
+        });
+
+        Utils.nullCheck(championshipDriverParticipation.getDriver().getDriverDetails().getOther(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                otherTextView.setText(championshipDriverParticipation.getDriver().getDriverDetails().getOther());
+
+            }
+
+            @Override
+            public void onNull() {
+                otherTextView.setText("-");
+            }
+        });
     }
 }

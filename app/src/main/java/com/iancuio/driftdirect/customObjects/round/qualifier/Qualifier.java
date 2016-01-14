@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Qualifier implements Serializable {
 
     private Long id;
-    private int finalScore;
+    private float finalScore;
     private PersonShort driver;
     private Run firstRun;
     private Run secondRun;
@@ -25,11 +25,11 @@ public class Qualifier implements Serializable {
         this.id = id;
     }
 
-    public int getFinalScore() {
+    public float getFinalScore() {
         return finalScore;
     }
 
-    public void setFinalScore(int finalScore) {
+    public void setFinalScore(float finalScore) {
         this.finalScore = finalScore;
     }
 

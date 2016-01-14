@@ -1,7 +1,9 @@
 package com.iancuio.driftdirect.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +33,17 @@ import com.iancuio.driftdirect.fragments.QualificationsListFragment;
 import com.iancuio.driftdirect.fragments.Top16Top32Fragment;
 import com.iancuio.driftdirect.fragments.TrackLayoutFragment;
 import com.iancuio.driftdirect.service.RoundService;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
+import com.iancuio.driftdirect.utils.Utils;
+import com.squareup.picasso.Callback;
+
+import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit.Call;
 import retrofit.JacksonConverterFactory;
 import retrofit.Response;
@@ -39,6 +51,11 @@ import retrofit.Retrofit;
 
 public class RoundNavigationViewActivity extends AppCompatActivity {
 
+    public static Round roundFull;
+    public static Long roundImageId;
+    private static Long roundId;
+    private static Championship championshipFull;
+    public Fragment currentFragment;
     @Bind(R.id.toolbar_roundNavigationViewLayout_feed)
     Toolbar feedToolbar;
     @Bind(R.id.toolbar_roundNavigationViewLayout_navigationDrawerTitle)
@@ -49,30 +66,19 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     @Bind(R.id.textView_roundNavigationViewLayout_navigationDrawerTitle)
     TextView navigationDrawerTitleTextView;
-
-    public Fragment currentFragment;
+    @Bind(R.id.textView_roundNavigationViewLayout_navigationDrawerLoggedInName)
+    TextView toolbarloggedInNameTextView;
+    @Bind(R.id.imageView_roundNavigationViewLayout_driverPicture)
+    CircleImageView loggedInProfilePicture;
+    @Bind(R.id.progressBar_roundNavigationViewLayout_progressBar)
+    ProgressBar loggedInProgressBar;
     ProgressDialog dialog;
-
-    public static Round roundFull;
-    public static Long roundImageId;
-
-
-
-    private static Long roundId;
-
-
-
-    private static Championship championshipFull;
-
-
-
     ActionBarDrawerToggle drawerToggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round_navigation_view);
         ButterKnife.bind(this);
-
 
         setSupportActionBar(feedToolbar);
 
@@ -93,13 +99,49 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
         Toolbar parent = (Toolbar) actionBarLayout.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("username", "token");
+
+        if (!token.equals("token")) {
+            toolbarloggedInNameTextView.setText(token);
+            Utils.loadProfileImage(100, 100, this, "eewjhg", loggedInProfilePicture, new Callback() {
+                @Override
+                public void onSuccess() {
+                    loggedInProgressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    loggedInProgressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+
+        TextView website = (TextView) findViewById(R.id.textView_actionBsrLayout_website);
+        website.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // profit
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.d1nz.com/"));
+                startActivity(browserIntent);
+            }
+        });
+
+        ImageView website2 = (ImageView) findViewById(R.id.textView_actionBsrLayout_logo);
+        website2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // profit
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.d1nz.com/"));
+                startActivity(browserIntent);
+            }
+        });
+
         setRoundImageId(getIntent().getExtras().getLong("roundImageId"));
         setChampionshipFull((Championship) getIntent().getExtras().getSerializable("championshipFull"));
         getFullRound();
-        //Initialising toolbar.
-        //Setting toolbar as Actionbar.
-
-
         //Initialising NavigationView
         //Setting OnNavigationItemSelectedListener to the Navigation View.
         //This is used to perform specific action when an item is clicked.
@@ -116,35 +158,30 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
                     case R.id.track_layout:
                         setFragment(new TrackLayoutFragment(), R.string.track_layout);
                         return true;
-                    case R.id.qualifications_list:
-                        setFragment(new QualificationsListFragment(), R.string.qualifications_list);
+                    case R.id.qualifications:
+                        setFragment(new QualificationsListFragment(), R.string.qualifications);
                         return true;
-                    case R.id.top_16_32:
-                        setFragment(new Top16Top32Fragment(), R.string.top_16_32);
+                    case R.id.top_32_16:
+                        setFragment(new Top16Top32Fragment(), R.string.top_32_16);
                         return true;
                     case R.id.event_schedule:
                         setFragment(new EventScheduleFragment(), R.string.event_schedule);
                         return true;
                     case R.id.live_stream:
-                        //setFragment(new LiveStreamFragment(), R.string.live_stream);
-                        if (isLiveStreamUrl()) {
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(roundFull.getLiveStream()));
-                            startActivity(browserIntent);
-                        }
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(roundFull.getLiveStream()));
+                        startActivity(browserIntent);
                         return true;
                     case R.id.buy_tickets_online_rounds:
-                        setFragment(new BuyTicketsOnlineFragment(), R.string.buy_tickets_online_rounds);
+                        Intent browserIntent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(roundFull.getTicketsUrl()));
+                        startActivity(browserIntent2);
+                        Toast.makeText(RoundNavigationViewActivity.this, "No tickets link provided!", Toast.LENGTH_SHORT).show();
                         return true;
                     default:
-                        Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
                         return true;
                 }
 
             }
         });
-
-        //navigationView.setItemIconTintList(null);
-
         //Initialising DrawerLayout.
         //Initialising ActionBarDrawerToggle and overriding its methods
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,navigationDrawerTitleToolbar,R.string.open_drawer,R.string.close_drawer){
@@ -174,6 +211,35 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
 
         navigationView.getMenu().getItem(0).setChecked(true);
         //setLiveStreamVisibility();
+    }
+
+    public void getFullRound() {
+
+        dialog = ProgressDialog.show(this, "Loading", "Getting Round info...");
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
+
+        RoundService roundService;
+        roundService = retrofit.create(RoundService.class);
+
+        roundId = getIntent().getExtras().getLong("roundId");
+        Call<Round> roundCall = roundService.getRound(roundId);
+
+        roundCall.enqueue(new retrofit.Callback<Round>() {
+            @Override
+            public void onResponse(final Response<Round> response, Retrofit retrofit) {
+                setRoundFull(response.body());
+                setLiveStreamVisibility();
+                setTicketsUrlVisibility();
+                setInitialFragment(new TrackLayoutFragment(), R.string.track_layout);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
 
@@ -239,40 +305,9 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
         if (roundFull.getLiveStream() == null) navigationView.getMenu().getItem(4).setVisible(false);
     }
 
-    public boolean isLiveStreamUrl () {
-        if (roundFull.getLiveStream() == null) return false;
-        else {
-            return true;
-        }
-    }
-
-    public void getFullRound() {
-
-        dialog = ProgressDialog.show(this, "Loading", "Getting Round info...");
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(RestUrls.BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
-
-        RoundService roundService;
-        roundService = retrofit.create(RoundService.class);
-
-        roundId = getIntent().getExtras().getLong("roundId");
-        Call<Round> roundCall = roundService.getRound(roundId);
-
-        roundCall.enqueue(new retrofit.Callback<Round>() {
-            @Override
-            public void onResponse(final Response<Round> response, Retrofit retrofit) {
-                setRoundFull(response.body());
-                setLiveStreamVisibility();
-                setInitialFragment(new TrackLayoutFragment(), R.string.track_layout);
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
+   public void setTicketsUrlVisibility() {
+       if (roundFull.getTicketsUrl() == null) navigationView.getMenu().getItem(5).setVisible(false);
+   }
 
     @Override
     public void onBackPressed() {
@@ -280,7 +315,7 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-                super.onBackPressed();
+            super.onBackPressed();
         }
     }
 }

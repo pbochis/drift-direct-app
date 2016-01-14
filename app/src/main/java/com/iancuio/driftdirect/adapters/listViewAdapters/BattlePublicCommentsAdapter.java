@@ -19,6 +19,7 @@ import com.iancuio.driftdirect.customObjects.BattleJudgeAndComments;
 import com.iancuio.driftdirect.customObjects.person.Judge;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.Comment;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.Run;
+import com.iancuio.driftdirect.utils.NullCheck;
 import com.iancuio.driftdirect.utils.Utils;
 
 import java.util.ArrayList;
@@ -90,7 +91,18 @@ public class BattlePublicCommentsAdapter extends BaseAdapter {
         judge.setType(battleJudgeAndCommentsList.get(i).getJudgeType());
         judge.setName(battleJudgeAndCommentsList.get(i).getJudgeName());
 
-        viewHolder.judgeNameTextView.setText(battleJudgeAndCommentsList.get(i).getJudgeName());
+        Utils.nullCheck(battleJudgeAndCommentsList.get(i).getJudgeName(), new NullCheck() {
+            @Override
+            public void onNotNull() {
+                viewHolder.judgeNameTextView.setText(battleJudgeAndCommentsList.get(i).getJudgeName());
+
+            }
+
+            @Override
+            public void onNull() {
+                viewHolder.judgeNameTextView.setText("-");
+            }
+        });
 
         viewHolder.positiveCommentsListView.setAdapter(new RunJudgeViewCommentsAdapter(context, battleJudgeAndCommentsList.get(i).getPositiveComments(), judge, true));
         Utils.setListViewHeightBasedOnItems(viewHolder.positiveCommentsListView);

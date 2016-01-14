@@ -19,11 +19,9 @@ public class BuyTicketsFragment extends Fragment {
 
     Championship championshipFull;
 
-
     public BuyTicketsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

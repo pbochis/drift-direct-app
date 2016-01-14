@@ -39,7 +39,7 @@
         android:id="@+id/textView_scheduleListViewItem_name" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
@@ -70,7 +70,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_height="wrap_content">
@@ -81,9 +82,10 @@
                 android:src="@drawable/schedule_time"
                 android:layout_height="20dp" />
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="wrap_content"
                 android:text="17:00 - 20:00"
+                android:maxLines="2"
                 android:id="@+id/textView_scheduleListViewItem_time"
                 android:layout_height="wrap_content" />
 

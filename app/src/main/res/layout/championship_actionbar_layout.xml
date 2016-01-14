@@ -10,6 +10,7 @@
         android:text="D1NZ.COM"
         android:layout_weight="1"
         android:gravity="center"
+        android:id="@+id/textView_actionBsrLayout_website"
         android:textSize="20sp"
         android:textColor="@color/white"
         android:layout_height="match_parent" />
@@ -18,6 +19,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
+        android:id="@+id/textView_actionBsrLayout_logo"
         android:src="@drawable/championship_test"
         android:layout_height="match_parent" />
 
