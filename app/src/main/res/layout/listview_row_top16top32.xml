@@ -1,64 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
 
-
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/relativeLayout_top16Top32Layout_driverInfoContainer"
             android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/menu_general_color"
             android:layout_height="25dp"
-            android:background="@color/menu_general_color">
+            android:weightSum="1"
+            >
 
-            <ImageView
-                android:id="@+id/imageView_top16Top32Layout_firstDriverFlag"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp" />
-
-            <TextView
-                android:id="@+id/textView_top16Top32Layout_firstDriverName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
-                android:layout_toRightOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView_top16Top32Layout_secondDriverName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverName"
-                android:layout_toLeftOf="@+id/imageView_top16Top32Layout_secondDriverFlag"
-                android:layout_toStartOf="@+id/imageView_top16Top32Layout_secondDriverFlag"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/imageView_top16Top32Layout_secondDriverFlag"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.50"
+                android:gravity="center_vertical">
 
 
+                <ImageView
+                    android:id="@+id/imageView_top16Top32Layout_firstDriverFlag"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
 
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/textView_top16Top32Layout_firstDriverName"
+                    android:layout_width="match_parent"
+                    android:maxLines="1"
+                    android:layout_marginRight="35dp"
+                    android:gravity="center_vertical|start"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
 
-        </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:gravity="end|center_vertical">
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/textView_top16Top32Layout_secondDriverName"
+                    android:layout_width="0dp"
+                    android:maxLines="1"
+                    android:layout_marginLeft="35dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/imageView_top16Top32Layout_secondDriverFlag"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <RelativeLayout
             android:id="@+id/relativeLayout6"
@@ -90,7 +106,7 @@
                     android:text="WINNER"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"/>
 
 
                 <RelativeLayout
@@ -108,16 +124,15 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         app:civ_border_color="#FFFFFF"
-                        app:civ_border_width="2dp" />
+                        app:civ_border_width="2dp"/>
 
                     <ProgressBar
                         android:id="@+id/progressBar_top16Yop32Layout_firstBadgePictureProgressBar"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerInParent="true"
-                        android:visibility="visible" />
+                        android:visibility="visible"/>
                 </RelativeLayout>
-
 
 
                 <TextView
@@ -130,7 +145,7 @@
                     android:background="@drawable/rounded_corner"
                     android:gravity="center"
                     android:text="1"
-                    android:textColor="@color/colorChampionships" />
+                    android:textColor="@color/colorChampionships"/>
 
                 <TextView
                     android:id="@+id/textView_top16Yop32Layout_firstBadgeOrderPlaceholder"
@@ -143,8 +158,7 @@
                     android:gravity="center"
                     android:text="1"
                     android:textColor="@color/colorChampionships"
-                    android:visibility="invisible" />
-
+                    android:visibility="invisible"/>
 
 
             </RelativeLayout>
@@ -177,36 +191,33 @@
                 android:text="WINNER"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
 
             <RelativeLayout
                 android:id="@+id/relativeLayout2"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_height="wrap_content">
+                android:layout_marginRight="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageView_top16Yop32Layout_secondBadgePicture"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     app:civ_border_color="#FFFFFF"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_width="2dp"/>
 
                 <ProgressBar
                     android:id="@+id/progressBar_top16Yop32Layout_secondBadgePictureProgressBar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerInParent="true"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
             </RelativeLayout>
-
-
-
 
 
             <TextView
@@ -219,7 +230,7 @@
                 android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:text="1"
-                android:textColor="@color/colorChampionships" />
+                android:textColor="@color/colorChampionships"/>
 
             <TextView
                 android:id="@+id/textView_top16Yop32Layout_secondBadgeOrderPlaceHolder"
@@ -232,9 +243,7 @@
                 android:gravity="center"
                 android:text="1"
                 android:textColor="@color/colorChampionships"
-                android:visibility="invisible" />
-
-
+                android:visibility="invisible"/>
 
 
         </RelativeLayout>
@@ -242,82 +251,118 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:background="@color/transparent">
 
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:adjustViewBounds="true"
+                android:background="@color/transparent"
                 android:src="@drawable/vs_triangle"/>
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:background="@color/transparent"
                 android:paddingBottom="10dp"
                 android:text="VS"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
 
-
     </RelativeLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="25dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
         android:background="@color/menu_general_color">
 
-        <TextView
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:background="@color/transparent"
+            android:layout_height="match_parent">
+
+
+
+
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:maxLines="1"
+            android:gravity="center_vertical|start"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_firstDriverCarHP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:layout_toEndOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:layout_toRightOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:paddingLeft="10dp"
+            android:layout_width="50dp"
+            android:gravity="center_vertical|end"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textStyle="bold"
             />
 
-        <TextView
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:background="@color/transparent"
+            android:gravity="center_vertical|end"
+            android:layout_height="match_parent">
+
+
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_secondDriverCarModel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
-            android:layout_toStartOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
+            android:layout_width="0dp"
+            android:gravity="center_vertical|end"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:paddingRight="10dp"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textStyle="bold"
             />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_secondDriverCarHP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="10dp"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:paddingRight="5dp"
+            android:maxLines="1"
+            android:gravity="center_vertical|end"
             android:textColor="@color/white"
             android:textStyle="bold"
             />
 
+        </LinearLayout>
 
-    </RelativeLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>

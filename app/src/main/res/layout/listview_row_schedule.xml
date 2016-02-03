@@ -29,13 +29,13 @@
         android:layout_width="wrap_content"
         android:text="DRIVERS REGISTRATION"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="15dp"
         android:textSize="20sp"
         android:layout_marginTop="3dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/relativeLayout"
         android:layout_toEndOf="@+id/relativeLayout"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:id="@+id/textView_scheduleListViewItem_name" />
 
     <LinearLayout

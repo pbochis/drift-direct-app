@@ -13,6 +13,7 @@ public class BattleGraphicDisplay implements Serializable {
     private QualifiedDriver driver2;
     private QualifiedDriver winner;
     private int order;
+    private Integer runsCompleted;
 
 
     public long getId() {
@@ -53,5 +54,13 @@ public class BattleGraphicDisplay implements Serializable {
 
     public void setWinner(QualifiedDriver winner) {
         this.winner = winner;
+    }
+
+    public Integer getRunsCompleted() {
+        return runsCompleted;
+    }
+
+    public void setRunsCompleted(Integer runsCompleted) {
+        this.runsCompleted = runsCompleted;
     }
 }

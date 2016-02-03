@@ -69,8 +69,7 @@
             android:textColor="@color/white"
             android:layout_weight="1"
             android:id="@+id/textView_driverProfileLayout_driverCarModel"
-            android:gravity="center_vertical"
-            android:text="nissan gt8 skyline" />
+            android:gravity="center_vertical"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,8 +79,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorChampionships"
             android:id="@+id/textView_driverProfileLayout_driverCarModelHP"
-            android:gravity="center_vertical"
-            android:text="780 HP" />
+            android:gravity="center_vertical" />
 
     </LinearLayout>
 
@@ -102,8 +100,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             style="bold"
-            android:id="@+id/textView_driverProfileLayout_driverName"
-            android:text="nissan gt8 skyline" />
+            android:id="@+id/textView_driverProfileLayout_driverName" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,8 +128,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:id="@+id/textView_driverProfileLayout_driverAge"
-                    android:gravity="center_vertical"
-                    android:text="11" />
+                    android:gravity="center_vertical"/>
 
             </LinearLayout>
 
@@ -156,8 +152,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:id="@+id/textView_driverProfileLayout_driverRank"
-                    android:gravity="center_vertical"
-                    android:text="1" />
+                    android:gravity="center_vertical" />
 
             </LinearLayout>
 
@@ -181,8 +176,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:id="@+id/textView_driverProfileLayout_driverSeasonPoints"
-                    android:gravity="center"
-                    android:text="100" />
+                    android:gravity="center" />
 
             </LinearLayout>
 

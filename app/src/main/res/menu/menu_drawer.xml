@@ -11,9 +11,6 @@
         <item android:id="@+id/team_of_judges"
             android:icon="@drawable/team_of_judges_icon"
             android:title="@string/team_of_judges"/>
-        <item android:id="@+id/drivers"
-            android:icon="@drawable/drivers_icon"
-            android:title="@string/drivers"/>
         <item android:id="@+id/rankings"
             android:icon="@drawable/ranking_icon"
             android:title="@string/rankings"/>

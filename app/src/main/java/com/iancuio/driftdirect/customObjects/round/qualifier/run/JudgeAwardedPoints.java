@@ -5,7 +5,7 @@ package com.iancuio.driftdirect.customObjects.round.qualifier.run;
  */
 public class JudgeAwardedPoints {
     private Long pointsAllocation;
-    private int awardedPoints;
+    private Float awardedPoints;
 
     public Long getPointsAllocation() {
         return pointsAllocation;
@@ -15,11 +15,11 @@ public class JudgeAwardedPoints {
         this.pointsAllocation = pointsAllocation;
     }
 
-    public int getAwardedPoints() {
+    public Float getAwardedPoints() {
         return awardedPoints;
     }
 
-    public void setAwardedPoints(int awardedPoints) {
+    public void setAwardedPoints(Float awardedPoints) {
         this.awardedPoints = awardedPoints;
     }
 }

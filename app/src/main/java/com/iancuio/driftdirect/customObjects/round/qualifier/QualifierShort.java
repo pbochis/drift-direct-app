@@ -10,9 +10,10 @@ import java.io.Serializable;
 public class QualifierShort implements Serializable, Comparable<QualifierShort> {
     private long id;
     private PersonShort driver;
-    private Integer points;
-    private Integer firstRunScore;
-    private Integer secondRunScore;
+    private Float points;
+    private Float firstRunScore;
+    private Float secondRunScore;
+    private Integer runsCompleted;
 
     public long getId() {
         return id;
@@ -30,27 +31,27 @@ public class QualifierShort implements Serializable, Comparable<QualifierShort> 
         this.driver = driver;
     }
 
-    public Integer getPoints() {
+    public Float getPoints() {
         return points;
     }
 
-    public void setPoints(Integer points) {
+    public void setPoints(Float points) {
         this.points = points;
     }
 
-    public Integer getFirstRunScore() {
+    public Float getFirstRunScore() {
         return firstRunScore;
     }
 
-    public void setFirstRunScore(Integer firstRunScore) {
+    public void setFirstRunScore(Float firstRunScore) {
         this.firstRunScore = firstRunScore;
     }
 
-    public Integer getSecondRunScore() {
+    public Float getSecondRunScore() {
         return secondRunScore;
     }
 
-    public void setSecondRunScore(Integer secondRunScore) {
+    public void setSecondRunScore(Float secondRunScore) {
         this.secondRunScore = secondRunScore;
     }
 
@@ -58,23 +59,52 @@ public class QualifierShort implements Serializable, Comparable<QualifierShort> 
     @Override
     public int compareTo(QualifierShort another) {
         int result = 0;
-        int firstDriverBiggestScore;
-        int secondDriverBiggestScore;
+        float firstDriverBiggestScore;
+        float secondDriverBiggestScore;
 
-        if (this.getFirstRunScore() > this.getSecondRunScore()) {
-            firstDriverBiggestScore = this.getFirstRunScore();
+        if (this.firstRunScore != null && this.secondRunScore != null) {
+            if (this.getFirstRunScore() > this.getSecondRunScore()) {
+                firstDriverBiggestScore = this.getFirstRunScore();
+            } else {
+                firstDriverBiggestScore = this.getSecondRunScore();
+            }
         } else {
-            firstDriverBiggestScore = this.getSecondRunScore();
+            if (this.firstRunScore != null) {
+                firstDriverBiggestScore = this.getFirstRunScore();
+            } else {
+                firstDriverBiggestScore = this.getSecondRunScore();
+            }
         }
 
-        if (another.getFirstRunScore() > another.getSecondRunScore()) {
-            secondDriverBiggestScore = another.getFirstRunScore();
+        if (another.firstRunScore != null && another.secondRunScore != null) {
+            if (another.getFirstRunScore() > another.getSecondRunScore()) {
+                secondDriverBiggestScore = another.getFirstRunScore();
+            } else {
+                secondDriverBiggestScore = another.getSecondRunScore();
+            }
         } else {
-            secondDriverBiggestScore = another.getSecondRunScore();
+            if (another.getFirstRunScore() != null) {
+                secondDriverBiggestScore = another.getFirstRunScore();
+            } else {
+                secondDriverBiggestScore = another.getSecondRunScore();
+            }
         }
+
+
+
+
+
         if (firstDriverBiggestScore < secondDriverBiggestScore) result = 1;
         if (firstDriverBiggestScore == secondDriverBiggestScore) result = 0;
         if (firstDriverBiggestScore > secondDriverBiggestScore) result = -1;
         return result;
+    }
+
+    public Integer getRunsCompleted() {
+        return runsCompleted;
+    }
+
+    public void setRunsCompleted(Integer runsCompleted) {
+        this.runsCompleted = runsCompleted;
     }
 }

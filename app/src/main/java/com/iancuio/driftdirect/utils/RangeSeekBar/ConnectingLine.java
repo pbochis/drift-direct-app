@@ -11,7 +11,7 @@
  * governing permissions and limitations under the License. 
  */
 
-package com.iancuio.driftdirect.utils.RangeSeekBar;
+package com.iancuio.driftdirect.utils.rangeSeekBar;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.iancuio.driftdirect.fragments.Top16Top32Fragment">
+    tools:context=".round.navigationView.top32_16.fragments.Top16Top32Fragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -12,59 +12,76 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-
-
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/relativeLayout_top16Top32Layout_driverInfoContainer"
             android:layout_width="match_parent"
             android:layout_height="25dp"
+            android:weightSum="1"
+            android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/menu_general_color">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent">
+
+
             <ImageView
                 android:id="@+id/imageView_top16Top32Layout_firstDriverFlag"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/textView_top16Top32Layout_firstDriverName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
-                android:layout_toRightOf="@+id/imageView_top16Top32Layout_firstDriverFlag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:layout_marginRight="30dp"
+                android:gravity="center|start"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
-            <TextView
+            </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:gravity="center_vertical|end"
+            android:layout_height="match_parent">
+
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/textView_top16Top32Layout_secondDriverName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverName"
-                android:layout_toLeftOf="@+id/imageView_top16Top32Layout_secondDriverFlag"
-                android:layout_toStartOf="@+id/imageView_top16Top32Layout_secondDriverFlag"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="35dp"
+                android:layout_height="match_parent"
                 android:textColor="@color/white"
+                android:gravity="center|end"
+                android:maxLines="1"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imageView_top16Top32Layout_secondDriverFlag"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
 
+        </LinearLayout>
 
 
 
-        </RelativeLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/relativeLayout_top16Top32Layout_battleLauncher"
@@ -216,67 +233,90 @@
     </RelativeLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
+        android:weightSum="1"
         android:layout_marginRight="5dp"
         android:background="@color/menu_general_color">
 
-        <Button
-            android:layout_width="20dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/refresh_icon"
-            android:id="@+id/button_top16Top32Layout_refreshButton"
-            android:layout_height="20dp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:weightSum="1"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_firstDriverCarModel"
             android:layout_width="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:textColor="@color/white"
             android:textStyle="bold"
          />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_firstDriverCarHP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:layout_toEndOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:layout_toRightOf="@+id/textView_top16Top32Layout_firstDriverCarModel"
-            android:paddingLeft="10dp"
+            android:layout_width="50dp"
+            android:maxLines="1"
+            android:layout_gravity="center_vertical|end"
+            android:gravity="center_vertical|end"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
             android:textColor="@color/white"
             android:textStyle="bold"
         />
 
-        <TextView
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="20dp"
+            android:background="@drawable/refresh_icon"
+            android:id="@+id/button_top16Top32Layout_refreshButton"
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.5"
+            android:weightSum="1"
+            android:gravity="center_vertical|end"
+            android:background="@color/menu_general_color">
+
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_secondDriverCarModel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
-            android:layout_toStartOf="@+id/textView_top16Top32Layout_secondDriverCarHP"
-            android:paddingRight="10dp"
+            android:layout_height="match_parent"
+            android:paddingRight="5dp"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/textView_top16Top32Layout_secondDriverCarHP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="10dp"
+            android:layout_width="50dp"
+            android:maxLines="1"
+            android:gravity="center_vertical|end"
+            android:layout_height="match_parent"
+            android:paddingRight="5dp"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
+        </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout_top16Top32Layout_slidingTabs"

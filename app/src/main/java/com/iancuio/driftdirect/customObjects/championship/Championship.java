@@ -1,5 +1,6 @@
 package com.iancuio.driftdirect.customObjects.championship;
 
+import com.iancuio.driftdirect.customObjects.championship.driver.DriverWithPoints;
 import com.iancuio.driftdirect.customObjects.championship.judge.ChampionshipJudgeParticipation;
 import com.iancuio.driftdirect.customObjects.news.News;
 import com.iancuio.driftdirect.customObjects.person.PersonShort;
@@ -17,12 +18,11 @@ public class Championship implements Serializable {
     private long id;
     private String name;
     private ChampionshipRules rules;
-    private String information;
     private String ticketsUrl;
     private Long backgroundImage;
     private Long logo;
     private List<RoundShort> rounds;
-    private List<PersonShort> drivers;
+    private List<DriverWithPoints> drivers;
     private List<ChampionshipJudgeParticipation> judges;
     private List<Sponsor> sponsors;
     private List<News> news;
@@ -43,14 +43,6 @@ public class Championship implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getInformation() {
-        return information;
-    }
-
-    public void setInformation(String information) {
-        this.information = information;
     }
 
     public String getTicketsUrl() {
@@ -93,11 +85,11 @@ public class Championship implements Serializable {
         this.rounds = rounds;
     }
 
-    public List<PersonShort> getDrivers() {
+    public List<DriverWithPoints> getDrivers() {
         return drivers;
     }
 
-    public void setDrivers(List<PersonShort> drivers) {
+    public void setDrivers(List<DriverWithPoints> drivers) {
         this.drivers = drivers;
     }
 

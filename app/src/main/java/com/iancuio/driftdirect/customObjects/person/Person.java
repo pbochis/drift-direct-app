@@ -23,6 +23,7 @@ public class Person implements Serializable {
     private String website;
     private String portfolio;
     private DateTime birthDate;
+    private String personType;
 
     public Long getId() {
         return id;
@@ -118,5 +119,13 @@ public class Person implements Serializable {
 
     public void setPortfolio(String portfolio) {
         this.portfolio = portfolio;
+    }
+
+    public String getPersonType() {
+        return personType;
+    }
+
+    public void setPersonType(String personType) {
+        this.personType = personType;
     }
 }

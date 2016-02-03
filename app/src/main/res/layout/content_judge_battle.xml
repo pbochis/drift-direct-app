@@ -489,7 +489,7 @@
                 android:layout_height="match_parent"/>
 
 
-        <com.iancuio.driftdirect.utils.RangeSeekBar.RangeBar
+        <com.iancuio.driftdirect.utils.rangeSeekBar.RangeBar
             xmlns:custom="http://schemas.android.com/apk/res-auto"
             android:id="@+id/rangeBar_battleJudgeLayout_points"
             android:layout_width="wrap_content"

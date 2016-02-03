@@ -37,6 +37,7 @@
         <SeekBar
             android:id="@+id/seekBar_judgePointsAllocationListViewRow_score"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
             android:layout_weight="0.80"
             android:maxHeight="3dp"

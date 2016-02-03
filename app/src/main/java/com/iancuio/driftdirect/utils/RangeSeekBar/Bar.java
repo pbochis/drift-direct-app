@@ -11,14 +11,11 @@
  * governing permissions and limitations under the License. 
  */
 
-package com.iancuio.driftdirect.utils.RangeSeekBar;
+package com.iancuio.driftdirect.utils.rangeSeekBar;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Shader;
 import android.util.TypedValue;
 
 import com.iancuio.driftdirect.R;

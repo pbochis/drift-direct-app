@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.iancuio.driftdirect.fragments.TeamOfJudgesFragment">
+    tools:context=".championship.navigationView.teamOfJudges.TeamOfJudgesFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

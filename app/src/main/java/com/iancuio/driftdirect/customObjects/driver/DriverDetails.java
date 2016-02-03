@@ -1,8 +1,10 @@
 package com.iancuio.driftdirect.customObjects.driver;
 
+import com.iancuio.driftdirect.customObjects.sponsor.Sponsor;
 import com.iancuio.driftdirect.customObjects.team.Team;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Soulstorm on 11/20/2015.
@@ -19,6 +21,7 @@ public class DriverDetails implements Serializable {
     private String other;
     private Team team;
     private int horsePower;
+    private List<Sponsor> sponsors;
 
     public String getTires() {
         return tires;
@@ -110,5 +113,13 @@ public class DriverDetails implements Serializable {
 
     public String getCarName() {
         return make + " " + model;
+    }
+
+    public List<Sponsor> getSponsors() {
+        return sponsors;
+    }
+
+    public void setSponsors(List<Sponsor> sponsors) {
+        this.sponsors = sponsors;
     }
 }

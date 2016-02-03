@@ -47,4 +47,5 @@ public class RestUrls {
     public static final String TEAM = "team";
     public static final String TEAM_ID = "team/{id}";
 
+
 }

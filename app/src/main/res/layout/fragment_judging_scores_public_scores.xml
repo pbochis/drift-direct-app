@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    tools:context="com.iancuio.driftdirect.fragments.JudgingScoresPublicScores">
+    tools:context=".round.navigationView.qualifications.fragments.scores.JudgingScoresPublicScores">
 
     <!-- TODO: Update blank fragment layout -->
 

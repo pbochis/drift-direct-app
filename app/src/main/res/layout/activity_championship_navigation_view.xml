@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@drawable/background"
     android:id="@+id/linearcontainer"
-    tools:context=".activities.ChampionshipNavigationViewActivity">
+    tools:context=".championship.ChampionshipNavigationViewActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
