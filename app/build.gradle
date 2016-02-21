@@ -9,6 +9,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -23,8 +24,8 @@ android {
         applicationId "com.iancuio.driftdirect"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.14"
+        versionCode 8
+        versionName "1.16"
         multiDexEnabled true
     }
     buildTypes {
@@ -34,6 +35,10 @@ android {
             proguardFiles(proGuardFileCollection)
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
     packagingOptions {
@@ -57,7 +62,6 @@ dependencies {
         transitive = true;
     }
     //    compile 'com.pkmmte.view:circularimageview:1.1'
-    compile files('libs/android-viewbadger.jar')
     //compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.3'
     //    compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile 'com.android.support:appcompat-v7:23.1.1'
@@ -77,6 +81,8 @@ dependencies {
     compile 'com.android.support:percent:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'me.grantland:autofittextview:0.2.1'
+    compile "com.google.android.gms:play-services:8.3.0"
+
     //compile 'org.solovyev.android.views:linear-layout-manager:0.5@aar'
     //compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
 }

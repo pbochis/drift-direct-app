@@ -1,7 +1,9 @@
 package com.iancuio.driftdirect.championship;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,12 +17,14 @@ import android.widget.ListView;
 
 import com.crashlytics.android.Crashlytics;
 import com.iancuio.driftdirect.R;
+import com.iancuio.driftdirect.utils.ServiceUtils;
 import com.iancuio.driftdirect.customObjects.championship.ChampionshipShort;
 import com.iancuio.driftdirect.service.ChampionshipService;
 import com.iancuio.driftdirect.utils.DialogUtils;
 import com.iancuio.driftdirect.utils.RestUrls;
 
 import io.fabric.sdk.android.Fabric;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -42,6 +46,8 @@ public class ChampionshipsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+
+
         setContentView(R.layout.activity_championships);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_championshipsActivityLayout_toolbar);
@@ -52,6 +58,8 @@ public class ChampionshipsActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+
+        ServiceUtils.launchRegistrationService(this);
 
         getChampionships();
     }
@@ -65,7 +73,16 @@ public class ChampionshipsActivity extends AppCompatActivity {
         ChampionshipService championshipService;
         championshipService = retrofit.create(ChampionshipService.class);
 
-        Call<List<ChampionshipShort>> championshipsCall = championshipService.getChampionshipsDetails();
+        SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "token");
+
+        Call<List<ChampionshipShort>> championshipsCall;
+
+        if (token.equals("token")) {
+            championshipsCall = championshipService.getChampionshipsDetails();
+        } else {
+            championshipsCall = championshipService.getChampionshipsDemoDetails(token);
+        }
 
         championshipsCall.enqueue(new retrofit.Callback<List<ChampionshipShort>>() {
             @Override
@@ -92,4 +109,6 @@ public class ChampionshipsActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

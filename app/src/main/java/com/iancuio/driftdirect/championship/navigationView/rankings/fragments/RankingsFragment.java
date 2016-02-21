@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.championship.ChampionshipNavigationViewActivity;
 import com.iancuio.driftdirect.championship.navigationView.rankings.adapter.RankingsAdapter;
-import com.iancuio.driftdirect.championship.navigationView.rankings.fragments.driversProfile.DriverProfileFragment;
+import com.iancuio.driftdirect.championship.navigationView.rankings.fragments.driversProfile.fragments.DriverProfileFragment;
 import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.championship.ChampionshipShort;
 
@@ -41,7 +41,7 @@ public class RankingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_drivers, container, false);
         ButterKnife.bind(this, v);
-        ((ChampionshipNavigationViewActivity) getActivity()).setCurrentFragment(this);
+//        ((ChampionshipNavigationViewActivity) getActivity()).setCurrentFragment(this);
         return v;
     }
 
@@ -49,7 +49,7 @@ public class RankingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        selectedChampionship = ((ChampionshipNavigationViewActivity)getActivity()).getSelectedChampionship();
+        //selectedChampionship = ((ChampionshipNavigationViewActivity)getActivity()).getSelectedChampionship();
         championshipFull = ((ChampionshipNavigationViewActivity)getActivity()).getChampionshipFull();
 
         getDrivers();

@@ -152,4 +152,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    @OnClick(R.id.button_LoginActivityLayout_logout)
+    public void logoutButtonClick() {
+        SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        Toast.makeText(LoginActivity.this, "Successfully logged out!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
 }

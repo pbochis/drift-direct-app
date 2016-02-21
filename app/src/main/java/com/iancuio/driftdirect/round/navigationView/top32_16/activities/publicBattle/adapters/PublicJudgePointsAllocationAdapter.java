@@ -12,11 +12,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.iancuio.driftdirect.R;
-import com.iancuio.driftdirect.adapters.listViewAdapters.PointsAllocationViewHolder;
 import com.iancuio.driftdirect.customObjects.round.qualifier.run.AwardedPoints;
 import com.iancuio.driftdirect.utils.interfaces.NullCheck;
 import com.iancuio.driftdirect.utils.Utils;
@@ -135,5 +135,11 @@ public class PublicJudgePointsAllocationAdapter extends BaseAdapter {
         return bitmap;
     }
 
+    class PointsAllocationViewHolder {
+        TextView pointsTypeTextView;
+        TextView minPointsTextView;
+        TextView maxPointsTextView;
+        SeekBar pointsSeekBar;
+    }
 
 }

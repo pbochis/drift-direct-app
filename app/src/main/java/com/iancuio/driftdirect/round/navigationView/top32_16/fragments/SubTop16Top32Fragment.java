@@ -4,6 +4,7 @@ package com.iancuio.driftdirect.round.navigationView.top32_16.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -62,6 +63,8 @@ public class SubTop16Top32Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         roundFull = ((RoundNavigationViewActivity)getActivity()).getRoundFull();
 
+
+
         getDrivers();
     }
 
@@ -77,11 +80,17 @@ public class SubTop16Top32Fragment extends Fragment {
                     battles.add(battle);
                 }
             }
-            playoffsListListView.setAdapter(new Top16Top32Adapter(getActivity(), battles));
+            if (battles.size() != 0) {
+                playoffsListListView.setAdapter(new Top16Top32Adapter(getActivity(), battles));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    playoffsListListView.setNestedScrollingEnabled(true);
+                }
+            }
             playoffsListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (playoffStageGraphicDisplay.getBattles().get(position).getWinner() != null) {
+                    if (battles.get(position).getWinner() != null) {
                         Intent intent = new Intent(getActivity(), PublicBattleActivity.class);
                         intent.putExtra("battleId", battles.get(position).getId());
                         intent.putExtra("topNumber", topNumber);

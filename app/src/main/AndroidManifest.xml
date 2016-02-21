@@ -3,6 +3,14 @@
     package="com.iancuio.driftdirect">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission android:name="com.iancuio.driftdirect.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.iancuio.driftdirect.permission.C2D_MESSAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -11,6 +19,66 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="com.iancuio.driftdirect" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".utils.gcm.logic.MyGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".utils.gcm.logic.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".utils.gcm.logic.RegistrationIntentService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name=".RegistrationIntentService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".utils.gcm.logic.SubscribeQualificationsTopic"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name=".SubscribeQualificationsTopic" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".utils.gcm.logic.SubscribeBattlesTopic"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name=".SubscribeBattlesTopic" />
+            </intent-filter>
+        </service>
+
+
+
+
+
+
+
+
         <activity
             android:name=".championship.ChampionshipsActivity"
             android:label="@string/app_name"
@@ -55,7 +123,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_public_battle_activty"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

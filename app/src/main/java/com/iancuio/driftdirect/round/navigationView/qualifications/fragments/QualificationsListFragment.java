@@ -2,9 +2,13 @@ package com.iancuio.driftdirect.round.navigationView.qualifications.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.gcm.GcmPubSub;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.round.RoundNavigationViewActivity;
 import com.iancuio.driftdirect.round.navigationView.qualifications.fragments.scores.JudgingScoresFragment;
@@ -27,6 +32,9 @@ import com.iancuio.driftdirect.sharedAdapters.viewPagerAdapters.ScreenSlidePager
 import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.service.RoundService;
 import com.iancuio.driftdirect.utils.ImageUtils;
+import com.iancuio.driftdirect.utils.ServiceUtils;
+import com.iancuio.driftdirect.utils.gcm.topics.Events;
+import com.iancuio.driftdirect.utils.gcm.topics.NotificationScope;
 import com.iancuio.driftdirect.utils.interfaces.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
@@ -35,6 +43,7 @@ import com.squareup.picasso.Callback;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -83,9 +92,11 @@ public class QualificationsListFragment extends Fragment {
     @Bind(R.id.relativeLayout_qualificationListLayout_startJudging)
     RelativeLayout startJudgingRelativeLayout;
 
-    ProgressDialog dialog;
+    static ProgressDialog dialog;
 
     Round roundFull;
+
+    BroadcastReceiver broadcastReceiver;
 
     private ScreenSlidePagerAdapter qualificationPagerAdapter;
 
@@ -121,23 +132,51 @@ public class QualificationsListFragment extends Fragment {
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
                 if (sharedPreferences != null) {
-                    if (roundFull.getCurrentDriver() != null) {
-                        Set<String> roles = sharedPreferences.getStringSet("roles", new HashSet<String>());
+                    Set<String> roles = sharedPreferences.getStringSet("roles", new HashSet<String>());
 
-                        JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("driversList", "driversList");
-                        bundle.putLong("qualifierId", roundFull.getCurrentDriver().getId());
-                        judgingScoresFragment.setArguments(bundle);
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
-                                .addToBackStack("judgingScoresFragment")
-                                .commit();
+                    if (roles.contains("ROLE_JUDGE")) {
+                        if (roundFull.getCurrentDriver() != null) {
+
+                            JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("driversList", "driversList");
+                            bundle.putLong("qualifierId", roundFull.getCurrentDriver().getId());
+                            judgingScoresFragment.setArguments(bundle);
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
+                                    .addToBackStack("judgingScoresFragment")
+                                    .commit();
+                        }
+                    } else {
+                        if (roundFull.getCurrentDriver() != null) {
+                            JudgingScoresFragment judgingScoresFragment = new JudgingScoresFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("publicList", "publicList");
+                            bundle.putLong("qualifierId", roundFull.getCurrentDriver().getId());
+                            judgingScoresFragment.setArguments(bundle);
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, judgingScoresFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+
                     }
                 }
             }
         });
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.hasExtra("updateQualifications")) {
+                    requestRoundUpdate();
+                    Log.e("qual", "received");
+                }
+            }
+        };
+
     }
 
     private List<Fragment> getFragmentsForViewPager() {
@@ -285,5 +324,25 @@ public class QualificationsListFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("com.iancuio.driftdirect"));
+
+        ServiceUtils.launchSubscribeQualificationsService(getActivity(), roundFull.getId());
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(broadcastReceiver);
+
+        ServiceUtils.launchUnsubscribeQualificationsService(getActivity(), roundFull.getId());
+
+
+    }
+
 
 }

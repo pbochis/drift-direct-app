@@ -13,21 +13,43 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:fitsSystemWindows="true"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|snap"
+            android:layout_height="match_parent">
+
+
+
+
+
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_roundNavigationViewLayout_feed"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:layout_collapseMode="pin"
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+
+
+
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_margin="3dp"
+        android:fitsSystemWindows="true"
+        app:layout_scrollFlags="scroll|enterAlways"
         android:background="@color/colorChampionships"
         android:layout_height="40dp">
 
@@ -269,8 +291,8 @@
     </RelativeLayout>
 
     <include layout="@layout/content_round_navigation_view"
-        android:layout_height="0dp"
-        android:layout_width="match_parent"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"/>
 
 </LinearLayout>

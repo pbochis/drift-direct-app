@@ -164,12 +164,13 @@ public class JudgingScoresJudgeScores extends Fragment {
             @Override
             public void onResponse(final Response<QualifierJudge> response, Retrofit retrofit) {
 
-                if (response.body() == null) {
-                    dialog.dismiss();
-                    DialogUtils.showAlertDialog(getActivity(), "Attention!", "Finished judging for this driver!", "Finished judging for this driver!");
-                } else if (response.body().getRunId().equals(0L)) {
+
+                if (response.code() == 412) {
                     dialog.dismiss();
                     DialogUtils.showAlertDialog(getActivity(), "Run already judged!", "Wait for the other judges to finish judging!", "Run already judged! Wait for the other judges to finish judging.");
+                } else if (response.body().getRunId() == null) {
+                    dialog.dismiss();
+                    DialogUtils.showAlertDialog(getActivity(), "Attention!", "Finished judging for this driver!", "Finished judging for this driver!");
                 } else {
                     judgeNameTextView.setText(response.body().getJudge().getJudge().getFirstName() + " " + response.body().getJudge().getJudge().getLastName());
                     judgeTypeTextView.setText(response.body().getJudge().getTitle());

@@ -310,6 +310,7 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
         token = sharedPreferences.getString("username", "token");
         if (!token.equals("token")) {
             toolbarLoggedInName.setText(token);
+            loggedInProfilePicture.setVisibility(View.VISIBLE);
             ImageUtils.loadProfileImage(100, 100, this, "TO ADD LINK", loggedInProfilePicture, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -323,6 +324,8 @@ public class ChampionshipNavigationViewActivity extends AppCompatActivity {
             });
         } else {
             loggedInProgressBar.setVisibility(View.GONE);
+            toolbarLoggedInName.setText("");
+            loggedInProfilePicture.setVisibility(View.GONE);
         }
     }
 }

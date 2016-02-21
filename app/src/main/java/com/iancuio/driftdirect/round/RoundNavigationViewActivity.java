@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.NavigationView;
@@ -26,8 +28,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iancuio.driftdirect.R;
+import com.iancuio.driftdirect.championship.navigationView.rankings.fragments.RankingsFragment;
 import com.iancuio.driftdirect.customObjects.championship.Championship;
 import com.iancuio.driftdirect.customObjects.round.Round;
+import com.iancuio.driftdirect.round.navigationView.drivers.fragments.DriversFragment;
 import com.iancuio.driftdirect.round.navigationView.eventSchedule.fragments.EventScheduleFragment;
 import com.iancuio.driftdirect.round.navigationView.qualifications.fragments.QualificationsListFragment;
 import com.iancuio.driftdirect.round.navigationView.top32_16.fragments.Top16Top32Fragment;
@@ -130,6 +134,15 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
         Toolbar parent = (Toolbar) actionBarLayout.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
+        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            feedToolbar.setVisibility(View.GONE);
+        }  else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            feedToolbar.setVisibility(View.GONE);
+
+        }
+
+
+
         SharedPreferences sharedPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("username", "token");
 
@@ -191,6 +204,9 @@ public class RoundNavigationViewActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.track_layout:
                         FragmentUtils.setFragment(new TrackLayoutFragment(), R.string.track_layout, R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, navigationDrawerTitleTextView, RoundNavigationViewActivity.this);
+                        return true;
+                    case R.id.drivers:
+                        FragmentUtils.setFragment(new DriversFragment(), R.string.drivers, R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, navigationDrawerTitleTextView, RoundNavigationViewActivity.this);
                         return true;
                     case R.id.qualifications:
                         FragmentUtils.setFragment(new QualificationsListFragment(), R.string.qualifications, R.id.frameLayout_roundNavigationViewLayout_fragmentContainer, navigationDrawerTitleTextView, RoundNavigationViewActivity.this);

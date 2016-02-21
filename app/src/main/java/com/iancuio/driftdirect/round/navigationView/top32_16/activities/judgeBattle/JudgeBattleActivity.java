@@ -187,8 +187,8 @@ public class JudgeBattleActivity extends AppCompatActivity {
 		playoffBattleViewJudgeBattleCall.enqueue(new retrofit.Callback<PlayoffBattleViewJudgeBattle>() {
 			@Override
 			public void onResponse(final Response<PlayoffBattleViewJudgeBattle> response, Retrofit retrofit) {
-				if (response.code() == 200) {
-					if (response.body() != null) {
+				if (response.body() != null) {
+					if (response.code() == 200) {
 						dialog.dismiss();
 						playoffBattleViewJudgeBattle = response.body();
 
@@ -449,11 +449,14 @@ public class JudgeBattleActivity extends AppCompatActivity {
 						runNumberRecyclerView.setPadding(paddingToBeAdded / 2, 0, 0, 0);
 						runNumberRecyclerView.invalidate();
 						runNumberRecyclerView.requestLayout();
+					} else if (response.code() == 412) {
+						dialog.dismiss();
+						DialogUtils.showAlertDialog(JudgeBattleActivity.this, "Attention!", "Please wait for the other judges to give their scores for the current run!",
+								"Please wait for the other judges to give their scores for the first run!");
 					}
-				} else if (response.code() == 412) {
+				} else if (response.body() == null) {
 					dialog.dismiss();
-					DialogUtils.showAlertDialog(JudgeBattleActivity.this, "Attention!", "Please wait for the other judges to give their scores for the current run!",
-							"Please wait for the other judges to give their scores for the first run!");
+					DialogUtils.showAlertDialog(JudgeBattleActivity.this, "Attention!", "Finished judging for this driver!", "Finished judging for this driver!");
 				} else {
 					dialog.dismiss();
 					Toast.makeText(JudgeBattleActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
@@ -462,7 +465,7 @@ public class JudgeBattleActivity extends AppCompatActivity {
 
 			@Override
 			public void onFailure(Throwable t) {
-				t.printStackTrace();
+				Log.e("JudgeBattleActivity", t.toString());
 			}
 		});
 	}

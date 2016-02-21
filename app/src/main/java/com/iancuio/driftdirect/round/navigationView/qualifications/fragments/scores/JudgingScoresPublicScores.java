@@ -84,14 +84,15 @@ public class JudgingScoresPublicScores extends Fragment {
             @Override
             public void onResponse(Response<Qualifier> response, Retrofit retrofit) {
                 Qualifier qualifier = response.body();
-                totalPointsTextView.setText(String.valueOf(qualifier.getFinalScore()));
 
                 if (getArguments().getString("run1") != null) {
                     runDetailsListView.setAdapter(new PublicRunDetailsAdapter(getActivity(), qualifier.getFirstRun(), getView()));
                     entrySpeedTextView.setText(String.valueOf(qualifier.getFirstRun().getEntrySpeed()));
+                    totalPointsTextView.setText(String.valueOf(qualifier.getFirstRun().getTotalPoints()));
                 } else {
                     runDetailsListView.setAdapter(new PublicRunDetailsAdapter(getActivity(), qualifier.getSecondRun(), getView()));
                     entrySpeedTextView.setText(String.valueOf(qualifier.getSecondRun().getEntrySpeed()));
+                    totalPointsTextView.setText(String.valueOf(qualifier.getSecondRun().getTotalPoints()));
                 }
                 dialog.dismiss();
             }

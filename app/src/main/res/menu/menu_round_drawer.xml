@@ -5,6 +5,9 @@
         <item android:id="@+id/track_layout"
             android:icon="@drawable/track_layout_icon"
             android:title="@string/track_layout"/>
+        <item android:id="@+id/drivers"
+            android:icon="@drawable/drivers_icon"
+            android:title="@string/drivers"/>
         <item android:id="@+id/qualifications"
             android:icon="@drawable/qualifications_icon"
             android:title="@string/qualifications"/>

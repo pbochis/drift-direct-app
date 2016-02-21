@@ -6,6 +6,7 @@ import com.iancuio.driftdirect.customObjects.driver.DriverDetails;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Soulstorm on 11/29/2015.
@@ -19,6 +20,7 @@ public class Person implements Serializable {
     private DateTime careerStartDate;
     private String description;
     private Long profilePicture;
+    private List<Long> gallery;
     private DriverDetails driverDetails;
     private String website;
     private String portfolio;
@@ -127,5 +129,13 @@ public class Person implements Serializable {
 
     public void setPersonType(String personType) {
         this.personType = personType;
+    }
+
+    public List<Long> getGallery() {
+        return gallery;
+    }
+
+    public void setGallery(List<Long> gallery) {
+        this.gallery = gallery;
     }
 }

@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical"
 
-    tools:context=".championship.navigationView.rankings.fragments.driversProfile.DriversProfileBiographyFragment">
+    tools:context=".championship.navigationView.rankings.fragments.driversProfile.fragments.DriversProfileBiographyFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

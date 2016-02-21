@@ -2,10 +2,13 @@ package com.iancuio.driftdirect.round.navigationView.top32_16.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GcmPubSub;
 import com.iancuio.driftdirect.R;
 import com.iancuio.driftdirect.round.navigationView.top32_16.activities.judgeBattle.JudgeBattleActivity;
 import com.iancuio.driftdirect.round.navigationView.top32_16.activities.publicBattle.PublicBattleActivity;
@@ -30,11 +34,15 @@ import com.iancuio.driftdirect.customObjects.round.Round;
 import com.iancuio.driftdirect.customObjects.round.playoffs.PlayoffTreeGraphicDisplay;
 import com.iancuio.driftdirect.service.RoundService;
 import com.iancuio.driftdirect.utils.ImageUtils;
+import com.iancuio.driftdirect.utils.ServiceUtils;
+import com.iancuio.driftdirect.utils.gcm.topics.Events;
+import com.iancuio.driftdirect.utils.gcm.topics.NotificationScope;
 import com.iancuio.driftdirect.utils.interfaces.NullCheck;
 import com.iancuio.driftdirect.utils.RestUrls;
 import com.iancuio.driftdirect.utils.Utils;
 import com.squareup.picasso.Callback;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -95,9 +103,14 @@ public class Top16Top32Fragment extends Fragment {
     @Bind(R.id.textView_top16Top32Layout_secondDriverCarHP)
     TextView secondDriverCarHP;
 
+//    BReceiver bReceiver;
+//    IntentFilter intentFilter;
+
 
     private ScreenSlidePagerAdapter top16Top32PagerAdapter;
     PlayoffTreeGraphicDisplay playoffTreeGraphicDisplay;
+
+    BroadcastReceiver broadcastReceiver;
 
 
     Round roundFull;
@@ -135,6 +148,19 @@ public class Top16Top32Fragment extends Fragment {
         if (top16Top32PagerAdapter == null) {
             getPlayoffs();
         }
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.hasExtra("updateBattles")) {
+                    getPlayoffs();
+                    Log.e("playoffs", "received");
+                }
+            }
+        };
+
+        //bReceiver = new BReceiver();
+        //intentFilter = new IntentFilter("refresh_qualifications");
 
     }
 
@@ -324,48 +350,53 @@ public class Top16Top32Fragment extends Fragment {
 
         //driverDetailsTabLayout.setSelectedTabIndicatorColor(Color.parseColor('#' + Integer.toHexString(getResources().getColor(R.color.colorChampionships))));
         top16Top32TabLayout.setupWithViewPager(top16Top32ViewPager);
+
+        for (int i = 0; i < top16Top32TabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = top16Top32TabLayout.getTabAt(i);
+            tab.setCustomView(top16Top32PagerAdapter.getTabView(i, getActivity()));
+        }
     }
 
     @OnClick(R.id.relativeLayout_top16Top32Layout_battleLauncher)
     public void battleLauncherClick() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userPreferences", Context.MODE_PRIVATE);
         Set<String> roles = sharedPreferences.getStringSet("roles", new HashSet<String>());
-        if (roles.size() == 0) {
+
+
             if (playoffTreeGraphicDisplay != null) {
                 if (playoffTreeGraphicDisplay.getCurrentBattle() != null) {
-                    Intent intent = new Intent(getActivity(), PublicBattleActivity.class);
-                    intent.putExtra("battleId", playoffTreeGraphicDisplay.getCurrentBattle().getId());
-                    topNumber = 0;
-                    switch (playoffTreeGraphicDisplay.getCurrentBattle().getOrder()) {
-                        case 0:
-                            topNumber = 24;
-                            break;
-                        case 1:
-                            topNumber = 16;
-                            break;
-                        case 2:
-                            topNumber = 8;
-                            break;
-                        case 3:
-                            topNumber = 4;
-                            break;
-                        case 4:
-                            topNumber = 0;
-                            break;
-                    }
-                    intent.putExtra("topNumber", topNumber);
-                    startActivity(intent);
-                } else {
                     if (roles.contains("ROLE_JUDGE")) {
                         Intent intent = new Intent(getActivity(), JudgeBattleActivity.class);
                         intent.putExtra("battleId", playoffTreeGraphicDisplay.getCurrentBattle().getId());
                         intent.putExtra("token", sharedPreferences.getString("token", "token"));
                         intent.putExtra("topNumber", topNumber);
                         startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(getActivity(), PublicBattleActivity.class);
+                        intent.putExtra("battleId", playoffTreeGraphicDisplay.getCurrentBattle().getId());
+                        topNumber = 0;
+                        switch (playoffTreeGraphicDisplay.getCurrentBattle().getOrder()) {
+                            case 0:
+                                topNumber = 24;
+                                break;
+                            case 1:
+                                topNumber = 16;
+                                break;
+                            case 2:
+                                topNumber = 8;
+                                break;
+                            case 3:
+                                topNumber = 4;
+                                break;
+                            case 4:
+                                topNumber = 0;
+                                break;
+                        }
+                        intent.putExtra("topNumber", topNumber);
+                        startActivity(intent);
                     }
                 }
             }
-        }
     }
 
     public void getPlayoffs() {
@@ -386,9 +417,21 @@ public class Top16Top32Fragment extends Fragment {
             public void onResponse(final Response<PlayoffTreeGraphicDisplay> response, Retrofit retrofit) {
                 playoffTreeGraphicDisplay = response.body();
                 initializeDriverDetailsViewPager(playoffTreeGraphicDisplay);
+                dialog.dismiss();
 
                 if (playoffTreeGraphicDisplay != null) {
                     if (playoffTreeGraphicDisplay.getCurrentBattle() != null) {
+
+//                        if (playoffTreeGraphicDisplay.getCurrentBattle().getWinner() != null) {
+//                            if (playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getId() == playoffTreeGraphicDisplay.getCurrentBattle().getWinner().getDriver().getId()) {
+//                                firstDriverStatus.setVisibility(View.VISIBLE);
+//                                secondDriverStatus.setVisibility(View.GONE);
+//                            } else {
+//                                firstDriverStatus.setVisibility(View.GONE);
+//                                secondDriverStatus.setVisibility(View.VISIBLE);
+//                            }
+//                        }
+
                         ImageUtils.loadNormalImage(200, 200, getActivity(), RestUrls.FILE + playoffTreeGraphicDisplay.getCurrentBattle().getDriver1().getDriver().getProfilePicture(), firstDriverPicture, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -545,11 +588,12 @@ public class Top16Top32Fragment extends Fragment {
                         });
                         dialog.dismiss();
                     }
+                } else {
+                    dialog.dismiss();
+                    Toast.makeText(getActivity(), "No drift battles yet!", Toast.LENGTH_SHORT).show();
+                    firstDriverPictureProgressBar.setVisibility(View.GONE);
+                    secondDriverPictureProgressBar.setVisibility(View.GONE);
                 }
-                dialog.dismiss();
-                Toast.makeText(getActivity(), "No drift battles yet!", Toast.LENGTH_SHORT).show();
-                firstDriverPictureProgressBar.setVisibility(View.GONE);
-                secondDriverPictureProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -576,6 +620,9 @@ public class Top16Top32Fragment extends Fragment {
             dialog.dismiss();
             dialog = null;
         }
+        getActivity().unregisterReceiver(broadcastReceiver);
+
+        ServiceUtils.launchUnsubscribeBattlesService(getActivity(), roundFull.getId());
     }
 
     @Override
@@ -585,5 +632,10 @@ public class Top16Top32Fragment extends Fragment {
             top16Top32PagerAdapter = null;
             getPlayoffs();
         }
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("com.iancuio.driftdirect"));
+
+        ServiceUtils.launchSubscribeBattlesService(getActivity(), roundFull.getId());
     }
+
+
 }

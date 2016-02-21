@@ -12,6 +12,7 @@ import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Path;
 
 /**
@@ -21,6 +22,9 @@ public interface ChampionshipService {
 
     @GET(RestUrls.CHAMPIONSHIP +"/short")
     Call<List<ChampionshipShort>> getChampionshipsDetails();
+
+    @GET(RestUrls.CHAMPIONSHIP +"/short")
+    Call<List<ChampionshipShort>> getChampionshipsDemoDetails(@Header("Authorization") String token);
 
     @GET(RestUrls.CHAMPIONSHIP_ID)
     Call<Championship> getChampionshipsFull(@Path("id") Long id);
